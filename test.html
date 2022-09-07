@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script type="text/javascript" src="node_modules/kity/dist/kity.js"></script>
+</head>
+<body>
+  <div id="kity_paper"></div>
+
+<script type="text/javascript">
+  window.onload = function () {
+        var paper = new kity.Paper('kity_paper');
+
+        var rect = paper.put(new kity.Rect());
+        var text = paper.put(new kity.Text());
+
+        text.setContent('100');
+        text.fill('white');
+        text.setX(20);
+        text.setY(30);
+        text.setStyle({'cursor':'pointer','font-size':12})
+
+        rect.setBox(text.getBoundaryBox().expand(5));
+        rect.setRadius(10);
+        rect.fill('blue');
+       
+
+    };
+</script>
+</body>
+</html>

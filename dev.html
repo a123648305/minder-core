@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>KityMinder Example</title>
+
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="src/kityminder.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #minder-view {
+            position: absolute;
+            border: 1px solid #ccc;
+            left: 10px;
+            top: 10px;
+            bottom: 10px;
+            right: 10px;
+            margin: auto;
+            width: 1000px;
+            height: 900px;
+        }
+    </style>
+
+    <script type="text/javascript" src="node_modules/kity/dist/kity.js"></script>
+</head>
+<body>
+  <h2>5555</h2>
+  <button onclick="toggle()">切换模板</button>
+    <script id="minder-view" type="application/kityminder" minder-data-type="json">
+    {
+        "root": {
+            "data": {
+                "text": "百度产品",
+                "font-size": 16,
+                "font-weight":"500"
+            },
+            "children": [
+                { "data": { "text": "新闻" } },
+                { "data": { "text": "网页", "priority": 1,"border-radius":50,"border-color":"red" }, 
+                "children": [
+                { "data": { "text": "新闻1" } },
+                { "data": { "text": "网页3", "priority": 1 } }] },
+                { "data": { "text": "更多", "hyperlink": "http://www.baidu.com/more" } }
+            ]
+        }
+    }
+    </script>
+</body>
+
+<!-- *************************** Module 形式加载引入 **************************** -->
+<script type="text/javascript" src="node_modules/seajs/dist/sea-debug.js"></script>
+<script type="text/javascript">
+    /* global seajs */
+    seajs.config({
+        base: './src'
+    });
+    define('start', function(require) {
+        var Minder = require('kityminder').Minder;
+
+        // 创建 km 实例
+        var km = window.km = new Minder();
+        km.setup('#minder-view');
+        
+    });
+    seajs.use('start');
+    setTimeout(() => {
+      toggle()
+    }, 300);
+
+    function toggle(){
+      km.execCommand('Template', 'normal');
+      km.execCommand('Theme','normal')
+    }
+</script>
+</html>
