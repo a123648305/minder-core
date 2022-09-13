@@ -13,27 +13,52 @@
   <script type="text/javascript" src="node_modules/kity/dist/kity.js"></script>
 </head>
 <body>
+ 
+  <button onclick="toggle()">toggle</button>
   <div id="kity_paper"></div>
 
 <script type="text/javascript">
   window.onload = function () {
-        var paper = new kity.Paper('kity_paper');
+        window.paper = new kity.Paper('kity_paper')
+        paper.setWidth(100);
+        paper.setHeight(100);
+        paper.setViewBox(0, 0, 800, 800);
 
-        var rect = paper.put(new kity.Rect());
-        var text = paper.put(new kity.Text());
+        // var rect = paper.put(new kity.Rect());
+        // var text = paper.put(new kity.Text());
 
-        text.setContent('100');
-        text.fill('white');
-        text.setX(20);
-        text.setY(30);
-        text.setStyle({'cursor':'pointer','font-size':12})
+        // text.setContent('100');
+        // text.fill('white');
+        // text.setX(20);
+        // text.setY(30);
+        // text.setStyle({'cursor':'pointer','font-size':12})
 
-        rect.setBox(text.getBoundaryBox().expand(5));
-        rect.setRadius(10);
-        rect.fill('blue');
+        // rect.setBox(text.getBoundaryBox().expand(5));
+        // rect.setRadius(10);
+        // rect.fill('blue');
        
 
+
+        const addPaths="M469.333333 469.333333v-256h85.333334v256h256v85.333334h-256v256h-85.333334v-256h-256v-85.333334h256z"
+        const paths ="M290.133333 448H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
+
+        window.sign = new kity.Path(paths).stroke("gray").fill('blue').setId('arrow_path')
+        window.sign2 = new kity.Path(addPaths).stroke("gray").fill('green').setId('plus_path')
+
+        paper.addShapes([sign]);
+      
     };
+
+    function toggle(){
+      const [shapes]=paper.getShapes()
+
+      // const shad=paper.getShapeById('arrow_path')
+      console.log(shapes,'ss');
+      shapes.remove()
+      paper.addShapes([sign2])
+    }
+
+
 </script>
 </body>
 </html>

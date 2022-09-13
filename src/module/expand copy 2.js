@@ -129,36 +129,13 @@ define(function (require, exports, module) {
       base: kity.Group,
 
       constructor: function (node) {
-        this.commonColor = "#7262FD";
         this.callBase();
-        // this.setWidth(100);
-        // this.setHeight(100);
-        // this.setViewBox(0, 0, 800, 800);
-        console.log(this, "ccc", node);
-
-        this.radius = 8;
-        this.box = new kity.Rect(30, 20, 0, 0, 10).fill("red");
-        // this.box = new kity.Rect().setBox(this);
-        this.sign = new kity.Path(["M", 100, 0, "L", 6.5, 0]).stroke("red");
-        this.arror = new kity.Circle(5).fill("green");
-        this.text = new kity.Text("20").fill("white").setStyle({
-          cursor: "pointer",
-          "font-size": 12,
-        });
-
+        this.radius = 6;
         this.outline = new kity.Circle(this.radius)
           .stroke("gray")
-          .fill(this.commonColor);
-        const plusPaths =
-          "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
-
-        const arrorPaths =
-          "M290.133333 448H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
-
-        //this.sign = new kity.Path(arrorPaths).stroke("red");
-        this.addShapes([this.sign, this.outline]);
-
-        // this.addShapes([this.text]);
+          .fill("white");
+        this.sign = new kity.Path().stroke("gray");
+        this.addShapes([this.outline, this.sign]);
         this.initEvent(node);
         this.setId(utils.uuid("node_expander"));
         this.setStyle("cursor", "pointer");
@@ -193,8 +170,7 @@ define(function (require, exports, module) {
         if (state == STATE_COLLAPSE) {
           pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
         }
-        // console.log(pathData, "pathData");
-        // this.sign.setPathData(pathData);
+        this.sign.setPathData(pathData);
       },
     });
 
