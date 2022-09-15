@@ -1,38 +1,33 @@
 /**
  * @fileOverview
  *
- * 默认模板 - 脑图模板
+ * 往右布局结构模板
  *
- * @author: techird
- * @copyright: Baidu FEX, 2014
+ * @author: wxs
+ * @copyright:  2022
  */
-define(function(require, exports, module) {
-    var template = require('../core/template');
+define(function (require, exports, module) {
+  var template = require("../core/template");
 
-    template.register('default', {
+  template.register("default", {
+    getLayout: function (node) {
+      var level = node.getLevel();
+      //console.log(node.data, "cc");
 
-        getLayout: function(node) {
+      // 根节点
+      if (level === 0) {
+        return "right";
+      }
+      // // 一级节点
+      // if (level === 1) {
+      //   return "right";
+      // }
+      return "right";
+    },
 
-            if (node.getData('layout')) return node.getData('layout');
-
-            var level = node.getLevel();
-
-            // 根节点
-            if (level === 0) {
-                return 'mind';
-            }
-
-            // 一级节点
-            if (level === 1) {
-                return node.getLayoutPointPreview().x > 0 ? 'right': 'left';
-            }
-
-            return node.parent.getLayout();
-        },
-
-        getConnect: function(node) {
-            if (node.getLevel() == 1) return 'arc';
-            return 'under';
-        }
-    });
+    getConnect: function (node) {
+      return "poly-circle";
+      // return "poly";
+    },
+  });
 });
