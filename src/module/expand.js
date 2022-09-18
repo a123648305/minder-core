@@ -134,7 +134,7 @@ define(function (require, exports, module) {
         // this.setWidth(100);
         // this.setHeight(100);
         // this.setViewBox(0, 0, 800, 800);
-        console.log(this, "ccc", node);
+        // console.log(this, "ccc", node);
 
         const plusPaths =
           "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
