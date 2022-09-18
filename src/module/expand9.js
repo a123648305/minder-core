@@ -165,11 +165,12 @@ define(function (require, exports, module) {
           this.setVisible(false);
           return;
         }
+        console.log(state, "state");
         this.setVisible(true);
         var pathData = ["M", 1.5 - this.radius, 0, "L", this.radius - 1.5, 0];
-        if (state == STATE_COLLAPSE) {
-          pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
-        }
+        // if (state == STATE_COLLAPSE) {
+        //   pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
+        // }
         this.sign.setPathData(pathData);
       },
     });

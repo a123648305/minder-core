@@ -136,29 +136,37 @@ define(function (require, exports, module) {
         // this.setViewBox(0, 0, 800, 800);
         console.log(this, "ccc", node);
 
-        this.radius = 8;
-        this.box = new kity.Rect(30, 20, 0, 0, 10).fill("red");
-        // this.box = new kity.Rect().setBox(this);
-        this.sign = new kity.Path(["M", 100, 0, "L", 6.5, 0]).stroke("red");
-        this.arror = new kity.Circle(5).fill("green");
-        this.text = new kity.Text("20").fill("white").setStyle({
-          cursor: "pointer",
-          "font-size": 12,
-        });
-
-        this.outline = new kity.Circle(this.radius)
-          .stroke("gray")
-          .fill(this.commonColor);
         const plusPaths =
           "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
 
         const arrorPaths =
-          "M290.133333 448H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
+          "m0,0l36.875,0.06677l0.125,5.6302l-37.86667,0l8.26667,8.8303l-3.73333,3.98787l-14.66667,-15.66665l14.66667,-15.66666l3.73333,3.98788l-7.4,8.83029z";
+        this.radius = 8;
+        //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
+        this.box = new kity.Rect(30, 20, -5, -10, 10).fill(this.commonColor);
+        this.text = new kity.Text(node.getComplex() - 1)
+          .setPosition(6, 4)
+          .fill("white")
+          .setStyle({
+            "font-size": 12,
+          });
+        // 收起的时候展示
+        this.hideSign = [this.box, this.text];
 
-        //this.sign = new kity.Path(arrorPaths).stroke("red");
-        this.addShapes([this.sign, this.outline]);
+        // this.setWidth(10).setHeight(600).setViewBox(0, 0, 900, 900);
 
-        // this.addShapes([this.text]);
+        this.outline = new kity.Circle(this.radius)
+          .stroke("gray")
+          .fill(this.commonColor);
+        // this.sign = new kity.Path(["M", -10, 0, "L", 20, 0]).stroke("red");
+        this.sign = new kity.Path(arrorPaths).stroke("red");
+        // this.sign = new kity.path();
+        // 展开的时候
+        this.expandSign = [this.outline, this.sign];
+
+        // this.arror = new kity.Circle(5).fill("green");
+
+        this.addShapes(this.expandSign);
         this.initEvent(node);
         this.setId(utils.uuid("node_expander"));
         this.setStyle("cursor", "pointer");
@@ -193,8 +201,12 @@ define(function (require, exports, module) {
         if (state == STATE_COLLAPSE) {
           pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
         }
-        // console.log(pathData, "pathData");
-        // this.sign.setPathData(pathData);
+        // this.removeShapes(this.hideSign);
+        // this.addShapes(this.expandSign);
+        this.clear();
+        this.addShapes(
+          state == STATE_COLLAPSE ? this.hideSign : this.expandSign
+        );
       },
     });
 
@@ -227,9 +239,8 @@ define(function (require, exports, module) {
 
         var vector = node
           .getLayoutVectorIn()
-          .normalize(expander.radius + node.getStyle("stroke-width"));
-        var position = node.getVertexIn().offset(vector.reverse());
-
+          .normalize(expander.radius + node.getStyle("stroke-width") - 2);
+        var position = node.getVertexOut().offset(vector);
         this.expander.setTranslate(position);
       },
     });

@@ -35,23 +35,21 @@
   <button onclick="getData()">当前数据</button>
     <script id="minder-view" type="application/kityminder" minder-data-type="json">
     {
-        "root": {
-            "data": {
-                "text": "百度产品",
-                "font-size": 16,
-                "font-weight":"500"
-            },
+      "root": {
+        "data": {
+            "text": "百度产品",
+            "font-size": 16,
+            "font-weight":"500"
+        },
+        "children": [
+            { "data": { "text": "新闻" } },
+            { "data": { "text": "网页", "priority": 1,"border-radius":50,"border-color":"green" }, 
             "children": [
-                { "data": { "text": "新闻" } },
-                { "data": { "text": "网页", "priority": 1,"border-radius":50,"border-color":"green" }, 
-                "children": [
-                { "data": { "text": "新闻1" },  "children": [
-                { "data": { "text": "新闻1" } },
-                { "data": { "text": "网页3", "priority": 1 } }] },
-                { "data": { "text": "网页3", "priority": 1 } }] },
-                { "data": { "text": "更多", "hyperlink": "http://www.baidu.com/more" } }
-            ]
-        }
+            { "data": { "text": "新闻1" },  "children": [
+            { "data": { "text": "新闻1" } },
+            { "data": { "text": "网页3", "priority": 1 } }] }
+        ]
+      }]}
     }
     </script>
 </body>
@@ -67,7 +65,7 @@
         var Minder = require('kityminder').Minder;
 
         // 创建 km 实例
-      var km = window.km = new Minder({defaultTheme:'normal',defaultTemplate:'normal'});
+      var km = window.km = new Minder({defaultTheme:'normal'});
         // var km = window.km = new Minder({defaultTheme:'normal',defaultTemplate:'normal'});
         km.setup('#minder-view');
         
@@ -78,8 +76,8 @@
     }, 300);
 
     function toggle(){
-      km.execCommand('Template', 'normal');
-      km.execCommand('Theme','normal')
+      // km.execCommand('Template', 'normal');
+      // km.execCommand('Theme','normal')
     }
 
     function getData(){
