@@ -135,8 +135,8 @@ define(function (require, exports, module) {
           "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
 
         const arrorPaths =
-          "m6.41634,0.38992l-6.0613,6.65509c-0.47338,0.51976 -0.47338,1.36231 0,1.88207l6.0613,6.65509c0.47338,0.51976 1.24076,0.51976 1.71414,0s0.47338,-1.36231 0,-1.88207l-3.99199,-4.38306l11.62073,0c0.66978,0 1.21227,-0.59564 1.21227,-1.33103s-0.5425,-1.33103 -1.21227,-1.33103l-11.62073,0l3.99199,-4.38306c0.23641,-0.25954 0.35519,-0.60029 0.35519,-0.94105s-0.11819,-0.68148 -0.35519,-0.94105c-0.47338,-0.51976 -1.24076,-0.51976 -1.71414,0l0,0.0001z";
-        this.radius = 10;
+          "m6.65611,7.75005l-2.067,-1.91616l3.99645,0l3.99644,0l0,-1.18619l0,-1.1862l-3.9506,0c-2.17283,0 -3.95059,-0.06012 -3.95059,-0.1336c0,-0.07348 0.86499,-0.93575 1.92221,-1.91616l1.92221,-1.78256l-1.77671,0l-1.77671,0l-2.71343,2.51166l-2.71343,2.51166l2.71864,2.50686l2.71864,2.50686l1.87045,0l1.87045,0l-2.06701,-1.91616l0,0z";
+        this.radius = 8;
         //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
         this.box = new kity.Rect(30, 20, -5, -10, 10)
           .fill(this.commonColor)
@@ -154,7 +154,7 @@ define(function (require, exports, module) {
           .fill(this.commonColor);
         this.sign = new kity.Path(arrorPaths)
           .fill("white")
-          .setTranslate(-8, -8);
+          .setTranslate(-6, -5);
         // 展开的时候
         this.expandSign = [this.outline, this.sign];
 
@@ -183,18 +183,13 @@ define(function (require, exports, module) {
         });
       },
 
-      setState: function (state) {
+      setState: function (state, text) {
         if (state == "hide") {
           this.setVisible(false);
           return;
         }
         this.setVisible(true);
-        var pathData = ["M", 1.5 - this.radius, 0, "L", this.radius - 1.5, 0];
-        if (state == STATE_COLLAPSE) {
-          pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
-        }
-        // this.removeShapes(this.hideSign);
-        // this.addShapes(this.expandSign);
+        this.text.setContent(text);
         this.clear();
         this.addShapes(
           state == STATE_COLLAPSE ? this.hideSign : this.expandSign
@@ -220,13 +215,13 @@ define(function (require, exports, module) {
 
       update: function (expander, node, box) {
         if (!node.parent) return;
-
         var visible = node.parent.isExpanded();
 
         expander.setState(
           visible && node.children.length
             ? node.getData(EXPAND_STATE_DATA)
-            : "hide"
+            : "hide",
+          node.getComplex() - 1
         );
 
         var vector = node
