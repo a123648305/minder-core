@@ -1,19 +1,7 @@
 {
-  "name": "kityminder-core",
-  "title": "Kity Minder Core",
+  "name": "kityminder-core-extend",
+  "version": "1.5.1",
   "description": "KityMinder Core Implement",
-  "version": "1.4.50",
-  "homepage": "https://github.com/fex-team/kityminder-core",
-  "author": {
-    "name": "Baidu FEX",
-    "url": "http://fex.baidu.com"
-  },
-  "main": "dist/kityminder.core.js",
-  "license": "BSD-3-Clause",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fex-team/kityminder-core.git"
-  },
   "keywords": [
     "kityminder",
     "kity",
@@ -22,19 +10,29 @@
     "graphic",
     "javascript"
   ],
-  "scripts": {
-    "dev": "grunt dev",
-    "build": "grunt build"
-  },
+  "homepage": "https://github.com/fex-team/kityminder-core",
   "bugs": {
     "url": "https://github.com/fex-team/kityminder-core/issues"
   },
-  "licenses": [
-    {
-      "type": "BSD-3-Clause",
-      "url": "https://github.com/fex-team/kityminder-core/blob/dev/LICENSE"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fex-team/kityminder-core.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Baidu FEX",
+    "url": "http://fex.baidu.com"
+  },
+  "main": "dist/kityminder.core.js",
+  "scripts": {
+    "build": "grunt build",
+    "dev": "grunt dev"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
-  ],
+  },
   "dependencies": {
     "bower": "^1.8.14",
     "json-diff": "^0.5.2",
@@ -54,9 +52,11 @@
     "grunt-replace": "~0.8.0",
     "uglify-js": "^2.8.29"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "https://github.com/fex-team/kityminder-core/blob/dev/LICENSE"
     }
-  }
+  ],
+  "title": "Kity Minder Core extend"
 }
