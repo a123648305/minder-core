@@ -46,8 +46,8 @@ var _p = {
  */
 _p[0] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         var connectMarker = new kity.Marker().pipe(function() {
             var r = 7;
             var dot = new kity.Circle(r - 1);
@@ -112,8 +112,8 @@ _p[0] = {
  */
 _p[1] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         var connectMarker = new kity.Marker().pipe(function() {
             var r = 7;
             var dot = new kity.Circle(r - 1);
@@ -152,8 +152,8 @@ _p[1] = {
  */
 _p[2] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         connect.register("bezier", function(node, parent, connection) {
             // 连线起点和终点
             var po = parent.getLayoutVertexOut(), pi = node.getLayoutVertexIn();
@@ -189,8 +189,8 @@ _p[2] = {
  */
 _p[3] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         connect.register("fish-bone-master", function(node, parent, connection) {
             var pout = parent.getLayoutVertexOut(), pin = node.getLayoutVertexIn();
             var abs = Math.abs;
@@ -216,8 +216,8 @@ _p[3] = {
  */
 _p[4] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         connect.register("l", function(node, parent, connection) {
             var po = parent.getLayoutVertexOut();
             var pi = node.getLayoutVertexIn();
@@ -236,7 +236,7 @@ _p[4] = {
     }
 };
 
-//src/connect/poly.js
+//src/connect/poly-circle.js
 /**
  * @fileOverview
  *
@@ -247,8 +247,65 @@ _p[4] = {
  */
 _p[5] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
+        connect.register("poly-circle", function(node, parent, connection, width) {
+            // 连线起点和终点
+            var po = parent.getLayoutVertexOut(), pi = node.getLayoutVertexIn();
+            // 连线矢量和方向
+            var v = parent.getLayoutVectorOut().normalize();
+            var r = Math.round;
+            var abs = Math.abs;
+            var pathData = [];
+            pathData.push("M", r(po.x), r(po.y));
+            switch (true) {
+              case abs(v.x) > abs(v.y) && v.x < 0:
+                // left
+                pathData.push("h", -parent.getStyle("margin-left"));
+                pathData.push("v", pi.y - po.y);
+                pathData.push("H", pi.x);
+                break;
+
+              case abs(v.x) > abs(v.y) && v.x >= 0:
+                // right
+                pathData.push("h", 20);
+                pathData.push("v", pi.y - po.y);
+                pathData.push("H", pi.x);
+                break;
+
+              case abs(v.x) <= abs(v.y) && v.y < 0:
+                // top
+                pathData.push("v", -parent.getStyle("margin-top"));
+                pathData.push("h", pi.x - po.x);
+                pathData.push("V", pi.y);
+                break;
+
+              case abs(v.x) <= abs(v.y) && v.y >= 0:
+                // bottom
+                pathData.push("v", parent.getStyle("margin-bottom"));
+                pathData.push("h", pi.x - po.x);
+                pathData.push("V", pi.y);
+                break;
+            }
+            connection.setMarker(null);
+            connection.setPathData(pathData);
+        });
+    }
+};
+
+//src/connect/poly.js
+/**
+ * @fileOverview
+ *
+ * 提供折线相连的方法
+ *
+ * @author: techird
+ * @copyright: Baidu FEX, 2014
+ */
+_p[6] = {
+    value: function(require, exports, module) {
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         connect.register("poly", function(node, parent, connection, width) {
             // 连线起点和终点
             var po = parent.getLayoutVertexOut(), pi = node.getLayoutVertexIn();
@@ -302,10 +359,10 @@ _p[5] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[6] = {
+_p[7] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var connect = _p.r(11);
+        var kity = _p.r(18);
+        var connect = _p.r(12);
         connect.register("under", function(node, parent, connection, width, color) {
             var box = node.getLayoutBox(), pBox = parent.getLayoutBox();
             var start, end, vector;
@@ -344,10 +401,10 @@ _p[6] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[7] = {
+_p[8] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
         if (location.href.indexOf("boxv") != -1) {
             var vrect;
             Object.defineProperty(kity.Box.prototype, "visualization", {
@@ -377,9 +434,9 @@ _p[7] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[8] = {
+_p[9] = {
     value: function(require, exports, module) {
-        var Minder = _p.r(19);
+        var Minder = _p.r(20);
         var animateDefaultOptions = {
             enableAnimation: true,
             layoutAnimationDuration: 300,
@@ -412,19 +469,19 @@ _p[8] = {
 };
 
 //src/core/command.js
-_p[9] = {
+_p[10] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var MinderEvent = _p.r(13);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var MinderEvent = _p.r(14);
         var COMMAND_STATE_NORMAL = 0;
         var COMMAND_STATE_DISABLED = -1;
         var COMMAND_STATE_ACTIVED = 1;
         /**
-     * 表示一个命令，包含命令的查询及执行
-     */
+   * 表示一个命令，包含命令的查询及执行
+   */
         var Command = kity.createClass("Command", {
             constructor: function() {
                 this._isContentChange = true;
@@ -471,48 +528,48 @@ _p[9] = {
                 return 0;
             },
             /**
-         * @method queryCommandState()
-         * @for Minder
-         * @description 查询指定命令的状态
-         *
-         * @grammar queryCommandName(name) => {number}
-         *
-         * @param {string} name 要查询的命令名称
-         *
-         * @return {number}
-         *   -1: 命令不存在或命令当前不可用
-         *    0: 命令可用
-         *    1: 命令当前可用并且已经执行过
-         */
+     * @method queryCommandState()
+     * @for Minder
+     * @description 查询指定命令的状态
+     *
+     * @grammar queryCommandName(name) => {number}
+     *
+     * @param {string} name 要查询的命令名称
+     *
+     * @return {number}
+     *   -1: 命令不存在或命令当前不可用
+     *    0: 命令可用
+     *    1: 命令当前可用并且已经执行过
+     */
             queryCommandState: function(name) {
                 return this._queryCommand(name, "State", [].slice.call(arguments, 1));
             },
             /**
-         * @method queryCommandValue()
-         * @for Minder
-         * @description 查询指定命令当前的执行值
-         *
-         * @grammar queryCommandValue(name) => {any}
-         *
-         * @param {string} name 要查询的命令名称
-         *
-         * @return {any}
-         *    如果命令不存在，返回 undefined
-         *    不同命令具有不同返回值，具体请查看 [Command](command) 章节
-         */
+     * @method queryCommandValue()
+     * @for Minder
+     * @description 查询指定命令当前的执行值
+     *
+     * @grammar queryCommandValue(name) => {any}
+     *
+     * @param {string} name 要查询的命令名称
+     *
+     * @return {any}
+     *    如果命令不存在，返回 undefined
+     *    不同命令具有不同返回值，具体请查看 [Command](command) 章节
+     */
             queryCommandValue: function(name) {
                 return this._queryCommand(name, "Value", [].slice.call(arguments, 1));
             },
             /**
-         * @method execCommand()
-         * @for Minder
-         * @description 执行指定的命令。
-         *
-         * @grammar execCommand(name, args...)
-         *
-         * @param {string} name 要执行的命令名称
-         * @param {argument} args 要传递给命令的其它参数
-         */
+     * @method execCommand()
+     * @for Minder
+     * @description 执行指定的命令。
+     *
+     * @grammar execCommand(name, args...)
+     *
+     * @param {string} name 要执行的命令名称
+     * @param {argument} args 要传递给命令的其它参数
+     */
             execCommand: function(name) {
                 if (!name) return null;
                 name = name.toLowerCase();
@@ -524,7 +581,9 @@ _p[9] = {
                     commandName: name.toLowerCase(),
                     commandArgs: cmdArgs
                 };
-                if (!cmd || !~this.queryCommandState(name)) {
+                const execCommandTest = this._fire(new MinderEvent("execCommandTest", eventParams));
+                // console.log(execCommandTest, "ggg");
+                if (!cmd || !~this.queryCommandState(name) || execCommandTest) {
                     return false;
                 }
                 if (!this._hasEnterExecCommand) {
@@ -554,9 +613,9 @@ _p[9] = {
 };
 
 //src/core/compatibility.js
-_p[10] = {
+_p[11] = {
     value: function(require, exports, module) {
-        var utils = _p.r(33);
+        var utils = _p.r(34);
         function compatibility(json) {
             var version = json.version || (json.root ? "1.4.0" : "1.1.3");
             switch (version) {
@@ -640,13 +699,13 @@ _p[10] = {
 };
 
 //src/core/connect.js
-_p[11] = {
+_p[12] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Module = _p.r(20);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Module = _p.r(21);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
         // 连线提供方
         var _connectProviders = {};
         function register(name, provider) {
@@ -742,15 +801,15 @@ _p[11] = {
 };
 
 //src/core/data.js
-_p[12] = {
+_p[13] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var MinderEvent = _p.r(13);
-        var compatibility = _p.r(10);
-        var Promise = _p.r(25);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var MinderEvent = _p.r(14);
+        var compatibility = _p.r(11);
+        var Promise = _p.r(26);
         var protocols = {};
         function registerProtocol(name, protocol) {
             protocols[name] = protocol;
@@ -1050,11 +1109,11 @@ _p[12] = {
 };
 
 //src/core/event.js
-_p[13] = {
+_p[14] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         /**
      * @class MinderEvent
      * @description 表示一个脑图中发生的事件
@@ -1282,10 +1341,10 @@ _p[13] = {
 };
 
 //src/core/focus.js
-_p[14] = {
+_p[15] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
         Minder.registerInitHook(function() {
             this.on("beforemousedown", function(e) {
                 this.focus();
@@ -1323,7 +1382,7 @@ _p[14] = {
 };
 
 //src/core/keymap.js
-_p[15] = {
+_p[16] = {
     value: function(require, exports, module) {
         var keymap = {
             Backspace: 8,
@@ -1434,11 +1493,11 @@ _p[15] = {
 };
 
 //src/core/keyreceiver.js
-_p[16] = {
+_p[17] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         function listen(element, type, handler) {
             type.split(" ").forEach(function(name) {
                 element.addEventListener(name, handler, false);
@@ -1504,21 +1563,21 @@ _p[16] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[17] = {
+_p[18] = {
     value: function(require, exports, module) {
         module.exports = window.kity;
     }
 };
 
 //src/core/layout.js
-_p[18] = {
+_p[19] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var MinderEvent = _p.r(13);
-        var Command = _p.r(9);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var MinderEvent = _p.r(14);
+        var Command = _p.r(10);
         var _layouts = {};
         var _defaultLayout;
         function register(name, layout) {
@@ -1949,10 +2008,10 @@ _p[18] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[19] = {
+_p[20] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
         var _initHooks = [];
         var Minder = kity.createClass("Minder", {
             constructor: function(options) {
@@ -1977,11 +2036,11 @@ _p[19] = {
 };
 
 //src/core/module.js
-_p[20] = {
+_p[21] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         /* 已注册的模块 */
         var _modules = {};
         exports.register = function(name, module) {
@@ -2101,23 +2160,23 @@ _p[20] = {
 };
 
 //src/core/node.js
-_p[21] = {
+_p[22] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         /**
-     * @class MinderNode
-     *
-     * 表示一个脑图节点
-     */
+   * @class MinderNode
+   *
+   * 表示一个脑图节点
+   */
         var MinderNode = kity.createClass("MinderNode", {
             /**
-         * 创建一个游离的脑图节点
-         *
-         * @param {String|Object} textOrData
-         *     节点的初始数据或文本
-         */
+     * 创建一个游离的脑图节点
+     *
+     * @param {String|Object} textOrData
+     *     节点的初始数据或文本
+     */
             constructor: function(textOrData) {
                 // 指针
                 this.parent = null;
@@ -2125,7 +2184,7 @@ _p[21] = {
                 this.children = [];
                 // 数据
                 this.data = {
-                    id: utils.guid(),
+                    nid: utils.guid(),
                     created: +new Date()
                 };
                 // 绘图容器
@@ -2141,26 +2200,26 @@ _p[21] = {
                 this.rc.minderNode = this;
             },
             /**
-         * 判断节点是否根节点
-         */
+     * 判断节点是否根节点
+     */
             isRoot: function() {
                 return this.root === this;
             },
             /**
-         * 判断节点是否叶子
-         */
+     * 判断节点是否叶子
+     */
             isLeaf: function() {
                 return this.children.length === 0;
             },
             /**
-         * 获取节点的根节点
-         */
+     * 获取节点的根节点
+     */
             getRoot: function() {
                 return this.root || this;
             },
             /**
-         * 获得节点的父节点
-         */
+     * 获得节点的父节点
+     */
             getParent: function() {
                 return this.parent;
             },
@@ -2174,8 +2233,8 @@ _p[21] = {
                 return siblings;
             },
             /**
-         * 获得节点的深度
-         */
+     * 获得节点的深度
+     */
             getLevel: function() {
                 var level = 0, ancestor = this.parent;
                 while (ancestor) {
@@ -2185,8 +2244,8 @@ _p[21] = {
                 return level;
             },
             /**
-         * 获得节点的复杂度（即子树中节点的数量）
-         */
+     * 获得节点的复杂度（即子树中节点的数量）
+     */
             getComplex: function() {
                 var complex = 0;
                 this.traverse(function() {
@@ -2195,16 +2254,16 @@ _p[21] = {
                 return complex;
             },
             /**
-         * 获得节点的类型（root|main|sub）
-         */
+     * 获得节点的类型（root|main|sub）
+     */
             getType: function(type) {
                 this.type = [ "root", "main", "sub" ][Math.min(this.getLevel(), 2)];
                 return this.type;
             },
             /**
-         * 判断当前节点是否被测试节点的祖先
-         * @param  {MinderNode}  test 被测试的节点
-         */
+     * 判断当前节点是否被测试节点的祖先
+     * @param  {MinderNode}  test 被测试的节点
+     */
             isAncestorOf: function(test) {
                 var ancestor = test.parent;
                 while (ancestor) {
@@ -2228,23 +2287,23 @@ _p[21] = {
                 return this;
             },
             /**
-         * 设置节点的文本数据
-         * @param {String} text 文本数据
-         */
+     * 设置节点的文本数据
+     * @param {String} text 文本数据
+     */
             setText: function(text) {
                 return this.data.text = text;
             },
             /**
-         * 获取节点的文本数据
-         * @return {String}
-         */
+     * 获取节点的文本数据
+     * @return {String}
+     */
             getText: function() {
                 return this.data.text || null;
             },
             /**
-         * 先序遍历当前节点树
-         * @param  {Function} fn 遍历函数
-         */
+     * 先序遍历当前节点树
+     * @param  {Function} fn 遍历函数
+     */
             preTraverse: function(fn, excludeThis) {
                 var children = this.getChildren();
                 if (!excludeThis) fn(this);
@@ -2253,9 +2312,9 @@ _p[21] = {
                 }
             },
             /**
-         * 后序遍历当前节点树
-         * @param  {Function} fn 遍历函数
-         */
+     * 后序遍历当前节点树
+     * @param  {Function} fn 遍历函数
+     */
             postTraverse: function(fn, excludeThis) {
                 var children = this.getChildren();
                 for (var i = 0; i < children.length; i++) {
@@ -2455,11 +2514,11 @@ _p[21] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[22] = {
+_p[23] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         Minder.registerInitHook(function(options) {
             this._defaultOptions = {};
         });
@@ -2491,11 +2550,11 @@ _p[22] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[23] = {
+_p[24] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
         Minder.registerInitHook(function() {
             this._initPaper();
         });
@@ -2559,10 +2618,10 @@ _p[23] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[24] = {
+_p[25] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
         function insertNode(minder, info, parent, index) {
             parent = minder.createNode(info.data, parent, index);
             info.children.forEach(function(childInfo, index) {
@@ -2659,7 +2718,7 @@ _p[24] = {
 };
 
 //src/core/promise.js
-_p[25] = {
+_p[26] = {
     value: function(require, exports, module) {
         /*!
     **  Thenable -- Embeddable Minimum Strictly-Compliant Promises/A+ 1.1.1 Thenable
@@ -2867,11 +2926,11 @@ _p[25] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[26] = {
+_p[27] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
-        var MinderEvent = _p.r(13);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
+        var MinderEvent = _p.r(14);
         Minder.registerInitHook(function(options) {
             if (options.readOnly) {
                 this.setDisabled();
@@ -2918,11 +2977,11 @@ _p[26] = {
 };
 
 //src/core/render.js
-_p[27] = {
+_p[28] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
         var Renderer = kity.createClass("Renderer", {
             constructor: function(node) {
                 this.node = node;
@@ -3130,12 +3189,12 @@ _p[27] = {
 };
 
 //src/core/select.js
-_p[28] = {
+_p[29] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
         Minder.registerInitHook(function() {
             this._initSelection();
         });
@@ -3268,13 +3327,13 @@ _p[28] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[29] = {
+_p[30] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var keymap = _p.r(15);
-        var Minder = _p.r(19);
-        var MinderEvent = _p.r(13);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var keymap = _p.r(16);
+        var Minder = _p.r(20);
+        var MinderEvent = _p.r(14);
         /**
      * 计算包含 meta 键的 keycode
      *
@@ -3411,10 +3470,10 @@ _p[29] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[30] = {
+_p[31] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Minder = _p.r(20);
         var sf = ~window.location.href.indexOf("status");
         var tf = ~window.location.href.indexOf("trace");
         Minder.registerInitHook(function() {
@@ -3459,14 +3518,14 @@ _p[30] = {
 };
 
 //src/core/template.js
-_p[31] = {
+_p[32] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var Command = _p.r(9);
-        var MinderNode = _p.r(21);
-        var Module = _p.r(20);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var Command = _p.r(10);
+        var MinderNode = _p.r(22);
+        var Module = _p.r(21);
         var _templates = {};
         function register(name, supports) {
             _templates[name] = supports;
@@ -3541,14 +3600,14 @@ _p[31] = {
 };
 
 //src/core/theme.js
-_p[32] = {
+_p[33] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Module = _p.r(20);
-        var Command = _p.r(9);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Module = _p.r(21);
+        var Command = _p.r(10);
         var cssLikeValueMatcher = {
             left: function(value) {
                 return 3 in value && value[3] || 1 in value && value[1] || value[0];
@@ -3694,9 +3753,9 @@ _p[32] = {
 };
 
 //src/core/utils.js
-_p[33] = {
+_p[34] = {
     value: function(require, exports) {
-        var kity = _p.r(17);
+        var kity = _p.r(18);
         var uuidMap = {};
         exports.extend = kity.Utils.extend.bind(kity.Utils);
         exports.each = kity.Utils.each.bind(kity.Utils);
@@ -3753,9 +3812,9 @@ _p[33] = {
 };
 
 //src/expose-kityminder.js
-_p[34] = {
+_p[35] = {
     value: function(require, exports, module) {
-        module.exports = window.kityminder = _p.r(35);
+        module.exports = window.kityminder = _p.r(36);
     }
 };
 
@@ -3768,52 +3827,49 @@ _p[34] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[35] = {
+_p[36] = {
     value: function(require, exports, module) {
         var kityminder = {
-            version: _p.r(19).version
+            version: _p.r(20).version
         };
         // 核心导出，大写的部分导出类，小写的部分简单 require 一下
         // 这里顺序是有讲究的，调整前先弄清楚依赖关系。
-        _p.r(33);
-        kityminder.Minder = _p.r(19);
-        kityminder.Command = _p.r(9);
-        kityminder.Node = _p.r(21);
-        _p.r(22);
-        _p.r(8);
-        kityminder.Event = _p.r(13);
-        kityminder.data = _p.r(12);
-        _p.r(10);
-        kityminder.KeyMap = _p.r(15);
-        _p.r(29);
-        _p.r(30);
+        _p.r(34);
+        kityminder.Minder = _p.r(20);
+        kityminder.Command = _p.r(10);
+        kityminder.Node = _p.r(22);
         _p.r(23);
-        _p.r(28);
-        _p.r(14);
-        _p.r(16);
-        kityminder.Module = _p.r(20);
-        _p.r(26);
-        kityminder.Render = _p.r(27);
-        kityminder.Connect = _p.r(11);
-        kityminder.Layout = _p.r(18);
-        kityminder.Theme = _p.r(32);
-        kityminder.Template = _p.r(31);
-        kityminder.Promise = _p.r(25);
-        _p.r(7);
+        _p.r(9);
+        kityminder.Event = _p.r(14);
+        kityminder.data = _p.r(13);
+        _p.r(11);
+        kityminder.KeyMap = _p.r(16);
+        _p.r(30);
+        _p.r(31);
         _p.r(24);
+        _p.r(29);
+        _p.r(15);
+        _p.r(17);
+        kityminder.Module = _p.r(21);
+        _p.r(27);
+        kityminder.Render = _p.r(28);
+        kityminder.Connect = _p.r(12);
+        kityminder.Layout = _p.r(19);
+        kityminder.Theme = _p.r(33);
+        kityminder.Template = _p.r(32);
+        kityminder.Promise = _p.r(26);
+        _p.r(8);
+        _p.r(25);
         // 模块依赖
-        _p.r(42);
         _p.r(43);
         _p.r(44);
         _p.r(45);
         _p.r(46);
         _p.r(47);
-        _p.r(48);
-        _p.r(50);
         _p.r(49);
         _p.r(51);
-        _p.r(52);
         _p.r(53);
+        _p.r(52);
         _p.r(54);
         _p.r(55);
         _p.r(56);
@@ -3825,47 +3881,52 @@ _p[35] = {
         _p.r(62);
         _p.r(63);
         _p.r(64);
-        _p.r(68);
         _p.r(65);
-        _p.r(67);
         _p.r(66);
-        _p.r(40);
-        _p.r(36);
+        _p.r(50);
+        _p.r(67);
+        _p.r(71);
+        _p.r(68);
+        _p.r(70);
+        _p.r(69);
+        _p.r(41);
         _p.r(37);
         _p.r(38);
         _p.r(39);
-        _p.r(41);
-        _p.r(76);
-        _p.r(80);
-        _p.r(78);
-        _p.r(77);
-        _p.r(80);
-        _p.r(82);
-        _p.r(81);
+        _p.r(40);
+        _p.r(42);
         _p.r(79);
+        _p.r(83);
+        _p.r(81);
+        _p.r(80);
+        _p.r(83);
+        _p.r(85);
+        _p.r(84);
+        _p.r(82);
         _p.r(1);
         _p.r(0);
         _p.r(2);
         _p.r(3);
         _p.r(4);
-        _p.r(5);
         _p.r(6);
-        _p.r(69);
-        _p.r(74);
-        _p.r(70);
-        _p.r(73);
-        _p.r(71);
-        _p.r(75);
+        _p.r(7);
+        _p.r(5);
         _p.r(72);
+        _p.r(77);
+        _p.r(73);
+        _p.r(76);
+        _p.r(74);
+        _p.r(78);
+        _p.r(75);
         module.exports = kityminder;
     }
 };
 
 //src/layout/btree.js
-_p[36] = {
+_p[37] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
         [ "left", "right", "top", "bottom" ].forEach(registerLayoutForDirection);
         function registerLayoutForDirection(name) {
             var axis = name == "left" || name == "right" ? "x" : "y";
@@ -3986,10 +4047,10 @@ _p[36] = {
 };
 
 //src/layout/filetree.js
-_p[37] = {
+_p[38] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
         [ -1, 1 ].forEach(registerLayoutForDir);
         function registerLayoutForDir(dir) {
             var name = "filetree-" + (dir > 0 ? "down" : "up");
@@ -4068,10 +4129,10 @@ _p[37] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[38] = {
+_p[39] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
         Layout.register("fish-bone-master", kity.createClass("FishBoneMasterLayout", {
             base: Layout,
             doLayout: function(parent, children, round) {
@@ -4122,10 +4183,10 @@ _p[38] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[39] = {
+_p[40] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
         Layout.register("fish-bone-slave", kity.createClass("FishBoneSlaveLayout", {
             base: Layout,
             doLayout: function(parent, children, round) {
@@ -4175,11 +4236,11 @@ _p[39] = {
 };
 
 //src/layout/mind.js
-_p[40] = {
+_p[41] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
+        var Minder = _p.r(20);
         Layout.register("mind", kity.createClass({
             base: Layout,
             doLayout: function(node, children) {
@@ -4239,11 +4300,11 @@ _p[40] = {
  * @author: along
  * @copyright: bpd729@163.com, 2015
  */
-_p[41] = {
+_p[42] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Layout = _p.r(18);
-        var Minder = _p.r(19);
+        var kity = _p.r(18);
+        var Layout = _p.r(19);
+        var Minder = _p.r(20);
         Layout.register("tianpan", kity.createClass({
             base: Layout,
             doLayout: function(parent, children) {
@@ -4302,12 +4363,12 @@ _p[41] = {
 };
 
 //src/module/arrange.js
-_p[42] = {
+_p[43] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
+        var kity = _p.r(18);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
         kity.extendClass(MinderNode, {
             arrange: function(index) {
                 var parent = this.parent;
@@ -4440,15 +4501,15 @@ _p[42] = {
 };
 
 //src/module/basestyle.js
-_p[43] = {
+_p[44] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var TextRenderer = _p.r(61);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var TextRenderer = _p.r(64);
         Module.register("basestylemodule", function() {
             var km = this;
             function getNodeDataOrStyle(node, name) {
@@ -4555,13 +4616,13 @@ _p[43] = {
 };
 
 //src/module/clipboard.js
-_p[44] = {
+_p[45] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
         Module.register("ClipboardModule", function() {
             var km = this, _clipboardNodes = [], _selectedNodes = [];
             function appendChildNode(parent, child) {
@@ -4704,13 +4765,13 @@ _p[44] = {
 };
 
 //src/module/dragtree.js
-_p[45] = {
+_p[46] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
         // 矩形的变形动画定义
         var MoveToParentCommand = kity.createClass("MoveToParentCommand", {
             base: Command,
@@ -4836,6 +4897,7 @@ _p[45] = {
                 this._minder.layout(300);
                 this._leaveDragMode();
                 this._minder.fire("contentchange");
+                this._minder.execCommand("resetlayout");
             },
             // 进入拖放模式：
             //    1. 计算拖放源和允许的拖放目标
@@ -4934,13 +4996,13 @@ _p[45] = {
                 this._minder.getRenderContainer().addShape(this);
             },
             /**
-         * 通过 judge 函数判断 targetBox 和 sourceBox 的位置交叉关系
-         * @param targets -- 目标节点
-         * @param targetBoxMapper -- 目标节点与对应 Box 的映射关系
-         * @param judge -- 判断函数
-         * @returns {*}
-         * @private
-         */
+     * 通过 judge 函数判断 targetBox 和 sourceBox 的位置交叉关系
+     * @param targets -- 目标节点
+     * @param targetBoxMapper -- 目标节点与对应 Box 的映射关系
+     * @param judge -- 判断函数
+     * @returns {*}
+     * @private
+     */
             _boxTest: function(targets, targetBoxMapper, judge) {
                 var sourceBoxes = this._dragSources.map(function(source) {
                     return source.getLayoutBox();
@@ -4971,12 +5033,12 @@ _p[45] = {
                     }
                     if (!intersectBox) return false;
                     /*
-                * Added by zhangbobell, 2015.9.8
-                *
-                * 增加了下面一行判断，修复了循环比较中 targetBox 为折叠节点时，intersetBox 面积为 0，
-                * 而 targetBox 的 width 和 height 均为 0
-                * 此时造成了满足以下的第二个条件而返回 true
-                * */
+           * Added by zhangbobell, 2015.9.8
+           *
+           * 增加了下面一行判断，修复了循环比较中 targetBox 为折叠节点时，intersetBox 面积为 0，
+           * 而 targetBox 的 width 和 height 均为 0
+           * 此时造成了满足以下的第二个条件而返回 true
+           * */
                     if (!area(intersectBox)) return false;
                     // 面积判断，交叉面积大于其中的一半
                     if (area(intersectBox) > .5 * Math.min(area(sourceBox), area(targetBox))) return true;
@@ -5045,59 +5107,59 @@ _p[45] = {
 };
 
 //src/module/expand.js
-_p[46] = {
+_p[47] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var keymap = _p.r(15);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var keymap = _p.r(16);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("Expand", function() {
             var minder = this;
             var EXPAND_STATE_DATA = "expandState", STATE_EXPAND = "expand", STATE_COLLAPSE = "collapse";
             // 将展开的操作和状态读取接口拓展到 MinderNode 上
             kity.extendClass(MinderNode, {
                 /**
-             * 展开节点
-             * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
-             */
+       * 展开节点
+       * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
+       */
                 expand: function() {
                     this.setData(EXPAND_STATE_DATA, STATE_EXPAND);
                     return this;
                 },
                 /**
-             * 收起节点
-             */
+       * 收起节点
+       */
                 collapse: function() {
                     this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE);
                     return this;
                 },
                 /**
-             * 判断节点当前的状态是否为展开
-             */
+       * 判断节点当前的状态是否为展开
+       */
                 isExpanded: function() {
                     var expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE;
                     return expanded && (this.isRoot() || this.parent.isExpanded());
                 },
                 /**
-             * 判断节点当前的状态是否为收起
-             */
+       * 判断节点当前的状态是否为收起
+       */
                 isCollapsed: function() {
                     return !this.isExpanded();
                 }
             });
             /**
-         * @command Expand
-         * @description 展开当前选中的节点，保证其可见
-         * @param {bool} justParents 是否只展开到父亲
-         *     * `false` - （默认）保证选中的节点以及其子树可见
-         *     * `true` - 只保证选中的节点可见，不展开其子树
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         */
+     * @command Expand
+     * @description 展开当前选中的节点，保证其可见
+     * @param {bool} justParents 是否只展开到父亲
+     *     * `false` - （默认）保证选中的节点以及其子树可见
+     *     * `true` - 只保证选中的节点可见，不展开其子树
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
             var ExpandCommand = kity.createClass("ExpandCommand", {
                 base: Command,
                 execute: function(km, justParents) {
@@ -5119,12 +5181,12 @@ _p[46] = {
                 }
             });
             /**
-         * @command ExpandToLevel
-         * @description 展开脑图到指定的层级
-         * @param {number} level 指定展开到的层级，最少值为 1。
-         * @state
-         *   0: 一直可用
-         */
+     * @command ExpandToLevel
+     * @description 展开脑图到指定的层级
+     * @param {number} level 指定展开到的层级，最少值为 1。
+     * @state
+     *   0: 一直可用
+     */
             var ExpandToLevelCommand = kity.createClass("ExpandToLevelCommand", {
                 base: Command,
                 execute: function(km, level) {
@@ -5137,12 +5199,288 @@ _p[46] = {
                 enableReadOnly: true
             });
             /**
-         * @command Collapse
-         * @description 收起当前节点的子树
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         */
+     * @command Collapse
+     * @description 收起当前节点的子树
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
+            var CollapseCommand = kity.createClass("CollapseCommand", {
+                base: Command,
+                execute: function(km) {
+                    var node = km.getSelectedNode();
+                    if (!node) return;
+                    node.collapse();
+                    node.renderTree();
+                    km.layout();
+                },
+                queryState: function(km) {
+                    var node = km.getSelectedNode();
+                    return node && !node.isRoot() && node.isExpanded() ? 0 : -1;
+                }
+            });
+            var Expander = kity.createClass("Expander", {
+                base: kity.Group,
+                constructor: function(node) {
+                    this.commonColor = "#7262FD";
+                    this.callBase();
+                    const plusPaths = "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
+                    const arrorPaths = "m6.65611,7.75005l-2.067,-1.91616l3.99645,0l3.99644,0l0,-1.18619l0,-1.1862l-3.9506,0c-2.17283,0 -3.95059,-0.06012 -3.95059,-0.1336c0,-0.07348 0.86499,-0.93575 1.92221,-1.91616l1.92221,-1.78256l-1.77671,0l-1.77671,0l-2.71343,2.51166l-2.71343,2.51166l2.71864,2.50686l2.71864,2.50686l1.87045,0l1.87045,0l-2.06701,-1.91616l0,0z";
+                    this.radius = 8;
+                    //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
+                    this.box = new kity.Rect(30, 20, -5, -10, 10).fill(this.commonColor).setTranslate(-4, 0);
+                    this.text = new kity.Text(node.getComplex() - 1).setPosition(2, 4).fill("white").setStyle({
+                        "font-size": 12
+                    });
+                    // 收起的时候展示
+                    this.hideSign = [ this.box, this.text ];
+                    this.outline = new kity.Circle(this.radius).stroke("gray").fill(this.commonColor);
+                    this.sign = new kity.Path(arrorPaths).fill("white").setTranslate(-6, -5);
+                    // 展开的时候
+                    this.expandSign = [ this.outline, this.sign ];
+                    this.addShapes(this.expandSign);
+                    this.initEvent(node);
+                    this.setId(utils.uuid("node_expander"));
+                    this.setStyle("cursor", "pointer");
+                },
+                initEvent: function(node) {
+                    this.on("mousedown", function(e) {
+                        minder.select([ node ], true);
+                        if (node.isExpanded()) {
+                            node.collapse();
+                        } else {
+                            node.expand();
+                        }
+                        node.renderTree().getMinder().layout(100);
+                        node.getMinder().fire("contentchange");
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+                    this.on("dblclick click mouseup", function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    });
+                },
+                setState: function(state, text) {
+                    if (state == "hide") {
+                        this.setVisible(false);
+                        return;
+                    }
+                    this.setVisible(true);
+                    this.text.setContent(text);
+                    this.clear();
+                    this.addShapes(state == STATE_COLLAPSE ? this.hideSign : this.expandSign);
+                }
+            });
+            var ExpanderRenderer = kity.createClass("ExpanderRenderer", {
+                base: Renderer,
+                create: function(node) {
+                    if (node.isRoot()) return;
+                    this.expander = new Expander(node);
+                    node.getRenderContainer().prependShape(this.expander);
+                    node.expanderRenderer = this;
+                    this.node = node;
+                    return this.expander;
+                },
+                shouldRender: function(node) {
+                    return !node.isRoot();
+                },
+                update: function(expander, node, box) {
+                    if (!node.parent) return;
+                    var visible = node.parent.isExpanded();
+                    expander.setState(visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : "hide", node.getComplex() - 1);
+                    var vector = node.getLayoutVectorIn().normalize(expander.radius + node.getStyle("stroke-width"));
+                    var position = node.getVertexOut().offset(vector);
+                    this.expander.setTranslate(position);
+                }
+            });
+            return {
+                commands: {
+                    expand: ExpandCommand,
+                    expandtolevel: ExpandToLevelCommand,
+                    collapse: CollapseCommand
+                },
+                events: {
+                    layoutapply: function(e) {
+                        var r = e.node.getRenderer("ExpanderRenderer");
+                        if (r.getRenderShape()) {
+                            r.update(r.getRenderShape(), e.node);
+                        }
+                    },
+                    beforerender: function(e) {
+                        var node = e.node;
+                        var visible = !node.parent || node.parent.isExpanded();
+                        var minder = this;
+                        node.getRenderContainer().setVisible(visible);
+                        if (!visible) e.stopPropagation();
+                    },
+                    "normal.keydown": function(e) {
+                        if (this.getStatus() == "textedit") return;
+                        if (e.originEvent.keyCode == keymap["/"]) {
+                            var node = this.getSelectedNode();
+                            if (!node || node == this.getRoot()) return;
+                            var expanded = node.isExpanded();
+                            this.getSelectedNodes().forEach(function(node) {
+                                if (expanded) node.collapse(); else node.expand();
+                                node.renderTree();
+                            });
+                            this.layout(100);
+                            this.fire("contentchange");
+                            e.preventDefault();
+                            e.stopPropagationImmediately();
+                        }
+                        if (e.isShortcutKey("Alt+`")) {
+                            this.execCommand("expandtolevel", 9999);
+                        }
+                        for (var i = 1; i < 6; i++) {
+                            if (e.isShortcutKey("Alt+" + i)) {
+                                this.execCommand("expandtolevel", i);
+                            }
+                        }
+                    }
+                },
+                renderers: {
+                    outside: ExpanderRenderer
+                },
+                contextmenu: [ {
+                    command: "expandtoleaf",
+                    query: function() {
+                        return !minder.getSelectedNode();
+                    },
+                    fn: function(minder) {
+                        minder.execCommand("expandtolevel", 9999);
+                    }
+                }, {
+                    command: "expandtolevel1",
+                    query: function() {
+                        return !minder.getSelectedNode();
+                    },
+                    fn: function(minder) {
+                        minder.execCommand("expandtolevel", 1);
+                    }
+                }, {
+                    command: "expandtolevel2",
+                    query: function() {
+                        return !minder.getSelectedNode();
+                    },
+                    fn: function(minder) {
+                        minder.execCommand("expandtolevel", 2);
+                    }
+                }, {
+                    command: "expandtolevel3",
+                    query: function() {
+                        return !minder.getSelectedNode();
+                    },
+                    fn: function(minder) {
+                        minder.execCommand("expandtolevel", 3);
+                    }
+                }, {
+                    divider: true
+                } ]
+            };
+        });
+    }
+};
+
+//src/module/expand9.js
+_p[48] = {
+    value: function(require, exports, module) {
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var keymap = _p.r(16);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
+        Module.register("Expand", function() {
+            var minder = this;
+            var EXPAND_STATE_DATA = "expandState", STATE_EXPAND = "expand", STATE_COLLAPSE = "collapse";
+            // 将展开的操作和状态读取接口拓展到 MinderNode 上
+            kity.extendClass(MinderNode, {
+                /**
+       * 展开节点
+       * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
+       */
+                expand: function() {
+                    this.setData(EXPAND_STATE_DATA, STATE_EXPAND);
+                    return this;
+                },
+                /**
+       * 收起节点
+       */
+                collapse: function() {
+                    this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE);
+                    return this;
+                },
+                /**
+       * 判断节点当前的状态是否为展开
+       */
+                isExpanded: function() {
+                    var expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE;
+                    return expanded && (this.isRoot() || this.parent.isExpanded());
+                },
+                /**
+       * 判断节点当前的状态是否为收起
+       */
+                isCollapsed: function() {
+                    return !this.isExpanded();
+                }
+            });
+            /**
+     * @command Expand
+     * @description 展开当前选中的节点，保证其可见
+     * @param {bool} justParents 是否只展开到父亲
+     *     * `false` - （默认）保证选中的节点以及其子树可见
+     *     * `true` - 只保证选中的节点可见，不展开其子树
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
+            var ExpandCommand = kity.createClass("ExpandCommand", {
+                base: Command,
+                execute: function(km, justParents) {
+                    var node = km.getSelectedNode();
+                    if (!node) return;
+                    if (justParents) {
+                        node = node.parent;
+                    }
+                    while (node.parent) {
+                        node.expand();
+                        node = node.parent;
+                    }
+                    node.renderTree();
+                    km.layout(100);
+                },
+                queryState: function(km) {
+                    var node = km.getSelectedNode();
+                    return node && !node.isRoot() && !node.isExpanded() ? 0 : -1;
+                }
+            });
+            /**
+     * @command ExpandToLevel
+     * @description 展开脑图到指定的层级
+     * @param {number} level 指定展开到的层级，最少值为 1。
+     * @state
+     *   0: 一直可用
+     */
+            var ExpandToLevelCommand = kity.createClass("ExpandToLevelCommand", {
+                base: Command,
+                execute: function(km, level) {
+                    km.getRoot().traverse(function(node) {
+                        if (node.getLevel() < level) node.expand();
+                        if (node.getLevel() == level && !node.isLeaf()) node.collapse();
+                    });
+                    km.refresh(100);
+                },
+                enableReadOnly: true
+            });
+            /**
+     * @command Collapse
+     * @description 收起当前节点的子树
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
             var CollapseCommand = kity.createClass("CollapseCommand", {
                 base: Command,
                 execute: function(km) {
@@ -5192,11 +5530,12 @@ _p[46] = {
                         this.setVisible(false);
                         return;
                     }
+                    console.log(state, "state");
                     this.setVisible(true);
                     var pathData = [ "M", 1.5 - this.radius, 0, "L", this.radius - 1.5, 0 ];
-                    if (state == STATE_COLLAPSE) {
-                        pathData.push([ "M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5 ]);
-                    }
+                    // if (state == STATE_COLLAPSE) {
+                    //   pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
+                    // }
                     this.sign.setPathData(pathData);
                 }
             });
@@ -5311,15 +5650,15 @@ _p[46] = {
 };
 
 //src/module/font.js
-_p[47] = {
+_p[49] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var TextRenderer = _p.r(61);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var TextRenderer = _p.r(64);
         function getNodeDataOrStyle(node, name) {
             return node.getData(name) || node.getStyle(name);
         }
@@ -5457,16 +5796,175 @@ _p[47] = {
     }
 };
 
-//src/module/hyperlink.js
-_p[48] = {
+//src/module/history.js
+/**
+ * @fileOverview
+ *
+ * 历史管理
+ *
+ * @author: wxs
+ * @copyright: 2022-9-18
+ */
+_p[50] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var jsonDiff = _p.r(88);
+        function HistoryRuntime() {
+            var minder = this;
+            var MAX_HISTORY = 100;
+            var lastSnap;
+            var patchLock;
+            var undoDiffs;
+            var redoDiffs;
+            function reset() {
+                undoDiffs = [];
+                redoDiffs = [];
+                lastSnap = minder.exportJson();
+            }
+            function makeUndoDiff() {
+                var headSnap = minder.exportJson();
+                var diff = jsonDiff(headSnap, lastSnap);
+                if (diff.length) {
+                    undoDiffs.push(diff);
+                    while (undoDiffs.length > MAX_HISTORY) {
+                        undoDiffs.shift();
+                    }
+                    lastSnap = headSnap;
+                    return true;
+                }
+            }
+            function makeRedoDiff() {
+                var revertSnap = minder.exportJson();
+                redoDiffs.push(jsonDiff(revertSnap, lastSnap));
+                lastSnap = revertSnap;
+            }
+            function undo() {
+                patchLock = true;
+                var undoDiff = undoDiffs.pop();
+                if (undoDiff) {
+                    minder.applyPatches(undoDiff);
+                    makeRedoDiff();
+                }
+                patchLock = false;
+            }
+            function redo() {
+                patchLock = true;
+                var redoDiff = redoDiffs.pop();
+                if (redoDiff) {
+                    minder.applyPatches(redoDiff);
+                    makeUndoDiff();
+                }
+                patchLock = false;
+            }
+            function changed() {
+                if (patchLock) return;
+                if (makeUndoDiff()) redoDiffs = [];
+            }
+            function hasUndo() {
+                return !!undoDiffs.length;
+            }
+            function hasRedo() {
+                return !!redoDiffs.length;
+            }
+            function updateSelection(e) {
+                if (!patchLock) return;
+                var patch = e.patch;
+                switch (patch.express) {
+                  case "node.add":
+                    minder.select(patch.node.getChild(patch.index), true);
+                    break;
+
+                  case "node.remove":
+                  case "data.replace":
+                  case "data.remove":
+                  case "data.add":
+                    minder.select(patch.node, true);
+                    break;
+                }
+            }
+            this.history = {
+                reset: reset,
+                undo: undo,
+                redo: redo,
+                hasUndo: hasUndo,
+                hasRedo: hasRedo
+            };
+            reset();
+            minder.on("contentchange", changed);
+            minder.on("import", reset);
+            minder.on("patch", updateSelection);
+        }
+        /**
+   * @command UndoCommand
+   * @description 撤销
+   * @state
+   *   0: 当前有可撤销的操作
+   *  -1: 当前没有可撤销的操作
+   * @return 返回历史管理
+   */
+        var UndoCommand = kity.createClass("UndoCommand", {
+            base: Command,
+            execute: function(minder, name) {
+                minder.history.undo();
+            },
+            queryValue: function(minder) {
+                return minder.history;
+            },
+            queryState: function(minder) {
+                return minder.history.hasUndo ? 0 : -1;
+            }
+        });
+        /**
+   * @command RedoCommand
+   * @description 重做
+   * @state
+   *   0: 当前有可撤销的操作
+   *  -1: 当前没有可撤销的操作
+   * @return 返回历史管理
+   */
+        var RedoCommand = kity.createClass("RedoCommand", {
+            base: Command,
+            execute: function(minder) {
+                minder.history.redo();
+            },
+            queryState: function(minder) {
+                return minder.history.hasRedo ? 0 : -1;
+            }
+        });
+        Module.register("HistoryModule", {
+            init: HistoryRuntime,
+            commands: {
+                undo: UndoCommand,
+                redo: RedoCommand
+            },
+            // contextmenu: [
+            //   {
+            //     command: "resetlayout",
+            //   },
+            //   {
+            //     divider: true,
+            //   },
+            // ],
+            commandShortcutKeys: {
+                undo: "Ctrl+Z",
+                redo: "Ctrl+Shift+Z"
+            }
+        });
+    }
+};
+
+//src/module/hyperlink.js
+_p[51] = {
+    value: function(require, exports, module) {
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         // jscs:disable maximumLineLength
         var linkShapePath = "M16.614,10.224h-1.278c-1.668,0-3.07-1.07-3.599-2.556h4.877c0.707,0,1.278-0.571,1.278-1.278V3.834 c0-0.707-0.571-1.278-1.278-1.278h-4.877C12.266,1.071,13.668,0,15.336,0h1.278c2.116,0,3.834,1.716,3.834,3.834V6.39 C20.448,8.508,18.73,10.224,16.614,10.224z M5.112,5.112c0-0.707,0.573-1.278,1.278-1.278h7.668c0.707,0,1.278,0.571,1.278,1.278 S14.765,6.39,14.058,6.39H6.39C5.685,6.39,5.112,5.819,5.112,5.112z M2.556,3.834V6.39c0,0.707,0.573,1.278,1.278,1.278h4.877 c-0.528,1.486-1.932,2.556-3.599,2.556H3.834C1.716,10.224,0,8.508,0,6.39V3.834C0,1.716,1.716,0,3.834,0h1.278 c1.667,0,3.071,1.071,3.599,2.556H3.834C3.129,2.556,2.556,3.127,2.556,3.834z";
         Module.register("hyperlink", {
@@ -5570,12 +6068,12 @@ _p[48] = {
 };
 
 //src/module/image-viewer.js
-_p[49] = {
+_p[52] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var keymap = _p.r(15);
-        var Module = _p.r(20);
-        var Command = _p.r(9);
+        var kity = _p.r(18);
+        var keymap = _p.r(16);
+        var Module = _p.r(21);
+        var Command = _p.r(10);
         Module.register("ImageViewer", function() {
             function createEl(name, classNames, children) {
                 var el = document.createElement(name);
@@ -5675,15 +6173,15 @@ _p[49] = {
 };
 
 //src/module/image.js
-_p[50] = {
+_p[53] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("image", function() {
             function loadImageSize(url, callback) {
                 var img = document.createElement("img");
@@ -5797,16 +6295,16 @@ _p[50] = {
 };
 
 //src/module/keynav.js
-_p[51] = {
+_p[54] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var keymap = _p.r(15);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var keymap = _p.r(16);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("KeyboardModule", function() {
             var min = Math.min, max = Math.max, abs = Math.abs, sqrt = Math.sqrt, exp = Math.exp;
             function buildPositionNetwork(root) {
@@ -5952,11 +6450,11 @@ _p[51] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[52] = {
+_p[55] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
+        var kity = _p.r(18);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
         /**
      * @command Layout
      * @description 设置选中节点的布局
@@ -6027,31 +6525,32 @@ _p[52] = {
 };
 
 //src/module/node.js
-_p[53] = {
+_p[56] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         /**
-     * @command AppendChildNode
-     * @description 添加子节点到选中的节点中
-     * @param {string|object} textOrData 要插入的节点的文本或数据
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command AppendChildNode
+   * @description 添加子节点到选中的节点中
+   * @param {string|object} textOrData 要插入的节点的文本或数据
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var AppendChildCommand = kity.createClass("AppendChildCommand", {
             base: Command,
             execute: function(km, text) {
                 var parent = km.getSelectedNode();
+                var defaultNodeData = km.getOption().defaultNodeData;
                 if (!parent) {
                     return null;
                 }
-                var node = km.createNode(text, parent);
+                var node = km.createNode(text || defaultNodeData, parent);
                 km.select(node, true);
                 if (parent.isExpanded()) {
                     node.render();
@@ -6067,22 +6566,23 @@ _p[53] = {
             }
         });
         /**
-     * @command AppendSiblingNode
-     * @description 添加选中的节点的兄弟节点
-     * @param {string|object} textOrData 要添加的节点的文本或数据
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command AppendSiblingNode
+   * @description 添加选中的节点的兄弟节点
+   * @param {string|object} textOrData 要添加的节点的文本或数据
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
             base: Command,
             execute: function(km, text) {
                 var sibling = km.getSelectedNode();
+                var defaultNodeData = km.getOption().defaultNodeData;
                 var parent = sibling.parent;
                 if (!parent) {
-                    return km.execCommand("AppendChildNode", text);
+                    return km.execCommand("AppendChildNode", text || defaultNodeData);
                 }
-                var node = km.createNode(text, parent, sibling.getIndex() + 1);
+                var node = km.createNode(text || defaultNodeData, parent, sibling.getIndex() + 1);
                 node.setGlobalLayoutTransform(sibling.getGlobalLayoutTransform());
                 km.select(node, true);
                 node.render();
@@ -6094,12 +6594,12 @@ _p[53] = {
             }
         });
         /**
-     * @command RemoveNode
-     * @description 移除选中的节点
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command RemoveNode
+   * @description 移除选中的节点
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var RemoveNodeCommand = kity.createClass("RemoverNodeCommand", {
             base: Command,
             execute: function(km) {
@@ -6126,11 +6626,12 @@ _p[53] = {
             base: Command,
             execute: function(km, text) {
                 var nodes = km.getSelectedNodes();
+                var defaultNodeData = km.getOption().defaultNodeData;
                 nodes.sort(function(a, b) {
                     return a.getIndex() - b.getIndex();
                 });
                 var parent = nodes[0].parent;
-                var newParent = km.createNode(text, parent, nodes[0].getIndex());
+                var newParent = km.createNode(text || defaultNodeData, parent, nodes[0].getIndex());
                 nodes.forEach(function(node) {
                     newParent.appendChild(node);
                 });
@@ -6177,15 +6678,15 @@ _p[53] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[54] = {
+_p[57] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("NoteModule", function() {
             var NOTE_PATH = "M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11";
             /**
@@ -6275,15 +6776,15 @@ _p[54] = {
 };
 
 //src/module/outline.js
-_p[55] = {
+_p[58] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         var OutlineRenderer = kity.createClass("OutlineRenderer", {
             base: Renderer,
             create: function(node) {
@@ -6300,7 +6801,7 @@ _p[55] = {
                     width: box.width + paddingLeft + paddingRight,
                     height: box.height + paddingTop + paddingBottom
                 };
-                var radius = node.getStyle("radius");
+                var radius = node.getData("border-radius") || node.getStyle("radius");
                 // 天盘图圆形的情况
                 if (shape && shape == "circle") {
                     var p = Math.pow;
@@ -6312,7 +6813,9 @@ _p[55] = {
                     outlineBox.height = 2 * radius;
                 }
                 var prefix = node.isSelected() ? node.getMinder().isFocused() ? "selected-" : "blur-selected-" : "";
-                outline.setPosition(outlineBox.x, outlineBox.y).setSize(outlineBox.width, outlineBox.height).setRadius(radius).fill(node.getData("background") || node.getStyle(prefix + "background") || node.getStyle("background")).stroke(node.getStyle(prefix + "stroke" || node.getStyle("stroke")), node.getStyle(prefix + "stroke-width"));
+                // 增加节点边框颜色配置
+                var borderColor = prefix ? node.getStyle(prefix + "stroke") : node.getData("border-color") || node.getStyle("stroke");
+                outline.setPosition(outlineBox.x, outlineBox.y).setSize(outlineBox.width, outlineBox.height).setRadius(radius).fill(node.getData("background") || node.getStyle(prefix + "background") || node.getStyle("background")).stroke(borderColor, node.getStyle(prefix + "stroke-width"));
                 return new kity.Box(outlineBox);
             }
         });
@@ -6392,15 +6895,15 @@ _p[55] = {
 };
 
 //src/module/priority.js
-_p[56] = {
+_p[59] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("PriorityModule", function() {
             var minder = this;
             // Designed by Akikonata
@@ -6518,15 +7021,15 @@ _p[56] = {
 };
 
 //src/module/progress.js
-_p[57] = {
+_p[60] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("ProgressModule", function() {
             var minder = this;
             var PROGRESS_DATA = "progress";
@@ -6643,15 +7146,15 @@ _p[57] = {
 };
 
 //src/module/resource.js
-_p[58] = {
+_p[61] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("Resource", function() {
             // String Hash
             // https://github.com/drostie/sha3-js/edit/master/blake32.min.js
@@ -6973,15 +7476,15 @@ _p[58] = {
 };
 
 //src/module/select.js
-_p[59] = {
+_p[62] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("Select", function() {
             var minder = this;
             var rc = minder.getRenderContainer();
@@ -7118,15 +7621,15 @@ _p[59] = {
 };
 
 //src/module/style.js
-_p[60] = {
+_p[63] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("StyleModule", function() {
             var styleNames = [ "font-size", "font-family", "font-weight", "font-style", "background", "color" ];
             var styleClipBoard = null;
@@ -7223,15 +7726,15 @@ _p[60] = {
 };
 
 //src/module/text.js
-_p[61] = {
+_p[64] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         /**
      * 针对不同系统、不同浏览器、不同字体做居中兼容性处理
      * 暂时未增加Linux的处理
@@ -7477,15 +7980,15 @@ _p[61] = {
 };
 
 //src/module/view.js
-_p[62] = {
+_p[65] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         var ViewDragger = kity.createClass("ViewDragger", {
             constructor: function(minder) {
                 this._minder = minder;
@@ -7609,12 +8112,12 @@ _p[62] = {
         Module.register("View", function() {
             var km = this;
             /**
-         * @command Hand
-         * @description 切换抓手状态，抓手状态下，鼠标拖动将拖动视野，而不是创建选区
-         * @state
-         *   0: 当前不是抓手状态
-         *   1: 当前是抓手状态
-         */
+     * @command Hand
+     * @description 切换抓手状态，抓手状态下，鼠标拖动将拖动视野，而不是创建选区
+     * @state
+     *   0: 当前不是抓手状态
+     *   1: 当前是抓手状态
+     */
             var ToggleHandCommand = kity.createClass("ToggleHandCommand", {
                 base: Command,
                 execute: function(minder) {
@@ -7631,13 +8134,13 @@ _p[62] = {
                 enableReadOnly: true
             });
             /**
-         * @command Camera
-         * @description 设置当前视野的中心位置到某个节点上
-         * @param {kityminder.MinderNode} focusNode 要定位的节点
-         * @param {number} duration 设置视野移动的动画时长（单位 ms），设置为 0 不使用动画
-         * @state
-         *   0: 始终可用
-         */
+     * @command Camera
+     * @description 设置当前视野的中心位置到某个节点上
+     * @param {kityminder.MinderNode} focusNode 要定位的节点
+     * @param {number} duration 设置视野移动的动画时长（单位 ms），设置为 0 不使用动画
+     * @state
+     *   0: 始终可用
+     */
             var CameraCommand = kity.createClass("CameraCommand", {
                 base: Command,
                 execute: function(km, focusNode) {
@@ -7653,17 +8156,17 @@ _p[62] = {
                 enableReadOnly: true
             });
             /**
-         * @command Move
-         * @description 指定方向移动当前视野
-         * @param {string} dir 移动方向
-         *    取值为 'left'，视野向左移动一半
-         *    取值为 'right'，视野向右移动一半
-         *    取值为 'up'，视野向上移动一半
-         *    取值为 'down'，视野向下移动一半
-         * @param {number} duration 视野移动的动画时长（单位 ms），设置为 0 不使用动画
-         * @state
-         *   0: 始终可用
-         */
+     * @command Move
+     * @description 指定方向移动当前视野
+     * @param {string} dir 移动方向
+     *    取值为 'left'，视野向左移动一半
+     *    取值为 'right'，视野向右移动一半
+     *    取值为 'up'，视野向上移动一半
+     *    取值为 'down'，视野向下移动一半
+     * @param {number} duration 视野移动的动画时长（单位 ms），设置为 0 不使用动画
+     * @state
+     *   0: 始终可用
+     */
             var MoveCommand = kity.createClass("MoveCommand", {
                 base: Command,
                 execute: function(km, dir) {
@@ -7726,7 +8229,8 @@ _p[62] = {
                         e.preventDefault();
                     },
                     "normal.dblclick readonly.dblclick": function(e) {
-                        if (e.kityEvent.targetShape instanceof kity.Paper) {
+                        var needCamera = this.getOption().notAutoCamera;
+                        if (e.kityEvent.targetShape instanceof kity.Paper && !needCamera) {
                             this.execCommand("camera", this.getRoot(), 800);
                         }
                     },
@@ -7752,10 +8256,10 @@ _p[62] = {
                         var selected = this.getSelectedNode();
                         var minder = this;
                         /*
-                    * Added by zhangbobell 2015.9.9
-                    * windows 10 的 edge 浏览器在全部动画停止后，优先级图标不显示 text，
-                    * 因此再次触发一次 render 事件，让浏览器重绘
-                    * */
+           * Added by zhangbobell 2015.9.9
+           * windows 10 的 edge 浏览器在全部动画停止后，优先级图标不显示 text，
+           * 因此再次触发一次 render 事件，让浏览器重绘
+           * */
                         if (kity.Browser.edge) {
                             this.fire("paperrender");
                         }
@@ -7763,12 +8267,12 @@ _p[62] = {
                         var dragger = this._viewDragger;
                         var timeline = dragger.timeline();
                         /*
-                    * Added by zhangbobell 2015.09.25
-                    * 如果之前有动画，那么就先暂时返回，等之前动画结束之后再次执行本函数
-                    * 以防止 view 动画变动了位置，导致本函数执行的时候位置计算不对
-                    *
-                    * fixed bug : 初始化的时候中心节点位置不固定（有的时候在左上角，有的时候在中心）
-                    * */
+           * Added by zhangbobell 2015.09.25
+           * 如果之前有动画，那么就先暂时返回，等之前动画结束之后再次执行本函数
+           * 以防止 view 动画变动了位置，导致本函数执行的时候位置计算不对
+           *
+           * fixed bug : 初始化的时候中心节点位置不固定（有的时候在左上角，有的时候在中心）
+           * */
                         if (timeline) {
                             timeline.on("finish", function() {
                                 minder.fire("selectionchange");
@@ -7799,15 +8303,15 @@ _p[62] = {
 };
 
 //src/module/zoom.js
-_p[63] = {
+_p[66] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var utils = _p.r(33);
-        var Minder = _p.r(19);
-        var MinderNode = _p.r(21);
-        var Command = _p.r(9);
-        var Module = _p.r(20);
-        var Renderer = _p.r(27);
+        var kity = _p.r(18);
+        var utils = _p.r(34);
+        var Minder = _p.r(20);
+        var MinderNode = _p.r(22);
+        var Command = _p.r(10);
+        var Module = _p.r(21);
+        var Renderer = _p.r(28);
         Module.register("Zoom", function() {
             var me = this;
             var timeline;
@@ -7978,9 +8482,9 @@ _p[63] = {
 };
 
 //src/protocol/json.js
-_p[64] = {
+_p[67] = {
     value: function(require, exports, module) {
-        var data = _p.r(12);
+        var data = _p.r(13);
         data.registerProtocol("json", module.exports = {
             fileDescription: "KityMinder 格式",
             fileExtension: ".km",
@@ -7997,9 +8501,9 @@ _p[64] = {
 };
 
 //src/protocol/markdown.js
-_p[65] = {
+_p[68] = {
     value: function(require, exports, module) {
-        var data = _p.r(12);
+        var data = _p.r(13);
         var LINE_ENDING_SPLITER = /\r\n|\r|\n/;
         var EMPTY_LINE = "";
         var NOTE_MARK_START = "\x3c!--Note--\x3e";
@@ -8128,11 +8632,11 @@ _p[65] = {
 };
 
 //src/protocol/png.js
-_p[66] = {
+_p[69] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var data = _p.r(12);
-        var Promise = _p.r(25);
+        var kity = _p.r(18);
+        var data = _p.r(13);
+        var Promise = _p.r(26);
         var DomURL = window.URL || window.webkitURL || window;
         function loadImage(info, callback) {
             return new Promise(function(resolve, reject) {
@@ -8348,9 +8852,9 @@ _p[66] = {
 };
 
 //src/protocol/svg.js
-_p[67] = {
+_p[70] = {
     value: function(require, exports, module) {
-        var data = _p.r(12);
+        var data = _p.r(13);
         /**
      * 导出svg时删除全部svg元素中的transform
      * @auth Naixor
@@ -8620,10 +9124,10 @@ _p[67] = {
 };
 
 //src/protocol/text.js
-_p[68] = {
+_p[71] = {
     value: function(require, exports, module) {
-        var data = _p.r(12);
-        var Browser = _p.r(17).Browser;
+        var data = _p.r(13);
+        var Browser = _p.r(18).Browser;
         /**
      * @Desc: 增加对不容浏览器下节点中文本\t匹配的处理，不同浏览器下\t无法正确匹配，导致无法使用TAB来批量导入节点
      * @Editor: Naixor
@@ -8846,31 +9350,21 @@ _p[68] = {
 /**
  * @fileOverview
  *
- * 默认模板 - 脑图模板
+ * 往右布局结构模板
  *
- * @author: techird
- * @copyright: Baidu FEX, 2014
+ * @author: wxs
+ * @copyright:  2022
  */
-_p[69] = {
+_p[72] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("default", {
             getLayout: function(node) {
-                if (node.getData("layout")) return node.getData("layout");
                 var level = node.getLevel();
-                // 根节点
-                if (level === 0) {
-                    return "mind";
-                }
-                // 一级节点
-                if (level === 1) {
-                    return node.getLayoutPointPreview().x > 0 ? "right" : "left";
-                }
-                return node.parent.getLayout();
+                return "right";
             },
             getConnect: function(node) {
-                if (node.getLevel() == 1) return "arc";
-                return "under";
+                return "poly-circle";
             }
         });
     }
@@ -8885,9 +9379,9 @@ _p[69] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[70] = {
+_p[73] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("filetree", {
             getLayout: function(node) {
                 if (node.getData("layout")) return node.getData("layout");
@@ -8913,9 +9407,9 @@ _p[70] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[71] = {
+_p[74] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("fish-bone", {
             getLayout: function(node) {
                 if (node.getData("layout")) return node.getData("layout");
@@ -8950,20 +9444,31 @@ _p[71] = {
 /**
  * @fileOverview
  *
- * 往右布局结构模板
+ * 普通模板 - 脑图模板
  *
- * @author: wxs
- * @copyright:  2022
+ * @author: techird
+ * @copyright: Baidu FEX, 2014
  */
-_p[72] = {
+_p[75] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("normal", {
             getLayout: function(node) {
-                return "right";
+                if (node.getData("layout")) return node.getData("layout");
+                var level = node.getLevel();
+                // 根节点
+                if (level === 0) {
+                    return "mind";
+                }
+                // 一级节点
+                if (level === 1) {
+                    return node.getLayoutPointPreview().x > 0 ? "right" : "left";
+                }
+                return node.parent.getLayout();
             },
             getConnect: function(node) {
-                return "poly";
+                if (node.getLevel() == 1) return "arc";
+                return "under";
             }
         });
     }
@@ -8978,9 +9483,9 @@ _p[72] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[73] = {
+_p[76] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("right", {
             getLayout: function(node) {
                 return node.getData("layout") || "right";
@@ -9002,9 +9507,9 @@ _p[73] = {
  * @author: techird
  * @copyright: Baidu FEX, 2014
  */
-_p[74] = {
+_p[77] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("structure", {
             getLayout: function(node) {
                 return node.getData("layout") || "bottom";
@@ -9025,9 +9530,9 @@ _p[74] = {
  * @author: along
  * @copyright: bpd729@163.com, 2015
  */
-_p[75] = {
+_p[78] = {
     value: function(require, exports, module) {
-        var template = _p.r(31);
+        var template = _p.r(32);
         template.register("tianpan", {
             getLayout: function(node) {
                 if (node.getData("layout")) return node.getData("layout");
@@ -9046,9 +9551,9 @@ _p[75] = {
 };
 
 //src/theme/default.js
-_p[76] = {
+_p[79] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         [ "classic", "classic-compact" ].forEach(function(name) {
             var compact = name == "classic-compact";
             /* jscs:disable maximumLineLength */
@@ -9105,9 +9610,9 @@ _p[76] = {
 };
 
 //src/theme/fish.js
-_p[77] = {
+_p[80] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         theme.register("fish", {
             background: '#3A4144 url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQzg5QTQ0NDhENzgxMUUzOENGREE4QTg0RDgzRTZDNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQzg5QTQ0NThENzgxMUUzOENGREE4QTg0RDgzRTZDNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkMwOEQ1NDRGOEQ3NzExRTM4Q0ZEQThBODREODNFNkM3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkMwOEQ1NDUwOEQ3NzExRTM4Q0ZEQThBODREODNFNkM3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+e9P33AAAACVJREFUeNpisXJ0YUACTAyoAMr/+eM7EGGRZ4FQ7BycEAZAgAEAHbEGtkoQm/wAAAAASUVORK5CYII=") repeat',
             "root-color": "#430",
@@ -9156,10 +9661,10 @@ _p[77] = {
 };
 
 //src/theme/fresh.js
-_p[78] = {
+_p[81] = {
     value: function(require, exports, module) {
-        var kity = _p.r(17);
-        var theme = _p.r(32);
+        var kity = _p.r(18);
+        var theme = _p.r(33);
         function hsl(h, s, l) {
             return kity.Color.createHSL(h, s, l);
         }
@@ -9225,9 +9730,9 @@ _p[78] = {
 };
 
 //src/theme/normal.js
-_p[79] = {
+_p[82] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         var commonFontColor = "#262626";
         var commonBkColor = "#f1f1f4";
         var commonFontSize = 14;
@@ -9236,6 +9741,7 @@ _p[79] = {
         var connectColor = "#BFBFBF";
         var connectWidth = 2;
         var connectRadius = 8;
+        var marqueeBkColro = "rgba(114, 98, 253, 0.1)";
         theme.register("normal", {
             background: "#fff",
             "root-color": "#fff",
@@ -9252,7 +9758,7 @@ _p[79] = {
             "main-stroke": "white",
             "main-font-size": commonFontSize,
             "main-padding": [ 5, 12 ],
-            "main-margin": [ 20, 20 ],
+            "main-margin": [ 20, 0, 20, 20 ],
             "main-radius": 6,
             "main-space": 5,
             // "main-shadow": "rgba(0, 0, 0, .25)",
@@ -9261,20 +9767,20 @@ _p[79] = {
             "sub-stroke": "white",
             "sub-font-size": commonFontSize,
             "sub-padding": [ 5, 12 ],
-            "sub-margin": [ 10, 10 ],
+            "sub-margin": [ 20, 20 ],
             "sub-radius": 5,
             "sub-space": 5,
             "connect-color": connectColor,
             "connect-width": connectWidth,
             "main-connect-width": connectWidth,
-            "connect-radius": connectRadius,
+            "connect-radius": 100,
             // "selected-background": "rgb(254, 219, 0)",
             "selected-stroke": commonColor,
             // 选中节点边框颜色
             "selected-stroke-width": 2,
             // 选中节点边框宽度
-            "marquee-background": "red",
-            "marquee-stroke": "white",
+            "marquee-background": marqueeBkColro,
+            // "marquee-stroke": "white",
             "drop-hint-color": commonColor,
             "drop-hint-width": 2,
             "order-hint-area-color": "#E1DFFF",
@@ -9287,9 +9793,9 @@ _p[79] = {
 };
 
 //src/theme/snow.js
-_p[80] = {
+_p[83] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         [ "snow", "snow-compact" ].forEach(function(name) {
             var compact = name == "snow-compact";
             /* jscs:disable maximumLineLength */
@@ -9342,9 +9848,9 @@ _p[80] = {
 };
 
 //src/theme/tianpan.js
-_p[81] = {
+_p[84] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         [ "tianpan", "tianpan-compact" ].forEach(function(name) {
             var compact = name == "tianpan-compact";
             theme.register(name, {
@@ -9404,9 +9910,9 @@ _p[81] = {
 };
 
 //src/theme/wire.js
-_p[82] = {
+_p[85] = {
     value: function(require, exports, module) {
-        var theme = _p.r(32);
+        var theme = _p.r(33);
         theme.register("wire", {
             background: "black",
             color: "#999",
@@ -9433,8 +9939,164 @@ _p[82] = {
     }
 };
 
+//src/tool/format.js
+_p[86] = {
+    value: function(require, exports, module) {
+        function format(template, args) {
+            if (typeof args != "object") {
+                args = [].slice.call(arguments, 1);
+            }
+            return String(template).replace(/\{(\w+)\}/gi, function(match, $key) {
+                return args[$key] || $key;
+            });
+        }
+        return module.exports = format;
+    }
+};
+
+//src/tool/innertext.js
+/**
+ * @fileOverview
+ *
+ * innerText polyfill
+ *
+ * @author: techird
+ * @copyright: Baidu FEX, 2014
+ */
+_p[87] = {
+    value: function(require, exports, module) {
+        if (!("innerText" in document.createElement("a")) && "getSelection" in window) {
+            HTMLElement.prototype.__defineGetter__("innerText", function() {
+                var selection = window.getSelection(), ranges = [], str, i;
+                // Save existing selections.
+                for (i = 0; i < selection.rangeCount; i++) {
+                    ranges[i] = selection.getRangeAt(i);
+                }
+                // Deselect everything.
+                selection.removeAllRanges();
+                // Select `el` and all child nodes.
+                // 'this' is the element .innerText got called on
+                selection.selectAllChildren(this);
+                // Get the string representation of the selected nodes.
+                str = selection.toString();
+                // Deselect everything. Again.
+                selection.removeAllRanges();
+                // Restore all formerly existing selections.
+                for (i = 0; i < ranges.length; i++) {
+                    selection.addRange(ranges[i]);
+                }
+                // Oh look, this is what we wanted.
+                // String representation of the element, close to as rendered.
+                return str;
+            });
+            HTMLElement.prototype.__defineSetter__("innerText", function(text) {
+                /**
+             * @Desc: 解决FireFox节点内容删除后text为null，出现报错的问题
+             * @Editor: Naixor
+             * @Date: 2015.9.16
+             */
+                this.innerHTML = (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+            });
+        }
+    }
+};
+
+//src/tool/jsondiff.js
+/**
+ * @fileOverview
+ *
+ *
+ *
+ * @author: techird
+ * @copyright: Baidu FEX, 2014
+ */
+_p[88] = {
+    value: function(require, exports, module) {
+        /*!
+    * https://github.com/Starcounter-Jack/Fast-JSON-Patch
+    * json-patch-duplex.js 0.5.0
+    * (c) 2013 Joachim Wester
+    * MIT license
+    */
+        var _objectKeys = function() {
+            if (Object.keys) return Object.keys;
+            return function(o) {
+                var keys = [];
+                for (var i in o) {
+                    if (o.hasOwnProperty(i)) {
+                        keys.push(i);
+                    }
+                }
+                return keys;
+            };
+        }();
+        function escapePathComponent(str) {
+            if (str.indexOf("/") === -1 && str.indexOf("~") === -1) return str;
+            return str.replace(/~/g, "~0").replace(/\//g, "~1");
+        }
+        function deepClone(obj) {
+            if (typeof obj === "object") {
+                return JSON.parse(JSON.stringify(obj));
+            } else {
+                return obj;
+            }
+        }
+        // Dirty check if obj is different from mirror, generate patches and update mirror
+        function _generate(mirror, obj, patches, path) {
+            var newKeys = _objectKeys(obj);
+            var oldKeys = _objectKeys(mirror);
+            var changed = false;
+            var deleted = false;
+            for (var t = oldKeys.length - 1; t >= 0; t--) {
+                var key = oldKeys[t];
+                var oldVal = mirror[key];
+                if (obj.hasOwnProperty(key)) {
+                    var newVal = obj[key];
+                    if (typeof oldVal == "object" && oldVal != null && typeof newVal == "object" && newVal != null) {
+                        _generate(oldVal, newVal, patches, path + "/" + escapePathComponent(key));
+                    } else {
+                        if (oldVal != newVal) {
+                            changed = true;
+                            patches.push({
+                                op: "replace",
+                                path: path + "/" + escapePathComponent(key),
+                                value: deepClone(newVal)
+                            });
+                        }
+                    }
+                } else {
+                    patches.push({
+                        op: "remove",
+                        path: path + "/" + escapePathComponent(key)
+                    });
+                    deleted = true;
+                }
+            }
+            if (!deleted && newKeys.length == oldKeys.length) {
+                return;
+            }
+            for (var t = 0; t < newKeys.length; t++) {
+                var key = newKeys[t];
+                if (!mirror.hasOwnProperty(key)) {
+                    patches.push({
+                        op: "add",
+                        path: path + "/" + escapePathComponent(key),
+                        value: deepClone(obj[key])
+                    });
+                }
+            }
+        }
+        function compare(tree1, tree2) {
+            var patches = [];
+            _generate(tree1, tree2, patches, "");
+            return patches;
+        }
+        return module.exports = compare;
+    }
+};
+
 var moduleMapping = {
-    "expose-kityminder": 34
+    "expose-kityminder": 35
 };
 
 function use(name) {
