@@ -12,20 +12,21 @@ define(function (require, exports, module) {
    * @command AppendChildNode
    * @description 添加子节点到选中的节点中
    * @param {string|object} textOrData 要插入的节点的文本或数据
+   * @param {boolean} autoSelect 添加完成后是否自动选中 默认选中
    * @state
    *    0: 当前有选中的节点
    *   -1: 当前没有选中的节点
    */
   var AppendChildCommand = kity.createClass("AppendChildCommand", {
     base: Command,
-    execute: function (km, text) {
+    execute: function (km, text, autoSelect = true) {
       var parent = km.getSelectedNode();
       var defaultNodeData = km.getOption().defaultNodeData;
       if (!parent) {
         return null;
       }
       var node = km.createNode(text || defaultNodeData, parent);
-      km.select(node, true);
+      autoSelect && km.select(node, true);
       if (parent.isExpanded()) {
         node.render();
       } else {
@@ -44,13 +45,14 @@ define(function (require, exports, module) {
    * @command AppendSiblingNode
    * @description 添加选中的节点的兄弟节点
    * @param {string|object} textOrData 要添加的节点的文本或数据
+   * @param {boolean} autoSelect 添加完成后是否自动选中 默认选中
    * @state
    *    0: 当前有选中的节点
    *   -1: 当前没有选中的节点
    */
   var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
     base: Command,
-    execute: function (km, text) {
+    execute: function (km, text, autoSelect = true) {
       var sibling = km.getSelectedNode();
       var defaultNodeData = km.getOption().defaultNodeData;
       var parent = sibling.parent;
@@ -63,7 +65,7 @@ define(function (require, exports, module) {
         sibling.getIndex() + 1
       );
       node.setGlobalLayoutTransform(sibling.getGlobalLayoutTransform());
-      km.select(node, true);
+      autoSelect && km.select(node, true);
       node.render();
       km.layout(600);
     },
