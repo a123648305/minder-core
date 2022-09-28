@@ -30,7 +30,7 @@ define(function (require, exports, module) {
     "main-stroke": "white",
     "main-font-size": commonFontSize,
     "main-padding": [8, 12],
-    "main-margin": [20, 10, 20, 20],
+    "main-margin": [20, 0, 20, 20],
     "main-radius": 6,
     "main-space": 5,
     // "main-shadow": "rgba(0, 0, 0, .25)",
