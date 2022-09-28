@@ -268,7 +268,7 @@ _p[5] = {
 
               case abs(v.x) > abs(v.y) && v.x >= 0:
                 // right
-                pathData.push("h", 20);
+                pathData.push("h", 30);
                 pathData.push("v", pi.y - po.y);
                 pathData.push("H", pi.x);
                 break;
@@ -5225,7 +5225,7 @@ _p[47] = {
                     this.commonColor = "#7262FD";
                     this.callBase();
                     const plusPaths = "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
-                    const arrorPaths = "m6.65611,7.75005l-2.067,-1.91616l3.99645,0l3.99644,0l0,-1.18619l0,-1.1862l-3.9506,0c-2.17283,0 -3.95059,-0.06012 -3.95059,-0.1336c0,-0.07348 0.86499,-0.93575 1.92221,-1.91616l1.92221,-1.78256l-1.77671,0l-1.77671,0l-2.71343,2.51166l-2.71343,2.51166l2.71864,2.50686l2.71864,2.50686l1.87045,0l1.87045,0l-2.06701,-1.91616l0,0z";
+                    const arrorPaths = "m686.08,292.04l-522.24,0l230.4,-230.4l-61.44,-61.44l-332.8,332.8l332.8,332.8l61.44,-61.44l-230.4,-230.4l522.24,0l0,-81.92z";
                     this.radius = 8;
                     //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
                     this.box = new kity.Rect(30, 20, -5, -10, 10).fill(this.commonColor).setTranslate(-4, 0);
@@ -5235,7 +5235,7 @@ _p[47] = {
                     // 收起的时候展示
                     this.hideSign = [ this.box, this.text ];
                     this.outline = new kity.Circle(this.radius).stroke("gray").fill(this.commonColor);
-                    this.sign = new kity.Path(arrorPaths).fill("white").setTranslate(-6, -5);
+                    this.sign = new kity.Path(arrorPaths).fill("white").setTranslate(-5, -5).scale(.016);
                     // 展开的时候
                     this.expandSign = [ this.outline, this.sign ];
                     this.addShapes(this.expandSign);
@@ -6814,7 +6814,7 @@ _p[58] = {
                 }
                 var prefix = node.isSelected() ? node.getMinder().isFocused() ? "selected-" : "blur-selected-" : "";
                 // 增加节点边框颜色配置
-                var borderColor = prefix ? node.getStyle(prefix + "stroke") : node.getData("border-color") || node.getStyle("stroke");
+                var borderColor = prefix ? node.getData(prefix + "border-color") || node.getStyle(prefix + "stroke") : node.getData("border-color") || node.getStyle("stroke");
                 outline.setPosition(outlineBox.x, outlineBox.y).setSize(outlineBox.width, outlineBox.height).setRadius(radius).fill(node.getData("background") || node.getStyle(prefix + "background") || node.getStyle("background")).stroke(borderColor, node.getStyle(prefix + "stroke-width"));
                 return new kity.Box(outlineBox);
             }
@@ -9746,7 +9746,8 @@ _p[82] = {
             background: "#fff",
             "root-color": "#fff",
             "root-background": "#7262FD",
-            // "root-stroke": "red", // 节点边框颜色
+            "root-stroke": "#fff",
+            // 节点边框颜色
             "root-font-size": 24,
             "root-padding": [ 12, 16 ],
             "root-margin": 30,
@@ -9757,8 +9758,8 @@ _p[82] = {
             "main-background": commonBkColor,
             "main-stroke": "white",
             "main-font-size": commonFontSize,
-            "main-padding": [ 5, 12 ],
-            "main-margin": [ 20, 0, 20, 20 ],
+            "main-padding": [ 8, 12 ],
+            "main-margin": [ 20, 10, 20, 20 ],
             "main-radius": 6,
             "main-space": 5,
             // "main-shadow": "rgba(0, 0, 0, .25)",
@@ -9766,7 +9767,7 @@ _p[82] = {
             "sub-background": commonBkColor,
             "sub-stroke": "white",
             "sub-font-size": commonFontSize,
-            "sub-padding": [ 5, 12 ],
+            "sub-padding": [ 8, 12 ],
             "sub-margin": [ 20, 20 ],
             "sub-radius": 5,
             "sub-space": 5,

@@ -58,7 +58,8 @@ define(function (require, exports, module) {
         : "";
       // 增加节点边框颜色配置
       var borderColor = prefix
-        ? node.getStyle(prefix + "stroke")
+        ? node.getData(prefix + "border-color") ||
+          node.getStyle(prefix + "stroke")
         : node.getData("border-color") || node.getStyle("stroke");
 
       outline

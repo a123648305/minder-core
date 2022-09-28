@@ -1,6 +1,6 @@
 {
   "name": "kityminder-core-extend",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "KityMinder Core Implement",
   "keywords": [
     "kityminder",
@@ -10,18 +10,17 @@
     "graphic",
     "javascript"
   ],
-  "homepage": "https://github.com/fex-team/kityminder-core",
+  "homepage": "https://mind-react-demo.onrender.com/",
   "bugs": {
-    "url": "https://github.com/fex-team/kityminder-core/issues"
+    "url": "https://github.com/a123648305/minder-core/tree/editor/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fex-team/kityminder-core.git"
+    "url": "https://github.com/a123648305/minder-core/tree/editor"
   },
   "license": "BSD-3-Clause",
   "author": {
-    "name": "Baidu FEX",
-    "url": "http://fex.baidu.com"
+    "name": "wxs"
   },
   "main": "dist/kityminder.core.js",
   "scripts": {
@@ -52,11 +51,5 @@
     "grunt-replace": "~0.8.0",
     "uglify-js": "^2.8.29"
   },
-  "licenses": [
-    {
-      "type": "BSD-3-Clause",
-      "url": "https://github.com/fex-team/kityminder-core/blob/dev/LICENSE"
-    }
-  ],
   "title": "Kity Minder Core extend"
 }

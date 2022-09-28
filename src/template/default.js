@@ -17,7 +17,6 @@ define(function (require, exports, module) {
 
     getConnect: function (node) {
       return "poly-circle";
-      // return "poly";
     },
   });
 });
