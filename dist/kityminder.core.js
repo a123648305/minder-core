@@ -5949,7 +5949,7 @@ _p[50] = {
             // ],
             commandShortcutKeys: {
                 undo: "Ctrl+Z",
-                redo: "Ctrl+Shift+Z"
+                redo: "Ctrl+Y"
             }
         });
     }
@@ -8300,6 +8300,9 @@ _p[65] = {
                         }
                         if (dx || dy) dragger.move(new kity.Point(dx, dy), 100);
                     }
+                },
+                commandShortcutKeys: {
+                    hand: "Spacebar"
                 }
             };
         });
@@ -9767,6 +9770,7 @@ _p[82] = {
             "main-radius": 6,
             "main-space": 5,
             // "main-shadow": "rgba(0, 0, 0, .25)",
+            "stroke-width": 1,
             "sub-color": commonFontColor,
             "sub-background": commonBkColor,
             "sub-stroke": "white",

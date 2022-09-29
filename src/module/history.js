@@ -170,7 +170,7 @@ define(function (require, exports, module) {
 
     commandShortcutKeys: {
       undo: "Ctrl+Z",
-      redo: "Ctrl+Shift+Z",
+      redo: "Ctrl+Y",
     },
   });
 });

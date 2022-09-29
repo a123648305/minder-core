@@ -1,6 +1,6 @@
 {
-  "name": "kityminder-core-extend",
-  "version": "1.5.5",
+  "name": "kityminder-core-pro",
+  "version": "1.5.7",
   "description": "KityMinder Core Implement",
   "keywords": [
     "kityminder",
@@ -51,5 +51,5 @@
     "grunt-replace": "~0.8.0",
     "uglify-js": "^2.8.29"
   },
-  "title": "Kity Minder Core extend"
+  "title": "Kity Minder Core Pro "
 }

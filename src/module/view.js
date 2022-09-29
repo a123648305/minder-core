@@ -405,6 +405,9 @@ define(function (require, exports, module) {
           if (dx || dy) dragger.move(new kity.Point(dx, dy), 100);
         },
       },
+      commandShortcutKeys: {
+        hand: "Spacebar",
+      },
     };
   });
 });

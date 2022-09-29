@@ -34,6 +34,7 @@ define(function (require, exports, module) {
     "main-radius": 6,
     "main-space": 5,
     // "main-shadow": "rgba(0, 0, 0, .25)",
+    "stroke-width": 1,
 
     "sub-color": commonFontColor,
     "sub-background": commonBkColor,
