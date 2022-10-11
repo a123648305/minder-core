@@ -1,6 +1,6 @@
 {
   "name": "kityminder-core-pro",
-  "version": "1.5.7",
+  "version": "1.5.11",
   "description": "KityMinder Core Implement",
   "keywords": [
     "kityminder",
@@ -50,6 +50,9 @@
     "grunt-module-dependence": "~0.2.1",
     "grunt-replace": "~0.8.0",
     "uglify-js": "^2.8.29"
+  },
+  "publishConfig": {
+    "registry": "https://nexus.ops.skieer.com/repository/npm-hosted/"
   },
   "title": "Kity Minder Core Pro "
 }

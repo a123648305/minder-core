@@ -7993,6 +7993,7 @@ _p[65] = {
         var Command = _p.r(10);
         var Module = _p.r(21);
         var Renderer = _p.r(28);
+        var keymap = _p.r(16);
         var ViewDragger = kity.createClass("ViewDragger", {
             constructor: function(minder) {
                 this._minder = minder;
@@ -8105,6 +8106,14 @@ _p[65] = {
                         e.preventDefault();
                         e.originEvent.preventDefault();
                         lastPosition = currentPosition;
+                    }
+                }).on("normal.keydown", function(e) {
+                    if (e.originEvent.keyCode == keymap["Spacebar"]) {
+                        this.setStatus("hand", true);
+                    }
+                }).on("keyup", function(e) {
+                    if (e.originEvent.keyCode == keymap["Spacebar"]) {
+                        this.rollbackStatus();
                     }
                 }).on("mouseup touchend", dragEnd);
                 window.addEventListener("mouseup", dragEnd);
@@ -8300,9 +8309,6 @@ _p[65] = {
                         }
                         if (dx || dy) dragger.move(new kity.Point(dx, dy), 100);
                     }
-                },
-                commandShortcutKeys: {
-                    hand: "Spacebar"
                 }
             };
         });
@@ -9770,13 +9776,13 @@ _p[82] = {
             "main-radius": 6,
             "main-space": 5,
             // "main-shadow": "rgba(0, 0, 0, .25)",
-            "stroke-width": 1,
+            "stroke-width": 2,
             "sub-color": commonFontColor,
             "sub-background": commonBkColor,
             "sub-stroke": "white",
             "sub-font-size": commonFontSize,
             "sub-padding": [ 8, 12 ],
-            "sub-margin": [ 20, 20 ],
+            "sub-margin": [ 6, 20 ],
             "sub-radius": 5,
             "sub-space": 5,
             "connect-color": connectColor,

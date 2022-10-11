@@ -34,14 +34,14 @@ define(function (require, exports, module) {
     "main-radius": 6,
     "main-space": 5,
     // "main-shadow": "rgba(0, 0, 0, .25)",
-    "stroke-width": 1,
+    "stroke-width": 2,
 
     "sub-color": commonFontColor,
     "sub-background": commonBkColor,
     "sub-stroke": "white",
     "sub-font-size": commonFontSize,
     "sub-padding": [8, 12],
-    "sub-margin": [20, 20],
+    "sub-margin": [6, 20],
     "sub-radius": 5,
     "sub-space": 5,
 
