@@ -136,26 +136,34 @@ define(function (require, exports, module) {
 
         const arrorPaths =
           "m686.08,292.04l-522.24,0l230.4,-230.4l-61.44,-61.44l-332.8,332.8l332.8,332.8l61.44,-61.44l-230.4,-230.4l522.24,0l0,-81.92z";
-        this.radius = 8;
+        this.radius = 10;
         //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
-        this.box = new kity.Rect(30, 20, -5, -10, 10)
+        this.box = new kity.Rect(30, 20, -8, -10, 10)
           .fill(this.commonColor)
           .setTranslate(-4, 0);
-        this.text = new kity.Text(node.getComplex() - 1)
-          .setPosition(2, 4)
+        var childrenNum = node.getComplex() - 1;
+        this.text = new kity.Text(childrenNum)
+          .setVerticalAlign("middle")
           .fill("white")
           .setStyle({
             "font-size": 12,
           });
+
+        if (childrenNum > 9) {
+          this.text.setPosition(this.getWidth() / 2 - 5, 0);
+        } else {
+          this.text.setPosition(this.getWidth(), 0);
+        }
+
         // 收起的时候展示
         this.hideSign = [this.box, this.text];
         this.outline = new kity.Circle(this.radius)
-          .stroke("gray")
-          .fill(this.commonColor);
+          .stroke("transparent")
+          .fill("transparent");
         this.sign = new kity.Path(arrorPaths)
-          .fill("white")
-          .setTranslate(-5, -5)
-          .scale(0.016);
+          .fill("transparent")
+          .setTranslate(-6, -6)
+          .scale(0.018);
         // 展开的时候
         this.expandSign = [this.outline, this.sign];
 
@@ -178,6 +186,19 @@ define(function (require, exports, module) {
           e.stopPropagation();
           e.preventDefault();
         });
+        this.on("mouseover", function (e) {
+          node.getMinder().fire("expandHover", { node: node });
+          var state = node.isExpanded();
+          state && this.toggleExpandVisible(true);
+          e.stopPropagation();
+          e.preventDefault();
+        });
+        this.on("mouseout", function (e) {
+          node.getMinder().fire("expandOut", { node: node });
+          this.toggleExpandVisible(false);
+          e.stopPropagation();
+          e.preventDefault();
+        });
         this.on("dblclick click mouseup", function (e) {
           e.stopPropagation();
           e.preventDefault();
@@ -195,6 +216,16 @@ define(function (require, exports, module) {
         this.addShapes(
           state == STATE_COLLAPSE ? this.hideSign : this.expandSign
         );
+      },
+
+      toggleExpandVisible: function (visible) {
+        if (visible) {
+          this.outline.stroke("gray").fill(this.commonColor);
+          this.sign.fill("white");
+        } else {
+          this.outline.stroke("transparent").fill("transparent");
+          this.sign.fill("transparent");
+        }
       },
     });
 
