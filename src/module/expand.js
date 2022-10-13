@@ -131,40 +131,41 @@ define(function (require, exports, module) {
       constructor: function (node) {
         this.commonColor = "#7262FD";
         this.callBase();
-        // this.setWidth(100);
-        // this.setHeight(100);
-        // this.setViewBox(0, 0, 800, 800);
-        console.log(this, "ccc", node);
-
         const plusPaths =
           "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
 
         const arrorPaths =
-          "m0,0l36.875,0.06677l0.125,5.6302l-37.86667,0l8.26667,8.8303l-3.73333,3.98787l-14.66667,-15.66665l14.66667,-15.66666l3.73333,3.98788l-7.4,8.83029z";
-        this.radius = 8;
+          "m686.08,292.04l-522.24,0l230.4,-230.4l-61.44,-61.44l-332.8,332.8l332.8,332.8l61.44,-61.44l-230.4,-230.4l522.24,0l0,-81.92z";
+        this.radius = 10;
         //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
-        this.box = new kity.Rect(30, 20, -5, -10, 10).fill(this.commonColor);
-        this.text = new kity.Text(node.getComplex() - 1)
-          .setPosition(6, 4)
+        this.box = new kity.Rect(30, 20, -8, -10, 10)
+          .fill(this.commonColor)
+          .setTranslate(-4, 0);
+        var childrenNum = node.getComplex() - 1;
+        this.text = new kity.Text(childrenNum)
+          .setVerticalAlign("middle")
           .fill("white")
           .setStyle({
             "font-size": 12,
           });
+
+        if (childrenNum > 9) {
+          this.text.setPosition(this.getWidth() / 2 - 5, 0);
+        } else {
+          this.text.setPosition(this.getWidth(), 0);
+        }
+
         // 收起的时候展示
         this.hideSign = [this.box, this.text];
-
-        // this.setWidth(10).setHeight(600).setViewBox(0, 0, 900, 900);
-
         this.outline = new kity.Circle(this.radius)
-          .stroke("gray")
-          .fill(this.commonColor);
-        // this.sign = new kity.Path(["M", -10, 0, "L", 20, 0]).stroke("red");
-        this.sign = new kity.Path(arrorPaths).stroke("red");
-        // this.sign = new kity.path();
+          .stroke("transparent")
+          .fill("transparent");
+        this.sign = new kity.Path(arrorPaths)
+          .fill("transparent")
+          .setTranslate(-6, -6)
+          .scale(0.018);
         // 展开的时候
         this.expandSign = [this.outline, this.sign];
-
-        // this.arror = new kity.Circle(5).fill("green");
 
         this.addShapes(this.expandSign);
         this.initEvent(node);
@@ -185,28 +186,46 @@ define(function (require, exports, module) {
           e.stopPropagation();
           e.preventDefault();
         });
+        this.on("mouseover", function (e) {
+          node.getMinder().fire("expandHover", { node: node });
+          var state = node.isExpanded();
+          state && this.toggleExpandVisible(true);
+          e.stopPropagation();
+          e.preventDefault();
+        });
+        this.on("mouseout", function (e) {
+          node.getMinder().fire("expandOut", { node: node });
+          this.toggleExpandVisible(false);
+          e.stopPropagation();
+          e.preventDefault();
+        });
         this.on("dblclick click mouseup", function (e) {
           e.stopPropagation();
           e.preventDefault();
         });
       },
 
-      setState: function (state) {
+      setState: function (state, text) {
         if (state == "hide") {
           this.setVisible(false);
           return;
         }
         this.setVisible(true);
-        var pathData = ["M", 1.5 - this.radius, 0, "L", this.radius - 1.5, 0];
-        if (state == STATE_COLLAPSE) {
-          pathData.push(["M", 0, 1.5 - this.radius, "L", 0, this.radius - 1.5]);
-        }
-        // this.removeShapes(this.hideSign);
-        // this.addShapes(this.expandSign);
+        this.text.setContent(text);
         this.clear();
         this.addShapes(
           state == STATE_COLLAPSE ? this.hideSign : this.expandSign
         );
+      },
+
+      toggleExpandVisible: function (visible) {
+        if (visible) {
+          this.outline.stroke("gray").fill(this.commonColor);
+          this.sign.fill("white");
+        } else {
+          this.outline.stroke("transparent").fill("transparent");
+          this.sign.fill("transparent");
+        }
       },
     });
 
@@ -228,18 +247,18 @@ define(function (require, exports, module) {
 
       update: function (expander, node, box) {
         if (!node.parent) return;
-
         var visible = node.parent.isExpanded();
 
         expander.setState(
           visible && node.children.length
             ? node.getData(EXPAND_STATE_DATA)
-            : "hide"
+            : "hide",
+          node.getComplex() - 1
         );
 
         var vector = node
           .getLayoutVectorIn()
-          .normalize(expander.radius + node.getStyle("stroke-width") - 2);
+          .normalize(expander.radius + node.getStyle("stroke-width"));
         var position = node.getVertexOut().offset(vector);
         this.expander.setTranslate(position);
       },

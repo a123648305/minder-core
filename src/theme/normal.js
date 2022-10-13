@@ -17,7 +17,7 @@ define(function (require, exports, module) {
 
     "root-color": "#fff",
     "root-background": "#7262FD",
-    // "root-stroke": "red", // 节点边框颜色
+    "root-stroke": "#fff", // 节点边框颜色
     "root-font-size": 24,
     "root-padding": [12, 16],
     "root-margin": 30,
@@ -29,18 +29,19 @@ define(function (require, exports, module) {
     "main-background": commonBkColor,
     "main-stroke": "white",
     "main-font-size": commonFontSize,
-    "main-padding": [5, 12],
+    "main-padding": [8, 12],
     "main-margin": [20, 0, 20, 20],
     "main-radius": 6,
     "main-space": 5,
     // "main-shadow": "rgba(0, 0, 0, .25)",
+    "stroke-width": 2,
 
     "sub-color": commonFontColor,
     "sub-background": commonBkColor,
     "sub-stroke": "white",
     "sub-font-size": commonFontSize,
-    "sub-padding": [5, 12],
-    "sub-margin": [20, 20],
+    "sub-padding": [8, 12],
+    "sub-margin": [6, 20],
     "sub-radius": 5,
     "sub-space": 5,
 

@@ -37,44 +37,27 @@ KityMinder 基于 SVG 技术实现，支持绝大多数的 HTML5 浏览器，包
 3. Safari
 4. Internet Explorer 10 或以上
 
-## 框架中 使用说明
+## 使用说明
 
-kityminder-core 依赖于 kity
+kityminder-core 依赖于 [kity](https://github.com/fex-team/kity)，开发中用到 seajs 进行异步加载。
+例子中 dev.html 使用 seajs 进行包加载，example.html 使用同步加载的方式。
 使用步骤如下：
 
-1. 安装依赖
-```
-yarn add kityminder-core-extend
+1. 安装 [bower](http://bower.io/#install-bower)
+2. 切换到 kityminder-core 目录下，运行：
 
-```
-2. 在页面组件内引用
-
-```
-  import "kityminder-core-extend/dist/kityminder.core.css";
-  import "kity";
-  import "kityminder-core-extend";
-
-```
-3. 初始化创建实例
-```
-  // 创建容器
-    <div
-    id="minder-view"
-    type="application/kityminder"
-    minder-data-type="json"
-    style={{ height: "100%" }}
-  ></div>
-
-
-  // 创建 km 实例
-  const defaultOptions={
-    defaultTheme:'normal'
-  } // 默认配置
-  const km = (window.km = new kityminder.Minder(defaultOptions));
-  km.setup('#minder-view');
-  km.importJson(data) // 导入数据
-  
+```bash
+bower install
 ```
 
-## [开发说明](dev.md)
+## 开发说明
+
+1. 安装 [bower](http://bower.io/#install-bower)
+2. 安装 [npm](https://www.npmjs.com/get-npm)
+
+```bash
+bower install
+npm install
+npm run dev
+```
 

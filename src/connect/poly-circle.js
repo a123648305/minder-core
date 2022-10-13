@@ -35,7 +35,7 @@ define(function (require, exports, module) {
 
       case abs(v.x) > abs(v.y) && v.x >= 0:
         // right
-        pathData.push("h", 20);
+        pathData.push("h", 30);
         pathData.push("v", pi.y - po.y);
         pathData.push("H", pi.x);
         break;

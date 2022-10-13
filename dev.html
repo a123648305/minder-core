@@ -33,17 +33,19 @@
   <h2>5555</h2>
   <button onclick="toggle()">切换模板</button>
   <button onclick="getData()">当前数据</button>
+  <button onclick="add()">add</button>
     <script id="minder-view" type="application/kityminder" minder-data-type="json">
     {
       "root": {
         "data": {
             "text": "百度产品",
             "font-size": 16,
-            "font-weight":"500"
+            "font-weight":"500",
+            "selected-border-color":"red"
         },
         "children": [
             { "data": { "text": "新闻" } },
-            { "data": { "text": "网页", "priority": 1,"border-radius":50,"border-color":"green" }, 
+            { "data": { "text": "网页", "priority": 1,"border-radius":50,"border-color":"red" }, 
             "children": [
             { "data": { "text": "新闻1" },  "children": [
             { "data": { "text": "新闻1" } },
@@ -68,7 +70,24 @@
       var km = window.km = new Minder({defaultTheme:'normal'});
         // var km = window.km = new Minder({defaultTheme:'normal',defaultTemplate:'normal'});
         km.setup('#minder-view');
+        km.on('beforeExecCommand',e=>{
+          console.log(e,'ee');
+        })
+        // km.on('contentchange',e=>{
+        //   console.log(e,'c');
+        // })
+        // km.on('interactchange',e=>{
+        //   console.log(e,'cd');
+        // })
         
+
+        km.on('preExecCommand',e=>{
+         console.log(877,e);
+       //  km.getSelectedNode().update()
+        })
+        km.on('afterExecCommand',e=>{
+          console.log(e,'9999999');
+        })
     });
     seajs.use('start');
     setTimeout(() => {
@@ -83,6 +102,10 @@
     function getData(){
       console.log( km.exportJson());
      
+    }
+    function add(){
+      console.log('c');
+      km.execCommand('appendchildnode',{text:'99',qq:"88",nid:80})
     }
 </script>
 </html>
