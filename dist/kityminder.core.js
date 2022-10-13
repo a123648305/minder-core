@@ -8139,7 +8139,7 @@ _p[65] = {
                         e.originEvent.preventDefault();
                         lastPosition = currentPosition;
                     }
-                }).on("normal.keydown", function(e) {
+                }).on("keydown", function(e) {
                     if (e.originEvent.keyCode == keymap["Spacebar"]) {
                         this.setStatus("hand", true);
                     }

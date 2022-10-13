@@ -186,7 +186,7 @@ define(function (require, exports, module) {
           }
         })
 
-        .on("normal.keydown", function (e) {
+        .on("keydown", function (e) {
           if (e.originEvent.keyCode == keymap["Spacebar"]) {
             this.setStatus("hand", true);
           }
