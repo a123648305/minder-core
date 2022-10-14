@@ -65,13 +65,13 @@ module.exports = function (grunt) {
     // resolve dependence
     dependence: {
       options: {
-        base: "src",
+        base: "tem",
         entrance: "expose-kityminder",
       },
       merge: {
         files: [
           {
-            src: "src/**/*.js",
+            src: "tem/**/*.js",
             dest: "dist/kityminder.core.js",
           },
         ],
@@ -110,8 +110,19 @@ module.exports = function (grunt) {
 
     babel: {
       options: {
-        sourceMap: true,
+        sourceMap: false,
         presets: ["@babel/preset-env"],
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: "./src/", // js目录下
+            src: ["**/*.js"], // 所有js 文件
+            // src: ["expose-kityminder.js", "td.js"], // 所有js 文件
+            dest: "tem", //输出到此目录下
+          },
+        ],
       },
     },
   });
@@ -119,8 +130,8 @@ module.exports = function (grunt) {
   // Build task(s).
   grunt.registerTask("build", [
     "clean",
-    "dependence",
     "babel",
+    "dependence",
     "concat:build",
     "uglify:minimize",
     "copy",
