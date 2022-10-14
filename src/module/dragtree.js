@@ -37,7 +37,7 @@ define(function (require, exports, module) {
       if (target) {
         this.rect
           .setBox(target.getLayoutBox())
-          .setRadius(target.getStyle("radius") || 0)
+          .setRadius(target.getData('border-radius') || target.getStyle("radius") || 0)
           .stroke(
             target.getStyle("drop-hint-color") || "yellow",
             target.getStyle("drop-hint-width") || 2
@@ -221,16 +221,23 @@ define(function (require, exports, module) {
       const dragNode = this._dragSources[0]
       if(hideConnect) {
         if(dragNode && dragNode.parent) {
-          this.dragNodeCopy = minder.createNode(
+          const dragNodeCopy = minder.createNode(
             dragNode.data.text,
             dragNode.parent,
             dragNode.getIndex() + 1
           );
-          this.dragNodeCopy.setGlobalLayoutTransform(dragNode.getGlobalLayoutTransform());
-          this.dragNodeCopy.render();
-          this.dragNodeCopy.getRenderContainer().items.forEach(i => {
-            i.fill('#E1DFFF')
-          })
+          dragNodeCopy.setGlobalLayoutTransform(dragNode.getGlobalLayoutTransform());
+          dragNodeCopy.render();
+          dragNodeCopy.getRenderContainer().items.forEach(function (i) {
+            i.fill('#E1DFFF');
+            if (i.__KityClassName === 'Rect') {
+              i.setRadius(
+                dragNode.getData('border-radius') || dragNode.getStyle('radius') || 0
+              );
+            }
+          });
+          dragNode.rc.container.node.appendChild(dragNode.rc.node);
+          this.dragNodeCopy = dragNodeCopy;
         }
       } else {
         minder.removeNode(this.dragNodeCopy)
@@ -341,7 +348,7 @@ define(function (require, exports, module) {
       for (i = 0; i < targets.length; i++) {
         target = targets[i];
         targetBox = targetBoxMapper.call(this, target, i);
-        const right = (target.children && target.children.length > 0 ?  (target.getStyle && target.getStyle('margin-right') || 0) : targetBox.width * 2)
+        const right = (target.children && target.children.length > 0 ?  (target.getStyle && target.getStyle('margin-right') || 0) +  (target.children[0].getStyle && target.children[0].getStyle('margin-left') || 0) : targetBox.width * 2)
         targetBox = {
           ...targetBox,
           top: targetBox.top - (targetBox.height * 0.5),
@@ -352,7 +359,7 @@ define(function (require, exports, module) {
           sourceBox = sourceBoxes[j];
           var intersectBox = sourceBox.intersect(targetBox);
           const intersectBoxArea = intersectBox.width * intersectBox.height
-          if (judge(intersectBox, sourceBox, targetBox) && intersectBoxArea > maxArea && target != this.dragNodeCopy) {
+          if (judge(intersectBox, sourceBox, targetBox) && intersectBoxArea > maxArea && target != this.dragNodeCopy && !target.data?.notAppend) {
             maxArea = intersectBoxArea
             returnTarget = target;
           }
