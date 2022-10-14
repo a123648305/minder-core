@@ -19,14 +19,15 @@ define(function (require, exports, module) {
    */
   var AppendChildCommand = kity.createClass("AppendChildCommand", {
     base: Command,
-    execute: function (km, text, autoSelect = true) {
+    execute: function (km, text, autoSelect) {
       var parent = km.getSelectedNode();
       var defaultNodeData = km.getOption().defaultNodeData;
       if (!parent) {
         return null;
       }
       var node = km.createNode(text || defaultNodeData, parent);
-      autoSelect && km.select(node, true);
+      var autoCheck = !(autoSelect === false);
+      autoCheck && km.select(node, true);
       if (parent.isExpanded()) {
         node.render();
       } else {
@@ -52,7 +53,7 @@ define(function (require, exports, module) {
    */
   var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
     base: Command,
-    execute: function (km, text, autoSelect = true) {
+    execute: function (km, text, autoSelect) {
       var sibling = km.getSelectedNode();
       var defaultNodeData = km.getOption().defaultNodeData;
       var parent = sibling.parent;
@@ -65,7 +66,8 @@ define(function (require, exports, module) {
         sibling.getIndex() + 1
       );
       node.setGlobalLayoutTransform(sibling.getGlobalLayoutTransform());
-      autoSelect && km.select(node, true);
+      var autoCheck = !(autoSelect === false);
+      autoCheck && km.select(node, true);
       node.render();
       km.layout(600);
     },

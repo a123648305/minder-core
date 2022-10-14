@@ -7,6 +7,7 @@ define(function (require, exports, module) {
   var Command = require("../core/command");
   var Module = require("../core/module");
   var Renderer = require("../core/render");
+  var keymap = require("../core/keymap");
 
   var ViewDragger = kity.createClass("ViewDragger", {
     constructor: function (minder) {
@@ -185,9 +186,22 @@ define(function (require, exports, module) {
           }
         })
 
+        .on("keydown", function (e) {
+          if (e.originEvent.keyCode == keymap["Spacebar"]) {
+            this.setStatus("hand", true);
+          }
+        })
+
+        .on("keyup", function (e) {
+          if (e.originEvent.keyCode == keymap["Spacebar"]) {
+            this.rollbackStatus();
+          }
+        })
+
         .on("mouseup touchend", dragEnd);
 
       window.addEventListener("mouseup", dragEnd);
+
       this._minder.on("contextmenu", function (e) {
         e.preventDefault();
       });
@@ -405,6 +419,9 @@ define(function (require, exports, module) {
           if (dx || dy) dragger.move(new kity.Point(dx, dy), 100);
         },
       },
+      // commandShortcutKeys: {
+      //   hand: "Spacebar",
+      // },
     };
   });
 });
