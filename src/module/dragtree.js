@@ -81,6 +81,7 @@ define(function (require, exports, module) {
       this._minder = minder;
       this._dropHinter = new DropHinter();
       this._orderHinter = new OrderHinter();
+      this.dragNodeCopy = null
       minder
         .getRenderContainer()
         .addShapes([this._dropHinter, this._orderHinter]);
@@ -143,7 +144,7 @@ define(function (require, exports, module) {
         return;
       }
 
-      this._fadeDragSources(1);
+      this._fadeDragSources(1, false);
 
       if (this._dropSucceedTarget) {
         this._dragSources.forEach(function (source) {
@@ -195,7 +196,7 @@ define(function (require, exports, module) {
         this._startPosition = null;
         return false;
       }
-      this._fadeDragSources(0.5);
+      this._fadeDragSources(0.5, true);
       this._calcDropTargets();
       this._calcOrderHints();
       this._dragMode = true;
@@ -215,10 +216,28 @@ define(function (require, exports, module) {
       this._dragSources = this._minder.getSelectedAncestors();
     },
 
-    _fadeDragSources: function (opacity) {
+    _fadeDragSources: function (opacity, hideConnect) {
       var minder = this._minder;
+      const dragNode = this._dragSources[0]
+      if(hideConnect) {
+        if(dragNode && dragNode.parent) {
+          this.dragNodeCopy = minder.createNode(
+            dragNode.data.text,
+            dragNode.parent,
+            dragNode.getIndex() + 1
+          );
+          this.dragNodeCopy.setGlobalLayoutTransform(dragNode.getGlobalLayoutTransform());
+          this.dragNodeCopy.render();
+          this.dragNodeCopy.getRenderContainer().items.forEach(i => {
+            i.fill('#E1DFFF')
+          })
+        }
+      } else {
+        minder.removeNode(this.dragNodeCopy)
+      }
       this._dragSources.forEach(function (source) {
         source.getRenderContainer().setOpacity(opacity, 200);
+        source.hideConnect = hideConnect
         source.traverse(function (node) {
           if (opacity < 1) {
             minder.detachNode(node);
@@ -318,22 +337,29 @@ define(function (require, exports, module) {
         function (intersectBox, sourceBox, targetBox) {
           return intersectBox && !intersectBox.isEmpty();
         };
-
+      let returnTarget = null, maxArea = 0
       for (i = 0; i < targets.length; i++) {
         target = targets[i];
         targetBox = targetBoxMapper.call(this, target, i);
-
+        const right = (target.children && target.children.length > 0 ?  (target.getStyle && target.getStyle('margin-right') || 0) : targetBox.width * 2)
+        targetBox = {
+          ...targetBox,
+          top: targetBox.top - (targetBox.height * 0.5),
+          bottom: targetBox.bottom + (targetBox.height * 0.5),
+          right: targetBox.right + right
+        }
         for (j = 0; j < sourceBoxes.length; j++) {
           sourceBox = sourceBoxes[j];
-
           var intersectBox = sourceBox.intersect(targetBox);
-          if (judge(intersectBox, sourceBox, targetBox)) {
-            return target;
+          const intersectBoxArea = intersectBox.width * intersectBox.height
+          if (judge(intersectBox, sourceBox, targetBox) && intersectBoxArea > maxArea && target != this.dragNodeCopy) {
+            maxArea = intersectBoxArea
+            returnTarget = target;
           }
         }
       }
 
-      return null;
+      return returnTarget;
     },
 
     _dropTest: function () {
@@ -361,17 +387,8 @@ define(function (require, exports, module) {
             0.5 * Math.min(area(sourceBox), area(targetBox))
           )
             return true;
-          // 有一个边完全重合的情况，也认为两个是交叉的
-          if (
-            intersectBox.width + 1 >=
-            Math.min(sourceBox.width, targetBox.width)
-          )
-            return true;
-          if (
-            intersectBox.height + 1 >=
-            Math.min(sourceBox.height, targetBox.height)
-          )
-            return true;
+          // 产生了交集,则合并
+          if(intersectBox.width  && intersectBox.height) return true
           return false;
         }
       );
@@ -390,7 +407,6 @@ define(function (require, exports, module) {
     _renderDropHint: function (target) {
       this._dropHinter.render(target);
     },
-
     _renderOrderHint: function (hint) {
       this._orderHinter.render(hint);
     },

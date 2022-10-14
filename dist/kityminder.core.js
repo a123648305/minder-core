@@ -36,7 +36,9 @@ var _p = {
     }
 };
 
-//src/connect/arc_tp.js
+//tem/connect/arc_tp.js
+"use strict";
+
 /**
  *
  * 圆弧连线
@@ -57,9 +59,9 @@ _p[0] = {
             this.node.setAttribute("markerUnits", "userSpaceOnUse");
         });
         /**
-     * 天盘图连线除了连接当前节点和前一个节点外, 还需要渲染当前节点和后一个节点的连接, 防止样式上的断线
-     * 这是天盘图与其余的模板不同的地方
-     */
+   * 天盘图连线除了连接当前节点和前一个节点外, 还需要渲染当前节点和后一个节点的连接, 防止样式上的断线
+   * 这是天盘图与其余的模板不同的地方
+   */
         connect.register("arc_tp", function(node, parent, connection, width, color) {
             var end_box = node.getLayoutBox(), start_box = parent.getLayoutBox();
             var index = node.getIndex();
@@ -101,7 +103,9 @@ _p[0] = {
     }
 };
 
-//src/connect/arc.js
+//tem/connect/arc.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -141,7 +145,9 @@ _p[1] = {
     }
 };
 
-//src/connect/bezier.js
+//tem/connect/bezier.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -178,7 +184,9 @@ _p[2] = {
     }
 };
 
-//src/connect/fish-bone-master.js
+//tem/connect/fish-bone-master.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -205,7 +213,9 @@ _p[3] = {
     }
 };
 
-//src/connect/l.js
+//tem/connect/l.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -236,7 +246,9 @@ _p[4] = {
     }
 };
 
-//src/connect/poly-circle.js
+//tem/connect/poly-circle.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -293,7 +305,9 @@ _p[5] = {
     }
 };
 
-//src/connect/poly.js
+//tem/connect/poly.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -350,7 +364,9 @@ _p[6] = {
     }
 };
 
-//src/connect/under.js
+//tem/connect/under.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -392,7 +408,9 @@ _p[7] = {
     }
 };
 
-//src/core/_boxv.js
+//tem/core/_boxv.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -408,7 +426,7 @@ _p[8] = {
         if (location.href.indexOf("boxv") != -1) {
             var vrect;
             Object.defineProperty(kity.Box.prototype, "visualization", {
-                get: function() {
+                get: function get() {
                     if (!vrect) return null;
                     return vrect.setBox(this);
                 }
@@ -425,7 +443,9 @@ _p[8] = {
     }
 };
 
-//src/core/animate.js
+//tem/core/animate.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -468,7 +488,9 @@ _p[9] = {
     }
 };
 
-//src/core/command.js
+//tem/core/command.js
+"use strict";
+
 _p[10] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -483,32 +505,32 @@ _p[10] = {
    * 表示一个命令，包含命令的查询及执行
    */
         var Command = kity.createClass("Command", {
-            constructor: function() {
+            constructor: function constructor() {
                 this._isContentChange = true;
                 this._isSelectionChange = false;
             },
-            execute: function(minder, args) {
+            execute: function execute(minder, args) {
                 throw new Error("Not Implement: Command.execute()");
             },
-            setContentChanged: function(val) {
+            setContentChanged: function setContentChanged(val) {
                 this._isContentChange = !!val;
             },
-            isContentChanged: function() {
+            isContentChanged: function isContentChanged() {
                 return this._isContentChange;
             },
-            setSelectionChanged: function(val) {
+            setSelectionChanged: function setSelectionChanged(val) {
                 this._isSelectionChange = !!val;
             },
-            isSelectionChanged: function() {
+            isSelectionChanged: function isSelectionChanged() {
                 return this._isContentChange;
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 return COMMAND_STATE_NORMAL;
             },
-            queryValue: function(km) {
+            queryValue: function queryValue(km) {
                 return 0;
             },
-            isNeedUndo: function() {
+            isNeedUndo: function isNeedUndo() {
                 return true;
             }
         });
@@ -516,10 +538,10 @@ _p[10] = {
         Command.STATE_ACTIVE = COMMAND_STATE_ACTIVED;
         Command.STATE_DISABLED = COMMAND_STATE_DISABLED;
         kity.extendClass(Minder, {
-            _getCommand: function(name) {
+            _getCommand: function _getCommand(name) {
                 return this._commands[name.toLowerCase()];
             },
-            _queryCommand: function(name, type, args) {
+            _queryCommand: function _queryCommand(name, type, args) {
                 var cmd = this._getCommand(name);
                 if (cmd) {
                     var queryCmd = cmd["query" + type];
@@ -541,7 +563,7 @@ _p[10] = {
      *    0: 命令可用
      *    1: 命令当前可用并且已经执行过
      */
-            queryCommandState: function(name) {
+            queryCommandState: function queryCommandState(name) {
                 return this._queryCommand(name, "State", [].slice.call(arguments, 1));
             },
             /**
@@ -557,7 +579,7 @@ _p[10] = {
      *    如果命令不存在，返回 undefined
      *    不同命令具有不同返回值，具体请查看 [Command](command) 章节
      */
-            queryCommandValue: function(name) {
+            queryCommandValue: function queryCommandValue(name) {
                 return this._queryCommand(name, "Value", [].slice.call(arguments, 1));
             },
             /**
@@ -570,7 +592,7 @@ _p[10] = {
      * @param {string} name 要执行的命令名称
      * @param {argument} args 要传递给命令的其它参数
      */
-            execCommand: function(name) {
+            execCommand: function execCommand(name) {
                 if (!name) return null;
                 name = name.toLowerCase();
                 var cmdArgs = [].slice.call(arguments, 1), cmd, stoped, result, eventParams;
@@ -581,7 +603,7 @@ _p[10] = {
                     commandName: name.toLowerCase(),
                     commandArgs: cmdArgs
                 };
-                const execCommandTest = this._fire(new MinderEvent("execCommandTest", eventParams));
+                var execCommandTest = this._fire(new MinderEvent("execCommandTest", eventParams));
                 // console.log(execCommandTest, "ggg");
                 if (!cmd || !~this.queryCommandState(name) || execCommandTest) {
                     return false;
@@ -612,7 +634,9 @@ _p[10] = {
     }
 };
 
-//src/core/compatibility.js
+//tem/core/compatibility.js
+"use strict";
+
 _p[11] = {
     value: function(require, exports, module) {
         var utils = _p.r(34);
@@ -655,9 +679,9 @@ _p[11] = {
             });
         }
         /**
-     * 脑图数据升级
-     * v1.1.3 => v1.2.0
-     * */
+   * 脑图数据升级
+   * v1.1.3 => v1.2.0
+   * */
         function c_113_120(json) {
             // 原本的布局风格
             var ocs = json.data.currentstyle;
@@ -698,7 +722,9 @@ _p[11] = {
     }
 };
 
-//src/core/connect.js
+//tem/core/connect.js
+"use strict";
+
 _p[12] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -716,54 +742,54 @@ _p[12] = {
         });
         kity.extendClass(MinderNode, {
             /**
-         * @private
-         * @method getConnect()
-         * @for MinderNode
-         * @description 获取当前节点的连线类型
-         *
-         * @grammar getConnect() => {string}
-         */
-            getConnect: function() {
+     * @private
+     * @method getConnect()
+     * @for MinderNode
+     * @description 获取当前节点的连线类型
+     *
+     * @grammar getConnect() => {string}
+     */
+            getConnect: function getConnect() {
                 return this.data.connect || "default";
             },
-            getConnectProvider: function() {
+            getConnectProvider: function getConnectProvider() {
                 return _connectProviders[this.getConnect()] || _connectProviders["default"];
             },
             /**
-         * @private
-         * @method getConnection()
-         * @for MinderNode
-         * @description 获取当前节点的连线对象
-         *
-         * @grammar getConnection() => {kity.Path}
-         */
-            getConnection: function() {
+     * @private
+     * @method getConnection()
+     * @for MinderNode
+     * @description 获取当前节点的连线对象
+     *
+     * @grammar getConnection() => {kity.Path}
+     */
+            getConnection: function getConnection() {
                 return this._connection || null;
             }
         });
         kity.extendClass(Minder, {
-            getConnectContainer: function() {
+            getConnectContainer: function getConnectContainer() {
                 return this._connectContainer;
             },
-            createConnect: function(node) {
+            createConnect: function createConnect(node) {
                 if (node.isRoot()) return;
                 var connection = new kity.Path();
                 node._connection = connection;
                 this._connectContainer.addShape(connection);
                 this.updateConnect(node);
             },
-            removeConnect: function(node) {
+            removeConnect: function removeConnect(node) {
                 var me = this;
                 node.traverse(function(node) {
                     me._connectContainer.removeShape(node._connection);
                     node._connection = null;
                 });
             },
-            updateConnect: function(node) {
+            updateConnect: function updateConnect(node) {
                 var connection = node._connection;
                 var parent = node.parent;
                 if (!parent || !connection) return;
-                if (parent.isCollapsed()) {
+                if (parent.isCollapsed() || node.hideConnect) {
                     connection.setVisible(false);
                     return;
                 }
@@ -780,18 +806,18 @@ _p[12] = {
             }
         });
         Module.register("Connect", {
-            init: function() {
+            init: function init() {
                 this._connectContainer = new kity.Group().setId(utils.uuid("minder_connect_group"));
                 this.getRenderContainer().prependShape(this._connectContainer);
             },
             events: {
-                nodeattach: function(e) {
+                nodeattach: function nodeattach(e) {
                     this.createConnect(e.node);
                 },
-                nodedetach: function(e) {
+                nodedetach: function nodedetach(e) {
                     this.removeConnect(e.node);
                 },
-                "layoutapply layoutfinish noderender": function(e) {
+                "layoutapply layoutfinish noderender": function layoutapplyLayoutfinishNoderender(e) {
                     this.updateConnect(e.node);
                 }
             }
@@ -800,7 +826,9 @@ _p[12] = {
     }
 };
 
-//src/core/data.js
+//tem/core/data.js
+"use strict";
+
 _p[13] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -828,7 +856,7 @@ _p[13] = {
         // 导入导出
         kity.extendClass(Minder, {
             // 自动导入
-            setup: function(target) {
+            setup: function setup(target) {
                 if (typeof target == "string") {
                     target = document.querySelector(target);
                 }
@@ -843,13 +871,13 @@ _p[13] = {
                 return this;
             },
             /**
-         * @method exportJson()
-         * @for Minder
-         * @description
-         *     导出当前脑图数据为 JSON 对象，导出的数据格式请参考 [Data](data) 章节。
-         * @grammar exportJson() => {plain}
-         */
-            exportJson: function() {
+     * @method exportJson()
+     * @for Minder
+     * @description
+     *     导出当前脑图数据为 JSON 对象，导出的数据格式请参考 [Data](data) 章节。
+     * @grammar exportJson() => {plain}
+     */
+            exportJson: function exportJson() {
                 /* 导出 node 上整棵树的数据为 JSON */
                 function exportNode(node) {
                     var exported = {};
@@ -870,22 +898,22 @@ _p[13] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String) 
-         * @param {MinderNode} node 要导入数据的节点
-         * @param {String} text 导入的text数据
-         * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
-         * @Editor: Naixor
-         * @Date: 2015.9.21
-         * @example: 用于批量导入如下类型的节点
-         *      234
-         *      3456346 asadf
-         *          12312414
-         *              wereww
-         *          12314
-         *      1231412
-         *      13123    
-         */
-            Text2Children: function(node, text) {
+     * function Text2Children(MinderNode, String) 
+     * @param {MinderNode} node 要导入数据的节点
+     * @param {String} text 导入的text数据
+     * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
+     * @Editor: Naixor
+     * @Date: 2015.9.21
+     * @example: 用于批量导入如下类型的节点
+     *      234
+     *      3456346 asadf
+     *          12312414
+     *              wereww
+     *          12314
+     *      1231412
+     *      13123    
+     */
+            Text2Children: function Text2Children(node, text) {
                 if (!(node instanceof kityminder.Node)) {
                     return;
                 }
@@ -943,13 +971,13 @@ _p[13] = {
                 minder.refresh();
             },
             /**
-         * @method exportNode(MinderNode)
-         * @param  {MinderNode} node 当前要被导出的节点
-         * @return {Object}      返回只含有data和children的Object
-         * @Editor: Naixor
-         * @Date: 2015.9.22
-         */
-            exportNode: function(node) {
+     * @method exportNode(MinderNode)
+     * @param  {MinderNode} node 当前要被导出的节点
+     * @return {Object}      返回只含有data和children的Object
+     * @Editor: Naixor
+     * @Date: 2015.9.22
+     */
+            exportNode: function exportNode(node) {
                 var exported = {};
                 exported.data = node.getData();
                 var childNodes = node.getChildren();
@@ -960,12 +988,12 @@ _p[13] = {
                 return exported;
             },
             /**
-         * @method importNode()
-         * @description 根据纯json {data, children}数据转换成为脑图节点
-         * @Editor: Naixor
-         * @Date: 2015.9.20
-         */
-            importNode: function(node, json) {
+     * @method importNode()
+     * @description 根据纯json {data, children}数据转换成为脑图节点
+     * @Editor: Naixor
+     * @Date: 2015.9.20
+     */
+            importNode: function importNode(node, json) {
                 var data = json.data;
                 node.data = {};
                 for (var field in data) {
@@ -979,21 +1007,21 @@ _p[13] = {
                 return node;
             },
             /**
-         * @method importJson()
-         * @for Minder
-         * @description 导入脑图数据，数据为 JSON 对象，具体的数据字段形式请参考 [Data](data) 章节。
-         *
-         * @grammar importJson(json) => {this}
-         *
-         * @param {plain} json 要导入的数据
-         */
-            importJson: function(json) {
+     * @method importJson()
+     * @for Minder
+     * @description 导入脑图数据，数据为 JSON 对象，具体的数据字段形式请参考 [Data](data) 章节。
+     *
+     * @grammar importJson(json) => {this}
+     *
+     * @param {plain} json 要导入的数据
+     */
+            importJson: function importJson(json) {
                 if (!json) return;
                 /**
-             * @event preimport
-             * @for Minder
-             * @when 导入数据之前
-             */
+       * @event preimport
+       * @for Minder
+       * @when 导入数据之前
+       */
                 this._fire(new MinderEvent("preimport", null, false));
                 // 删除当前所有节点
                 while (this._root.getChildren().length) {
@@ -1005,10 +1033,10 @@ _p[13] = {
                 this.setTheme(json.theme || null);
                 this.refresh();
                 /**
-             * @event import,contentchange,interactchange
-             * @for Minder
-             * @when 导入数据之后
-             */
+       * @event import,contentchange,interactchange
+       * @for Minder
+       * @when 导入数据之后
+       */
                 this.fire("import");
                 this._firePharse({
                     type: "contentchange"
@@ -1017,15 +1045,15 @@ _p[13] = {
                 return this;
             },
             /**
-         * @method exportData()
-         * @for Minder
-         * @description 使用指定使用的数据协议，导入脑图数据
-         *
-         * @grammar exportData(protocol) => Promise<data>
-         *
-         * @param {string} protocol 指定的数据协议（默认内置五种数据协议 `json`、`text`、`markdown`、`svg` 和 `png`）
-         */
-            exportData: function(protocolName, option) {
+     * @method exportData()
+     * @for Minder
+     * @description 使用指定使用的数据协议，导入脑图数据
+     *
+     * @grammar exportData(protocol) => Promise<data>
+     *
+     * @param {string} protocol 指定的数据协议（默认内置五种数据协议 `json`、`text`、`markdown`、`svg` 和 `png`）
+     */
+            exportData: function exportData(protocolName, option) {
                 var json, protocol;
                 json = this.exportJson();
                 // 指定了协议进行导出，需要检测协议是否支持
@@ -1044,16 +1072,16 @@ _p[13] = {
                 return Promise.resolve(protocol.encode(json, this, option));
             },
             /**
-         * @method importData()
-         * @for Minder
-         * @description 使用指定的数据协议，导入脑图数据，覆盖当前实例的脑图
-         *
-         * @grammar importData(protocol, callback) => Promise<json>
-         *
-         * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
-         * @param {any} data 要导入的数据
-         */
-            importData: function(protocolName, data, option) {
+     * @method importData()
+     * @for Minder
+     * @description 使用指定的数据协议，导入脑图数据，覆盖当前实例的脑图
+     *
+     * @grammar importData(protocol, callback) => Promise<json>
+     *
+     * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
+     * @param {any} data 要导入的数据
+     */
+            importData: function importData(protocolName, data, option) {
                 var json, protocol;
                 var minder = this;
                 // 指定了协议进行导入，需要检测协议是否支持
@@ -1076,16 +1104,16 @@ _p[13] = {
                 });
             },
             /**
-         * @method decodeData()
-         * @for Minder
-         * @description 使用指定的数据协议，解析为脑图数据，与 importData 的区别在于：不覆盖当前实例的脑图
-         *
-         * @grammar decodeData(protocol, callback) => Promise<json>
-         *
-         * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
-         * @param {any} data 要导入的数据
-         */
-            decodeData: function(protocolName, data, option) {
+     * @method decodeData()
+     * @for Minder
+     * @description 使用指定的数据协议，解析为脑图数据，与 importData 的区别在于：不覆盖当前实例的脑图
+     *
+     * @grammar decodeData(protocol, callback) => Promise<json>
+     *
+     * @param {string} protocol 指定的用于解析数据的数据协议（默认内置三种数据协议 `json`、`text` 和 `markdown` 的支持）
+     * @param {any} data 要导入的数据
+     */
+            decodeData: function decodeData(protocolName, data, option) {
                 var json, protocol;
                 var minder = this;
                 // 指定了协议进行导入，需要检测协议是否支持
@@ -1108,33 +1136,35 @@ _p[13] = {
     }
 };
 
-//src/core/event.js
+//tem/core/event.js
+"use strict";
+
 _p[14] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
         var utils = _p.r(34);
         var Minder = _p.r(20);
         /**
-     * @class MinderEvent
-     * @description 表示一个脑图中发生的事件
-     */
+   * @class MinderEvent
+   * @description 表示一个脑图中发生的事件
+   */
         var MinderEvent = kity.createClass("MindEvent", {
-            constructor: function(type, params, canstop) {
+            constructor: function constructor(type, params, canstop) {
                 params = params || {};
                 if (params.getType && params.getType() == "ShapeEvent") {
                     /**
-                 * @property kityEvent
-                 * @for MinderEvent
-                 * @description 如果事件是从一个 kity 的事件派生的，会有 kityEvent 属性指向原来的 kity 事件
-                 * @type {KityEvent}
-                 */
+         * @property kityEvent
+         * @for MinderEvent
+         * @description 如果事件是从一个 kity 的事件派生的，会有 kityEvent 属性指向原来的 kity 事件
+         * @type {KityEvent}
+         */
                     this.kityEvent = params;
                     /**
-                 * @property originEvent
-                 * @for MinderEvent
-                 * @description 如果事件是从原声 Dom 事件派生的（如 click、mousemove 等），会有 originEvent 指向原来的 Dom 事件
-                 * @type {DomEvent}
-                 */
+         * @property originEvent
+         * @for MinderEvent
+         * @description 如果事件是从原声 Dom 事件派生的（如 click、mousemove 等），会有 originEvent 指向原来的 Dom 事件
+         * @type {DomEvent}
+         */
                     this.originEvent = params.originEvent;
                 } else if (params.target && params.preventDefault) {
                     this.originEvent = params;
@@ -1142,28 +1172,28 @@ _p[14] = {
                     kity.Utils.extend(this, params);
                 }
                 /**
-             * @property type
-             * @for MinderEvent
-             * @description 事件的类型，如 `click`、`contentchange` 等
-             * @type {string}
-             */
+       * @property type
+       * @for MinderEvent
+       * @description 事件的类型，如 `click`、`contentchange` 等
+       * @type {string}
+       */
                 this.type = type;
                 this._canstop = canstop || false;
             },
             /**
-         * @method getPosition()
-         * @for MinderEvent
-         * @description 如果事件是从一个 kity 事件派生的，会有 `getPosition()` 获取事件发生的坐标
-         *
-         * @grammar getPosition(refer) => {kity.Point}
-         *
-         * @param {string|kity.Shape} refer
-         *     参照的坐标系，
-         *     `"screen"` - 以浏览器屏幕为参照坐标系
-         *     `"minder"` - （默认）以脑图画布为参照坐标系
-         *     `{kity.Shape}` - 指定以某个 kity 图形为参照坐标系
-         */
-            getPosition: function(refer) {
+     * @method getPosition()
+     * @for MinderEvent
+     * @description 如果事件是从一个 kity 事件派生的，会有 `getPosition()` 获取事件发生的坐标
+     *
+     * @grammar getPosition(refer) => {kity.Point}
+     *
+     * @param {string|kity.Shape} refer
+     *     参照的坐标系，
+     *     `"screen"` - 以浏览器屏幕为参照坐标系
+     *     `"minder"` - （默认）以脑图画布为参照坐标系
+     *     `{kity.Shape}` - 指定以某个 kity 图形为参照坐标系
+     */
+            getPosition: function getPosition(refer) {
                 if (!this.kityEvent) return;
                 if (!refer || refer == "minder") {
                     return this.kityEvent.getPosition(this.minder.getRenderContainer());
@@ -1171,13 +1201,13 @@ _p[14] = {
                 return this.kityEvent.getPosition.call(this.kityEvent, refer);
             },
             /**
-         * @method getTargetNode()
-         * @for MinderEvent
-         * @description 当发生的事件是鼠标事件时，获取事件位置命中的脑图节点
-         *
-         * @grammar getTargetNode() => {MinderNode}
-         */
-            getTargetNode: function() {
+     * @method getTargetNode()
+     * @for MinderEvent
+     * @description 当发生的事件是鼠标事件时，获取事件位置命中的脑图节点
+     *
+     * @grammar getTargetNode() => {MinderNode}
+     */
+            getTargetNode: function getTargetNode() {
                 var findShape = this.kityEvent && this.kityEvent.targetShape;
                 if (!findShape) return null;
                 while (!findShape.minderNode && findShape.container) {
@@ -1188,29 +1218,29 @@ _p[14] = {
                 return node || null;
             },
             /**
-         * @method stopPropagation()
-         * @for MinderEvent
-         * @description 当发生的事件是鼠标事件时，获取事件位置命中的脑图节点
-         *
-         * @grammar getTargetNode() => {MinderNode}
-         */
-            stopPropagation: function() {
+     * @method stopPropagation()
+     * @for MinderEvent
+     * @description 当发生的事件是鼠标事件时，获取事件位置命中的脑图节点
+     *
+     * @grammar getTargetNode() => {MinderNode}
+     */
+            stopPropagation: function stopPropagation() {
                 this._stoped = true;
             },
-            stopPropagationImmediately: function() {
+            stopPropagationImmediately: function stopPropagationImmediately() {
                 this._immediatelyStoped = true;
                 this._stoped = true;
             },
-            shouldStopPropagation: function() {
+            shouldStopPropagation: function shouldStopPropagation() {
                 return this._canstop && this._stoped;
             },
-            shouldStopPropagationImmediately: function() {
+            shouldStopPropagationImmediately: function shouldStopPropagationImmediately() {
                 return this._canstop && this._immediatelyStoped;
             },
-            preventDefault: function() {
+            preventDefault: function preventDefault() {
                 this.originEvent.preventDefault();
             },
-            isRightMB: function() {
+            isRightMB: function isRightMB() {
                 var isRightMB = false;
                 if (!this.originEvent) {
                     return false;
@@ -1218,7 +1248,7 @@ _p[14] = {
                 if ("which" in this.originEvent) isRightMB = this.originEvent.which == 3; else if ("button" in this.originEvent) isRightMB = this.originEvent.button == 2;
                 return isRightMB;
             },
-            getKeyCode: function() {
+            getKeyCode: function getKeyCode() {
                 var evt = this.originEvent;
                 return evt.keyCode || evt.which;
             }
@@ -1227,14 +1257,14 @@ _p[14] = {
             this._initEvents();
         });
         kity.extendClass(Minder, {
-            _initEvents: function() {
+            _initEvents: function _initEvents() {
                 this._eventCallbacks = {};
             },
-            _resetEvents: function() {
+            _resetEvents: function _resetEvents() {
                 this._initEvents();
                 this._bindEvents();
             },
-            _bindEvents: function() {
+            _bindEvents: function _bindEvents() {
                 /* jscs:disable maximumLineLength */
                 this._paper.on("click dblclick mousedown contextmenu mouseup mousemove mouseover mousewheel DOMMouseScroll touchstart touchmove touchend dragenter dragleave drop", this._firePharse.bind(this));
                 if (window) {
@@ -1242,15 +1272,15 @@ _p[14] = {
                 }
             },
             /**
-         * @method dispatchKeyEvent
-         * @description 派发键盘（相关）事件到脑图实例上，让实例的模块处理
-         * @grammar dispatchKeyEvent(e) => {this}
-         * @param  {Event} e 原生的 Dom 事件对象
-         */
-            dispatchKeyEvent: function(e) {
+     * @method dispatchKeyEvent
+     * @description 派发键盘（相关）事件到脑图实例上，让实例的模块处理
+     * @grammar dispatchKeyEvent(e) => {this}
+     * @param  {Event} e 原生的 Dom 事件对象
+     */
+            dispatchKeyEvent: function dispatchKeyEvent(e) {
                 this._firePharse(e);
             },
-            _firePharse: function(e) {
+            _firePharse: function _firePharse(e) {
                 var beforeEvent, preEvent, executeEvent;
                 if (e.type == "DOMMouseScroll") {
                     e.type = "mousewheel";
@@ -1266,7 +1296,7 @@ _p[14] = {
                 executeEvent = new MinderEvent(e.type, e, true);
                 if (this._fire(preEvent) || this._fire(executeEvent)) this._fire(new MinderEvent("after" + e.type, e, false));
             },
-            _interactChange: function(e) {
+            _interactChange: function _interactChange(e) {
                 var me = this;
                 if (me._interactScheduled) return;
                 setTimeout(function() {
@@ -1275,17 +1305,17 @@ _p[14] = {
                 }, 100);
                 me._interactScheduled = true;
             },
-            _listen: function(type, callback) {
+            _listen: function _listen(type, callback) {
                 var callbacks = this._eventCallbacks[type] || (this._eventCallbacks[type] = []);
                 callbacks.push(callback);
             },
-            _fire: function(e) {
+            _fire: function _fire(e) {
                 /**
-             * @property minder
-             * @description 产生事件的 Minder 对象
-             * @for MinderShape
-             * @type {Minder}
-             */
+       * @property minder
+       * @description 产生事件的 Minder 对象
+       * @for MinderShape
+       * @type {Minder}
+       */
                 e.minder = this;
                 var status = this.getStatus();
                 var callbacks = this._eventCallbacks[e.type.toLowerCase()] || [];
@@ -1305,14 +1335,14 @@ _p[14] = {
                 }
                 return e.shouldStopPropagation();
             },
-            on: function(name, callback) {
+            on: function on(name, callback) {
                 var km = this;
                 name.split(/\s+/).forEach(function(n) {
                     km._listen(n.toLowerCase(), callback);
                 });
                 return this;
             },
-            off: function(name, callback) {
+            off: function off(name, callback) {
                 var types = name.split(/\s+/);
                 var i, j, callbacks, removeIndex;
                 for (i = 0; i < types.length; i++) {
@@ -1330,7 +1360,7 @@ _p[14] = {
                     }
                 }
             },
-            fire: function(type, params) {
+            fire: function fire(type, params) {
                 var e = new MinderEvent(type, params);
                 this._fire(e);
                 return this;
@@ -1340,7 +1370,9 @@ _p[14] = {
     }
 };
 
-//src/core/focus.js
+//tem/core/focus.js
+"use strict";
+
 _p[15] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -1355,7 +1387,7 @@ _p[15] = {
             });
         });
         kity.extendClass(Minder, {
-            focus: function() {
+            focus: function focus() {
                 if (!this.isFocused()) {
                     var renderTarget = this._renderTarget;
                     renderTarget.classList.add("focus");
@@ -1364,7 +1396,7 @@ _p[15] = {
                 this.fire("focus");
                 return this;
             },
-            blur: function() {
+            blur: function blur() {
                 if (this.isFocused()) {
                     var renderTarget = this._renderTarget;
                     renderTarget.classList.remove("focus");
@@ -1373,7 +1405,7 @@ _p[15] = {
                 this.fire("blur");
                 return this;
             },
-            isFocused: function() {
+            isFocused: function isFocused() {
                 var renderTarget = this._renderTarget;
                 return renderTarget && renderTarget.classList.contains("focus");
             }
@@ -1381,7 +1413,9 @@ _p[15] = {
     }
 };
 
-//src/core/keymap.js
+//tem/core/keymap.js
+"use strict";
+
 _p[16] = {
     value: function(require, exports, module) {
         var keymap = {
@@ -1492,7 +1526,9 @@ _p[16] = {
     }
 };
 
-//src/core/keyreceiver.js
+//tem/core/keyreceiver.js
+"use strict";
+
 _p[17] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -1514,7 +1550,7 @@ _p[17] = {
             }
         });
         kity.extendClass(Minder, {
-            _initKeyReceiver: function() {
+            _initKeyReceiver: function _initKeyReceiver() {
                 if (this._keyReceiver) return;
                 var receiver = this._keyReceiver = document.createElement("input");
                 receiver.classList.add("km-receiver");
@@ -1554,7 +1590,9 @@ _p[17] = {
     }
 };
 
-//src/core/kity.js
+//tem/core/kity.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -1569,7 +1607,9 @@ _p[18] = {
     }
 };
 
-//src/core/layout.js
+//tem/core/layout.js
+"use strict";
+
 _p[19] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -1585,35 +1625,35 @@ _p[19] = {
             _defaultLayout = _defaultLayout || name;
         }
         /**
-     * @class Layout 布局基类，具体布局需要从该类派生
-     */
+   * @class Layout 布局基类，具体布局需要从该类派生
+   */
         var Layout = kity.createClass("Layout", {
             /**
-         * @abstract
-         *
-         * 子类需要实现的布局算法，该算法输入一个节点，排布该节点的子节点（相对父节点的变换）
-         *
-         * @param  {MinderNode} node 需要布局的节点
-         *
-         * @example
-         *
-         * doLayout: function(node) {
-         *     var children = node.getChildren();
-         *     // layout calculation
-         *     children[i].setLayoutTransform(new kity.Matrix().translate(x, y));
-         * }
-         */
-            doLayout: function(parent, children) {
+     * @abstract
+     *
+     * 子类需要实现的布局算法，该算法输入一个节点，排布该节点的子节点（相对父节点的变换）
+     *
+     * @param  {MinderNode} node 需要布局的节点
+     *
+     * @example
+     *
+     * doLayout: function(node) {
+     *     var children = node.getChildren();
+     *     // layout calculation
+     *     children[i].setLayoutTransform(new kity.Matrix().translate(x, y));
+     * }
+     */
+            doLayout: function doLayout(parent, children) {
                 throw new Error("Not Implement: Layout.doLayout()");
             },
             /**
-         * 对齐指定的节点
-         *
-         * @param {Array<MinderNode>} nodes 要对齐的节点
-         * @param {string} border 对齐边界，允许取值 left, right, top, bottom
-         *
-         */
-            align: function(nodes, border, offset) {
+     * 对齐指定的节点
+     *
+     * @param {Array<MinderNode>} nodes 要对齐的节点
+     * @param {string} border 对齐边界，允许取值 left, right, top, bottom
+     *
+     */
+            align: function align(nodes, border, offset) {
                 var me = this;
                 offset = offset || 0;
                 nodes.forEach(function(node) {
@@ -1634,7 +1674,7 @@ _p[19] = {
                     }
                 });
             },
-            stack: function(nodes, axis, distance) {
+            stack: function stack(nodes, axis, distance) {
                 var me = this;
                 var position = 0;
                 distance = distance || function(node, next, axis) {
@@ -1667,19 +1707,19 @@ _p[19] = {
                 });
                 return position;
             },
-            move: function(nodes, dx, dy) {
+            move: function move(nodes, dx, dy) {
                 nodes.forEach(function(node) {
                     node.getLayoutTransform().translate(dx, dy);
                 });
             },
             /**
-         * 工具方法：获取给点的节点所占的布局区域
-         *
-         * @param  {MinderNode[]} nodes 需要计算的节点
-         *
-         * @return {Box} 计算结果
-         */
-            getBranchBox: function(nodes) {
+     * 工具方法：获取给点的节点所占的布局区域
+     *
+     * @param  {MinderNode[]} nodes 需要计算的节点
+     *
+     * @return {Box} 计算结果
+     */
+            getBranchBox: function getBranchBox(nodes) {
                 var box = new kity.Box();
                 var i, node, matrix, contentBox;
                 for (i = 0; i < nodes.length; i++) {
@@ -1691,13 +1731,13 @@ _p[19] = {
                 return box;
             },
             /**
-         * 工具方法：计算给定的节点的子树所占的布局区域
-         *
-         * @param  {MinderNode} nodes 需要计算的节点
-         *
-         * @return {Box} 计算的结果
-         */
-            getTreeBox: function(nodes) {
+     * 工具方法：计算给定的节点的子树所占的布局区域
+     *
+     * @param  {MinderNode} nodes 需要计算的节点
+     *
+     * @return {Box} 计算的结果
+     */
+            getTreeBox: function getTreeBox(nodes) {
                 var i, node, matrix, treeBox;
                 var box = new kity.Box();
                 if (!(nodes instanceof Array)) nodes = [ nodes ];
@@ -1712,7 +1752,7 @@ _p[19] = {
                 }
                 return box;
             },
-            getOrderHint: function(node) {
+            getOrderHint: function getOrderHint(node) {
                 return [];
             }
         });
@@ -1721,13 +1761,13 @@ _p[19] = {
             this.refresh();
         });
         /**
-     * 布局支持池子管理
-     */
+   * 布局支持池子管理
+   */
         utils.extend(Minder, {
-            getLayoutList: function() {
+            getLayoutList: function getLayoutList() {
                 return _layouts;
             },
-            getLayoutInstance: function(name) {
+            getLayoutInstance: function getLayoutInstance(name) {
                 var LayoutClass = _layouts[name];
                 if (!LayoutClass) throw new Error("Missing Layout: " + name);
                 var layout = new LayoutClass();
@@ -1735,20 +1775,20 @@ _p[19] = {
             }
         });
         /**
-     * MinderNode 上的布局支持
-     */
+   * MinderNode 上的布局支持
+   */
         kity.extendClass(MinderNode, {
             /**
-         * 获得当前节点的布局名称
-         *
-         * @return {String}
-         */
-            getLayout: function() {
+     * 获得当前节点的布局名称
+     *
+     * @return {String}
+     */
+            getLayout: function getLayout() {
                 var layout = this.getData("layout");
                 layout = layout || (this.isRoot() ? _defaultLayout : this.parent.getLayout());
                 return layout;
             },
-            setLayout: function(name) {
+            setLayout: function setLayout(name) {
                 if (name) {
                     if (name == "inherit") {
                         this.setData("layout");
@@ -1758,28 +1798,28 @@ _p[19] = {
                 }
                 return this;
             },
-            layout: function(name) {
+            layout: function layout(name) {
                 this.setLayout(name).getMinder().layout();
                 return this;
             },
-            getLayoutInstance: function() {
+            getLayoutInstance: function getLayoutInstance() {
                 return Minder.getLayoutInstance(this.getLayout());
             },
-            getOrderHint: function(refer) {
+            getOrderHint: function getOrderHint(refer) {
                 return this.parent.getLayoutInstance().getOrderHint(this);
             },
             /**
-         * 获取当前节点相对于父节点的布局变换
-         */
-            getLayoutTransform: function() {
+     * 获取当前节点相对于父节点的布局变换
+     */
+            getLayoutTransform: function getLayoutTransform() {
                 return this._layoutTransform || new kity.Matrix();
             },
             /**
-         * 第一轮布局计算后，获得的全局布局位置
-         *
-         * @return {[type]} [description]
-         */
-            getGlobalLayoutTransformPreview: function() {
+     * 第一轮布局计算后，获得的全局布局位置
+     *
+     * @return {[type]} [description]
+     */
+            getGlobalLayoutTransformPreview: function getGlobalLayoutTransformPreview() {
                 var pMatrix = this.parent ? this.parent.getLayoutTransform() : new kity.Matrix();
                 var matrix = this.getLayoutTransform();
                 var offset = this.getLayoutOffset();
@@ -1788,13 +1828,13 @@ _p[19] = {
                 }
                 return pMatrix.merge(matrix);
             },
-            getLayoutPointPreview: function() {
+            getLayoutPointPreview: function getLayoutPointPreview() {
                 return this.getGlobalLayoutTransformPreview().transformPoint(new kity.Point());
             },
             /**
-         * 获取节点相对于全局的布局变换
-         */
-            getGlobalLayoutTransform: function() {
+     * 获取节点相对于全局的布局变换
+     */
+            getGlobalLayoutTransform: function getGlobalLayoutTransform() {
                 if (this._globalLayoutTransform) {
                     return this._globalLayoutTransform;
                 } else if (this.parent) {
@@ -1804,67 +1844,67 @@ _p[19] = {
                 }
             },
             /**
-         * 设置当前节点相对于父节点的布局变换
-         */
-            setLayoutTransform: function(matrix) {
+     * 设置当前节点相对于父节点的布局变换
+     */
+            setLayoutTransform: function setLayoutTransform(matrix) {
                 this._layoutTransform = matrix;
                 return this;
             },
             /**
-         * 设置当前节点相对于全局的布局变换（冗余优化）
-         */
-            setGlobalLayoutTransform: function(matrix) {
+     * 设置当前节点相对于全局的布局变换（冗余优化）
+     */
+            setGlobalLayoutTransform: function setGlobalLayoutTransform(matrix) {
                 this.getRenderContainer().setMatrix(this._globalLayoutTransform = matrix);
                 return this;
             },
-            setVertexIn: function(p) {
+            setVertexIn: function setVertexIn(p) {
                 this._vertexIn = p;
             },
-            setVertexOut: function(p) {
+            setVertexOut: function setVertexOut(p) {
                 this._vertexOut = p;
             },
-            getVertexIn: function() {
+            getVertexIn: function getVertexIn() {
                 return this._vertexIn || new kity.Point();
             },
-            getVertexOut: function() {
+            getVertexOut: function getVertexOut() {
                 return this._vertexOut || new kity.Point();
             },
-            getLayoutVertexIn: function() {
+            getLayoutVertexIn: function getLayoutVertexIn() {
                 return this.getGlobalLayoutTransform().transformPoint(this.getVertexIn());
             },
-            getLayoutVertexOut: function() {
+            getLayoutVertexOut: function getLayoutVertexOut() {
                 return this.getGlobalLayoutTransform().transformPoint(this.getVertexOut());
             },
-            setLayoutVectorIn: function(v) {
+            setLayoutVectorIn: function setLayoutVectorIn(v) {
                 this._layoutVectorIn = v;
                 return this;
             },
-            setLayoutVectorOut: function(v) {
+            setLayoutVectorOut: function setLayoutVectorOut(v) {
                 this._layoutVectorOut = v;
                 return this;
             },
-            getLayoutVectorIn: function() {
+            getLayoutVectorIn: function getLayoutVectorIn() {
                 return this._layoutVectorIn || new kity.Vector();
             },
-            getLayoutVectorOut: function() {
+            getLayoutVectorOut: function getLayoutVectorOut() {
                 return this._layoutVectorOut || new kity.Vector();
             },
-            getLayoutBox: function() {
+            getLayoutBox: function getLayoutBox() {
                 var matrix = this.getGlobalLayoutTransform();
                 return matrix.transformBox(this.getContentBox());
             },
-            getLayoutPoint: function() {
+            getLayoutPoint: function getLayoutPoint() {
                 var matrix = this.getGlobalLayoutTransform();
                 return matrix.transformPoint(new kity.Point());
             },
-            getLayoutOffset: function() {
+            getLayoutOffset: function getLayoutOffset() {
                 if (!this.parent) return new kity.Point();
                 // 影响当前节点位置的是父节点的布局
                 var data = this.getData("layout_" + this.parent.getLayout() + "_offset");
                 if (data) return new kity.Point(data.x, data.y);
                 return new kity.Point();
             },
-            setLayoutOffset: function(p) {
+            setLayoutOffset: function setLayoutOffset(p) {
                 if (!this.parent) return this;
                 this.setData("layout_" + this.parent.getLayout() + "_offset", p ? {
                     x: p.x,
@@ -1872,27 +1912,27 @@ _p[19] = {
                 } : undefined);
                 return this;
             },
-            hasLayoutOffset: function() {
+            hasLayoutOffset: function hasLayoutOffset() {
                 return !!this.getData("layout_" + this.parent.getLayout() + "_offset");
             },
-            resetLayoutOffset: function() {
+            resetLayoutOffset: function resetLayoutOffset() {
                 return this.setLayoutOffset(null);
             },
-            getLayoutRoot: function() {
+            getLayoutRoot: function getLayoutRoot() {
                 if (this.isLayoutRoot()) {
                     return this;
                 }
                 return this.parent.getLayoutRoot();
             },
-            isLayoutRoot: function() {
+            isLayoutRoot: function isLayoutRoot() {
                 return this.getData("layout") || this.isRoot();
             }
         });
         /**
-     * Minder 上的布局支持
-     */
+   * Minder 上的布局支持
+   */
         kity.extendClass(Minder, {
-            layout: function() {
+            layout: function layout() {
                 var duration = this.getOption("layoutAnimationDuration");
                 this.getRoot().traverse(function(node) {
                     // clear last results
@@ -1919,22 +1959,22 @@ _p[19] = {
                 var minder = this;
                 this.applyLayoutResult(this.getRoot(), duration, function() {
                     /**
-                 * 当节点>200, 不使用动画时, 此处逻辑变为同步逻辑, 外部minder.on事件无法
-                 * 被提前录入, 因此增加setTimeout
-                 * @author Naixor
-                 */
+         * 当节点>200, 不使用动画时, 此处逻辑变为同步逻辑, 外部minder.on事件无法
+         * 被提前录入, 因此增加setTimeout
+         * @author Naixor
+         */
                     setTimeout(function() {
                         minder.fire("layoutallfinish");
                     }, 0);
                 });
                 return this.fire("layout");
             },
-            refresh: function() {
+            refresh: function refresh() {
                 this.getRoot().renderTree();
                 this.layout().fire("contentchange")._interactChange();
                 return this;
             },
-            applyLayoutResult: function(root, duration, callback) {
+            applyLayoutResult: function applyLayoutResult(root, duration, callback) {
                 root = root || this.getRoot();
                 var me = this;
                 var complex = root.getComplex();
@@ -1999,7 +2039,9 @@ _p[19] = {
     }
 };
 
-//src/core/minder.js
+//tem/core/minder.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -2014,7 +2056,7 @@ _p[20] = {
         var utils = _p.r(34);
         var _initHooks = [];
         var Minder = kity.createClass("Minder", {
-            constructor: function(options) {
+            constructor: function constructor(options) {
                 this._options = utils.extend({}, options);
                 var initHooks = _initHooks.slice();
                 var initHook;
@@ -2035,7 +2077,9 @@ _p[20] = {
     }
 };
 
-//src/core/module.js
+//tem/core/module.js
+"use strict";
+
 _p[21] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -2052,7 +2096,7 @@ _p[21] = {
         });
         // 模块声明周期维护
         kity.extendClass(Minder, {
-            _initModules: function() {
+            _initModules: function _initModules() {
                 var modulesPool = _modules;
                 var modulesToLoad = this._options.modules || utils.keys(modulesPool);
                 this._commands = {};
@@ -2079,15 +2123,15 @@ _p[21] = {
                         moduleDeals.init.call(me, this._options);
                     }
                     /**
-                 * @Desc: 判断是否支持原生clipboard事件，如果支持，则对pager添加其监听
-                 * @Editor: Naixor
-                 * @Date: 2015.9.20
-                 */
+         * @Desc: 判断是否支持原生clipboard事件，如果支持，则对pager添加其监听
+         * @Editor: Naixor
+         * @Date: 2015.9.20
+         */
                     /**
-                 * 由于当前脑图解构问题，clipboard暂时全权交由玩不托管
-                 * @Editor: Naixor
-                 * @Date: 2015.9.24
-                 */
+         * 由于当前脑图解构问题，clipboard暂时全权交由玩不托管
+         * @Editor: Naixor
+         * @Date: 2015.9.24
+         */
                     // if (name === 'ClipboardModule' && this.supportClipboardEvent  && !kity.Browser.gecko) {
                     //     var on = function () {
                     //         var clipBoardReceiver = this.clipBoardReceiver || document;
@@ -2132,13 +2176,13 @@ _p[21] = {
                     }
                 }
             },
-            _garbage: function() {
+            _garbage: function _garbage() {
                 this.clearSelect();
                 while (this._root.getChildren().length) {
                     this._root.removeChild(0);
                 }
             },
-            destroy: function() {
+            destroy: function destroy() {
                 var modules = this._modules;
                 this._resetEvents();
                 this._garbage();
@@ -2147,7 +2191,7 @@ _p[21] = {
                     modules[key].destroy.call(this);
                 }
             },
-            reset: function() {
+            reset: function reset() {
                 var modules = this._modules;
                 this._garbage();
                 for (var key in modules) {
@@ -2159,7 +2203,18 @@ _p[21] = {
     }
 };
 
-//src/core/node.js
+//tem/core/node.js
+"use strict";
+
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+
 _p[22] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -2177,7 +2232,7 @@ _p[22] = {
      * @param {String|Object} textOrData
      *     节点的初始数据或文本
      */
-            constructor: function(textOrData) {
+            constructor: function constructor(textOrData) {
                 // 指针
                 this.parent = null;
                 this.root = this;
@@ -2195,35 +2250,35 @@ _p[22] = {
                     utils.extend(this.data, textOrData);
                 }
             },
-            initContainers: function() {
+            initContainers: function initContainers() {
                 this.rc = new kity.Group().setId(utils.uuid("minder_node"));
                 this.rc.minderNode = this;
             },
             /**
      * 判断节点是否根节点
      */
-            isRoot: function() {
+            isRoot: function isRoot() {
                 return this.root === this;
             },
             /**
      * 判断节点是否叶子
      */
-            isLeaf: function() {
+            isLeaf: function isLeaf() {
                 return this.children.length === 0;
             },
             /**
      * 获取节点的根节点
      */
-            getRoot: function() {
+            getRoot: function getRoot() {
                 return this.root || this;
             },
             /**
      * 获得节点的父节点
      */
-            getParent: function() {
+            getParent: function getParent() {
                 return this.parent;
             },
-            getSiblings: function() {
+            getSiblings: function getSiblings() {
                 var children = this.parent.children;
                 var siblings = [];
                 var self = this;
@@ -2235,7 +2290,7 @@ _p[22] = {
             /**
      * 获得节点的深度
      */
-            getLevel: function() {
+            getLevel: function getLevel() {
                 var level = 0, ancestor = this.parent;
                 while (ancestor) {
                     level++;
@@ -2246,7 +2301,7 @@ _p[22] = {
             /**
      * 获得节点的复杂度（即子树中节点的数量）
      */
-            getComplex: function() {
+            getComplex: function getComplex() {
                 var complex = 0;
                 this.traverse(function() {
                     complex++;
@@ -2256,7 +2311,7 @@ _p[22] = {
             /**
      * 获得节点的类型（root|main|sub）
      */
-            getType: function(type) {
+            getType: function getType(type) {
                 this.type = [ "root", "main", "sub" ][Math.min(this.getLevel(), 2)];
                 return this.type;
             },
@@ -2264,7 +2319,7 @@ _p[22] = {
      * 判断当前节点是否被测试节点的祖先
      * @param  {MinderNode}  test 被测试的节点
      */
-            isAncestorOf: function(test) {
+            isAncestorOf: function isAncestorOf(test) {
                 var ancestor = test.parent;
                 while (ancestor) {
                     if (ancestor == this) return true;
@@ -2272,14 +2327,16 @@ _p[22] = {
                 }
                 return false;
             },
-            getData: function(key) {
+            getData: function getData(key) {
                 return key ? this.data[key] : this.data;
             },
-            setData: function(key, value) {
-                if (typeof key == "object") {
+            setData: function setData(key, value) {
+                if (_typeof(key) == "object") {
                     var data = key;
-                    for (key in data) if (data.hasOwnProperty(key)) {
-                        this.data[key] = data[key];
+                    for (key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            this.data[key] = data[key];
+                        }
                     }
                 } else {
                     this.data[key] = value;
@@ -2290,21 +2347,21 @@ _p[22] = {
      * 设置节点的文本数据
      * @param {String} text 文本数据
      */
-            setText: function(text) {
+            setText: function setText(text) {
                 return this.data.text = text;
             },
             /**
      * 获取节点的文本数据
      * @return {String}
      */
-            getText: function() {
+            getText: function getText() {
                 return this.data.text || null;
             },
             /**
      * 先序遍历当前节点树
      * @param  {Function} fn 遍历函数
      */
-            preTraverse: function(fn, excludeThis) {
+            preTraverse: function preTraverse(fn, excludeThis) {
                 var children = this.getChildren();
                 if (!excludeThis) fn(this);
                 for (var i = 0; i < children.length; i++) {
@@ -2315,23 +2372,23 @@ _p[22] = {
      * 后序遍历当前节点树
      * @param  {Function} fn 遍历函数
      */
-            postTraverse: function(fn, excludeThis) {
+            postTraverse: function postTraverse(fn, excludeThis) {
                 var children = this.getChildren();
                 for (var i = 0; i < children.length; i++) {
                     children[i].postTraverse(fn);
                 }
                 if (!excludeThis) fn(this);
             },
-            traverse: function(fn, excludeThis) {
+            traverse: function traverse(fn, excludeThis) {
                 return this.postTraverse(fn, excludeThis);
             },
-            getChildren: function() {
+            getChildren: function getChildren() {
                 return this.children;
             },
-            getIndex: function() {
+            getIndex: function getIndex() {
                 return this.parent ? this.parent.children.indexOf(this) : -1;
             },
-            insertChild: function(node, index) {
+            insertChild: function insertChild(node, index) {
                 if (index === undefined) {
                     index = this.children.length;
                 }
@@ -2342,13 +2399,13 @@ _p[22] = {
                 node.root = this.root;
                 this.children.splice(index, 0, node);
             },
-            appendChild: function(node) {
+            appendChild: function appendChild(node) {
                 return this.insertChild(node);
             },
-            prependChild: function(node) {
+            prependChild: function prependChild(node) {
                 return this.insertChild(node, 0);
             },
-            removeChild: function(elem) {
+            removeChild: function removeChild(elem) {
                 var index = elem, removed;
                 if (elem instanceof MinderNode) {
                     index = this.children.indexOf(elem);
@@ -2359,22 +2416,22 @@ _p[22] = {
                     removed.root = removed;
                 }
             },
-            clearChildren: function() {
+            clearChildren: function clearChildren() {
                 this.children = [];
             },
-            getChild: function(index) {
+            getChild: function getChild(index) {
                 return this.children[index];
             },
-            getRenderContainer: function() {
+            getRenderContainer: function getRenderContainer() {
                 return this.rc;
             },
-            getCommonAncestor: function(node) {
+            getCommonAncestor: function getCommonAncestor(node) {
                 return MinderNode.getCommonAncestor(this, node);
             },
-            contains: function(node) {
+            contains: function contains(node) {
                 return this == node || this.isAncestorOf(node);
             },
-            clone: function() {
+            clone: function clone() {
                 var cloned = new MinderNode();
                 cloned.data = utils.clone(this.data);
                 this.children.forEach(function(child) {
@@ -2382,7 +2439,7 @@ _p[22] = {
                 });
                 return cloned;
             },
-            compareTo: function(node) {
+            compareTo: function compareTo(node) {
                 if (!utils.comparePlainObject(this.data, node.data)) return false;
                 if (!utils.comparePlainObject(this.temp, node.temp)) return false;
                 if (this.children.length != node.children.length) return false;
@@ -2393,7 +2450,7 @@ _p[22] = {
                 }
                 return true;
             },
-            getMinder: function() {
+            getMinder: function getMinder() {
                 return this.getRoot().minder;
             }
         });
@@ -2425,24 +2482,24 @@ _p[22] = {
             }
         };
         kity.extendClass(Minder, {
-            getRoot: function() {
+            getRoot: function getRoot() {
                 return this._root;
             },
-            setRoot: function(root) {
+            setRoot: function setRoot(root) {
                 this._root = root;
                 root.minder = this;
             },
-            getAllNode: function() {
+            getAllNode: function getAllNode() {
                 var nodes = [];
                 this.getRoot().traverse(function(node) {
                     nodes.push(node);
                 });
                 return nodes;
             },
-            getNodeById: function(id) {
+            getNodeById: function getNodeById(id) {
                 return this.getNodesById([ id ])[0];
             },
-            getNodesById: function(ids) {
+            getNodesById: function getNodesById(ids) {
                 var nodes = this.getAllNode();
                 var result = [];
                 nodes.forEach(function(node) {
@@ -2452,7 +2509,7 @@ _p[22] = {
                 });
                 return result;
             },
-            createNode: function(textOrData, parent, index) {
+            createNode: function createNode(textOrData, parent, index) {
                 var node = new MinderNode(textOrData);
                 this.fire("nodecreate", {
                     node: node,
@@ -2462,12 +2519,12 @@ _p[22] = {
                 this.appendNode(node, parent, index);
                 return node;
             },
-            appendNode: function(node, parent, index) {
+            appendNode: function appendNode(node, parent, index) {
                 if (parent) parent.insertChild(node, index);
                 this.attachNode(node);
                 return this;
             },
-            removeNode: function(node) {
+            removeNode: function removeNode(node) {
                 if (node.parent) {
                     node.parent.removeChild(node);
                     this.detachNode(node);
@@ -2476,7 +2533,7 @@ _p[22] = {
                     });
                 }
             },
-            attachNode: function(node) {
+            attachNode: function attachNode(node) {
                 var rc = this.getRenderContainer();
                 node.traverse(function(current) {
                     current.attached = true;
@@ -2487,7 +2544,7 @@ _p[22] = {
                     node: node
                 });
             },
-            detachNode: function(node) {
+            detachNode: function detachNode(node) {
                 var rc = this.getRenderContainer();
                 node.traverse(function(current) {
                     current.attached = false;
@@ -2497,7 +2554,7 @@ _p[22] = {
                     node: node
                 });
             },
-            getMinderTitle: function() {
+            getMinderTitle: function getMinderTitle() {
                 return this.getRoot().getText();
             }
         });
@@ -2505,7 +2562,9 @@ _p[22] = {
     }
 };
 
-//src/core/option.js
+//tem/core/option.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -2523,25 +2582,27 @@ _p[23] = {
             this._defaultOptions = {};
         });
         kity.extendClass(Minder, {
-            setDefaultOptions: function(options) {
+            setDefaultOptions: function setDefaultOptions(options) {
                 utils.extend(this._defaultOptions, options);
                 return this;
             },
-            getOption: function(key) {
+            getOption: function getOption(key) {
                 if (key) {
                     return key in this._options ? this._options[key] : this._defaultOptions[key];
                 } else {
                     return utils.extend({}, this._defaultOptions, this._options);
                 }
             },
-            setOption: function(key, value) {
+            setOption: function setOption(key, value) {
                 this._options[key] = value;
             }
         });
     }
 };
 
-//src/core/paper.js
+//tem/core/paper.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -2559,7 +2620,7 @@ _p[24] = {
             this._initPaper();
         });
         kity.extendClass(Minder, {
-            _initPaper: function() {
+            _initPaper: function _initPaper() {
                 this._paper = new kity.Paper();
                 this._paper._minder = this;
                 this._paper.getNode().ondragstart = function(e) {
@@ -2572,11 +2633,11 @@ _p[24] = {
                     this.renderTo(this._options.renderTo);
                 }
             },
-            _addRenderContainer: function() {
+            _addRenderContainer: function _addRenderContainer() {
                 this._rc = new kity.Group().setId(utils.uuid("minder"));
                 this._paper.addShape(this._rc);
             },
-            renderTo: function(target) {
+            renderTo: function renderTo(target) {
                 if (typeof target == "string") {
                     target = document.querySelector(target);
                 }
@@ -2584,7 +2645,7 @@ _p[24] = {
                     if (target.tagName.toLowerCase() == "script") {
                         var newTarget = document.createElement("div");
                         newTarget.id = target.id;
-                        newTarget.class = target.class;
+                        newTarget["class"] = target["class"];
                         target.parentNode.insertBefore(newTarget, target);
                         target.parentNode.removeChild(target);
                         target = newTarget;
@@ -2596,20 +2657,22 @@ _p[24] = {
                 }
                 return this;
             },
-            getRenderContainer: function() {
+            getRenderContainer: function getRenderContainer() {
                 return this._rc;
             },
-            getPaper: function() {
+            getPaper: function getPaper() {
                 return this._paper;
             },
-            getRenderTarget: function() {
+            getRenderTarget: function getRenderTarget() {
                 return this._renderTarget;
             }
         });
     }
 };
 
-//src/core/patch.js
+//tem/core/patch.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -2706,7 +2769,7 @@ _p[25] = {
             });
         }
         kity.extendClass(Minder, {
-            applyPatches: function(patches) {
+            applyPatches: function applyPatches(patches) {
                 for (var i = 0; i < patches.length; i++) {
                     applyPatch(this, patches[i]);
                 }
@@ -2717,15 +2780,26 @@ _p[25] = {
     }
 };
 
-//src/core/promise.js
+//tem/core/promise.js
+"use strict";
+
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+
 _p[26] = {
     value: function(require, exports, module) {
         /*!
-    **  Thenable -- Embeddable Minimum Strictly-Compliant Promises/A+ 1.1.1 Thenable
-    **  Copyright (c) 2013-2014 Ralf S. Engelschall <http://engelschall.com>
-    **  Licensed under The MIT License <http://opensource.org/licenses/MIT>
-    **  Source-Code distributed on <http://github.com/rse/thenable>
-    */
+  **  Thenable -- Embeddable Minimum Strictly-Compliant Promises/A+ 1.1.1 Thenable
+  **  Copyright (c) 2013-2014 Ralf S. Engelschall <http://engelschall.com>
+  **  Licensed under The MIT License <http://opensource.org/licenses/MIT>
+  **  Source-Code distributed on <http://github.com/rse/thenable>
+  */
         /*  promise states [Promises/A+ 2.1]  */
         var STATE_PENDING = 0;
         /*  [Promises/A+ 2.1.1]  */
@@ -2734,7 +2808,7 @@ _p[26] = {
         var STATE_REJECTED = 2;
         /*  [Promises/A+ 2.1.3]  */
         /*  promise object constructor  */
-        var Promise = function(executor) {
+        var Promise = function Promise(executor) {
             /*  optionally support non-constructor/plain-function call  */
             if (!(this instanceof Promise)) return new Promise(executor);
             /*  initialize object  */
@@ -2757,14 +2831,14 @@ _p[26] = {
         /*  Promise API methods  */
         Promise.prototype = {
             /*  promise resolving methods  */
-            fulfill: function(value) {
+            fulfill: function fulfill(value) {
                 return deliver(this, STATE_FULFILLED, "fulfillValue", value);
             },
-            reject: function(value) {
+            reject: function reject(value) {
                 return deliver(this, STATE_REJECTED, "rejectReason", value);
             },
             /*  'The then Method' [Promises/A+ 1.1, 1.2, 2.2]  */
-            then: function(onFulfilled, onRejected) {
+            then: function then(onFulfilled, onRejected) {
                 var curr = this;
                 var next = new Promise();
                 /*  [Promises/A+ 2.2.7]  */
@@ -2796,7 +2870,7 @@ _p[26] = {
             });
         };
         /*  deliver an action  */
-        var deliver = function(curr, state, name, value) {
+        var deliver = function deliver(curr, state, name, value) {
             if (curr.state === STATE_PENDING) {
                 curr.state = state;
                 /*  [Promises/A+ 2.1.2.1, 2.1.3.1]  */
@@ -2807,11 +2881,11 @@ _p[26] = {
             return curr;
         };
         /*  execute all handlers  */
-        var execute = function(curr) {
+        var execute = function execute(curr) {
             if (curr.state === STATE_FULFILLED) execute_handlers(curr, "onFulfilled", curr.fulfillValue); else if (curr.state === STATE_REJECTED) execute_handlers(curr, "onRejected", curr.rejectReason);
         };
         /*  execute particular set of handlers  */
-        var execute_handlers = function(curr, name, value) {
+        var execute_handlers = function execute_handlers(curr, name, value) {
             /* global process: true */
             /* global setImmediate: true */
             /* global setTimeout: true */
@@ -2821,15 +2895,17 @@ _p[26] = {
             var handlers = curr[name];
             curr[name] = [];
             /*  [Promises/A+ 2.2.2.3, 2.2.3.3]  */
-            var func = function() {
-                for (var i = 0; i < handlers.length; i++) handlers[i](value);
+            var func = function func() {
+                for (var i = 0; i < handlers.length; i++) {
+                    handlers[i](value);
+                }
             };
             /*  execute procedure asynchronously  */
             /*  [Promises/A+ 2.2.4, 3.1]  */
-            if (typeof process === "object" && typeof process.nextTick === "function") process.nextTick(func); else if (typeof setImmediate === "function") setImmediate(func); else setTimeout(func, 0);
+            if ((typeof process === "undefined" ? "undefined" : _typeof(process)) === "object" && typeof process.nextTick === "function") process.nextTick(func); else if (typeof setImmediate === "function") setImmediate(func); else setTimeout(func, 0);
         };
         /*  generate a resolver function */
-        var resolver = function(cb, next, method) {
+        var resolver = function resolver(cb, next, method) {
             return function(value) {
                 if (typeof cb !== "function") /*  [Promises/A+ 2.2.1, 2.2.7.3, 2.2.7.4]  */
                 next[method].call(next, value); else {
@@ -2850,7 +2926,7 @@ _p[26] = {
         };
         /*  'Promise Resolution Procedure'  */
         /*  [Promises/A+ 2.3]  */
-        var resolve = function(promise, x) {
+        var resolve = function resolve(promise, x) {
             /*  sanity check arguments  */
             /*  [Promises/A+ 2.3.1]  */
             if (promise === x) {
@@ -2858,9 +2934,9 @@ _p[26] = {
                 return;
             }
             /*  surgically check for a 'then' method
-            (mainly to just call the 'getter' of 'then' only once)  */
+        (mainly to just call the 'getter' of 'then' only once)  */
             var then;
-            if (typeof x === "object" && x !== null || typeof x === "function") {
+            if (_typeof(x) === "object" && x !== null || typeof x === "function") {
                 try {
                     then = x.then;
                 } /*  [Promises/A+ 2.3.3.1, 3.5]  */
@@ -2871,7 +2947,7 @@ _p[26] = {
                 }
             }
             /*  handle own Thenables    [Promises/A+ 2.3.2]
-            and similar 'thenables' [Promises/A+ 2.3.3]  */
+        and similar 'thenables' [Promises/A+ 2.3.3]  */
             if (typeof then === "function") {
                 var resolved = false;
                 try {
@@ -2917,7 +2993,9 @@ _p[26] = {
     }
 };
 
-//src/core/readonly.js
+//tem/core/readonly.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -2937,7 +3015,7 @@ _p[27] = {
             }
         });
         kity.extendClass(Minder, {
-            disable: function() {
+            disable: function disable() {
                 var me = this;
                 //禁用命令
                 me.bkqueryCommandState = me.queryCommandState;
@@ -2959,7 +3037,7 @@ _p[27] = {
                 this.setStatus("readonly");
                 me._interactChange();
             },
-            enable: function() {
+            enable: function enable() {
                 var me = this;
                 if (me.bkqueryCommandState) {
                     me.queryCommandState = me.bkqueryCommandState;
@@ -2976,23 +3054,25 @@ _p[27] = {
     }
 };
 
-//src/core/render.js
+//tem/core/render.js
+"use strict";
+
 _p[28] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
         var Minder = _p.r(20);
         var MinderNode = _p.r(22);
         var Renderer = kity.createClass("Renderer", {
-            constructor: function(node) {
+            constructor: function constructor(node) {
                 this.node = node;
             },
-            create: function(node) {
+            create: function create(node) {
                 throw new Error("Not implement: Renderer.create()");
             },
-            shouldRender: function(node) {
+            shouldRender: function shouldRender(node) {
                 return true;
             },
-            watchChange: function(data) {
+            watchChange: function watchChange(data) {
                 var changed;
                 if (this.watchingData === undefined) {
                     changed = true;
@@ -3003,23 +3083,23 @@ _p[28] = {
                 }
                 this.watchingData = data;
             },
-            shouldDraw: function(node) {
+            shouldDraw: function shouldDraw(node) {
                 return true;
             },
-            update: function(shape, node, box) {
+            update: function update(shape, node, box) {
                 if (this.shouldDraw()) this.draw(shape, node);
                 return this.place(shape, node, box);
             },
-            draw: function(shape, node) {
+            draw: function draw(shape, node) {
                 throw new Error("Not implement: Renderer.draw()");
             },
-            place: function(shape, node, box) {
+            place: function place(shape, node, box) {
                 throw new Error("Not implement: Renderer.place()");
             },
-            getRenderShape: function() {
+            getRenderShape: function getRenderShape() {
                 return this._renderShape || null;
             },
-            setRenderShape: function(shape) {
+            setRenderShape: function setRenderShape(shape) {
                 this._renderShape = shape;
             }
         });
@@ -3044,7 +3124,7 @@ _p[28] = {
                 });
             }
             return {
-                renderNodeBatch: function(nodes) {
+                renderNodeBatch: function renderNodeBatch(nodes) {
                     var rendererClasses = this._rendererClasses;
                     var lastBoxes = [];
                     var rendererCount = 0;
@@ -3107,7 +3187,7 @@ _p[28] = {
                         });
                     }
                 },
-                renderNode: function(node) {
+                renderNode: function renderNode(node) {
                     var rendererClasses = this._rendererClasses;
                     var i, latestBox, renderer;
                     if (!node._renderers) {
@@ -3151,12 +3231,12 @@ _p[28] = {
         }
         kity.extendClass(Minder, createMinderExtension());
         kity.extendClass(MinderNode, {
-            render: function() {
+            render: function render() {
                 if (!this.attached) return;
                 this.getMinder().renderNode(this);
                 return this;
             },
-            renderTree: function() {
+            renderTree: function renderTree() {
                 if (!this.attached) return;
                 var list = [];
                 this.traverse(function(node) {
@@ -3165,7 +3245,7 @@ _p[28] = {
                 this.getMinder().renderNodeBatch(list);
                 return this;
             },
-            getRenderer: function(type) {
+            getRenderer: function getRenderer(type) {
                 var rs = this._renderers;
                 if (!rs) return null;
                 for (var i = 0; i < rs.length; i++) {
@@ -3173,11 +3253,11 @@ _p[28] = {
                 }
                 return null;
             },
-            getContentBox: function() {
+            getContentBox: function getContentBox() {
                 //if (!this._contentBox) this.render();
                 return this.parent && this.parent.isCollapsed() ? new kity.Box() : this._contentBox || new kity.Box();
             },
-            getRenderBox: function(rendererType, refer) {
+            getRenderBox: function getRenderBox(rendererType, refer) {
                 var renderer = rendererType && this.getRenderer(rendererType);
                 var contentBox = renderer ? renderer.contentBox : this.getContentBox();
                 var ctm = kity.Matrix.getCTM(this.getRenderContainer(), refer || "paper");
@@ -3188,7 +3268,9 @@ _p[28] = {
     }
 };
 
-//src/core/select.js
+//tem/core/select.js
+"use strict";
+
 _p[29] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -3200,10 +3282,10 @@ _p[29] = {
         });
         // 选区管理
         kity.extendClass(Minder, {
-            _initSelection: function() {
+            _initSelection: function _initSelection() {
                 this._selectedNodes = [];
             },
-            renderChangedSelection: function(last) {
+            renderChangedSelection: function renderChangedSelection(last) {
                 var current = this.getSelectedNodes();
                 var changed = [];
                 current.forEach(function(node) {
@@ -3224,21 +3306,21 @@ _p[29] = {
                     changed.shift().render();
                 }
             },
-            getSelectedNodes: function() {
+            getSelectedNodes: function getSelectedNodes() {
                 //不能克隆返回，会对当前选区操作，从而影响querycommand
                 return this._selectedNodes;
             },
-            getSelectedNode: function() {
+            getSelectedNode: function getSelectedNode() {
                 return this.getSelectedNodes()[0] || null;
             },
-            removeAllSelectedNodes: function() {
+            removeAllSelectedNodes: function removeAllSelectedNodes() {
                 var me = this;
                 var last = this._selectedNodes.splice(0);
                 this._selectedNodes = [];
                 this.renderChangedSelection(last);
                 return this.fire("selectionclear");
             },
-            removeSelectedNodes: function(nodes) {
+            removeSelectedNodes: function removeSelectedNodes(nodes) {
                 var me = this;
                 var last = this._selectedNodes.slice(0);
                 nodes = utils.isArray(nodes) ? nodes : [ nodes ];
@@ -3250,7 +3332,7 @@ _p[29] = {
                 this.renderChangedSelection(last);
                 return this;
             },
-            select: function(nodes, isSingleSelect) {
+            select: function select(nodes, isSingleSelect) {
                 var lastSelect = this.getSelectedNodes().slice(0);
                 if (isSingleSelect) {
                     this._selectedNodes = [];
@@ -3264,14 +3346,14 @@ _p[29] = {
                 this.renderChangedSelection(lastSelect);
                 return this;
             },
-            selectById: function(ids, isSingleSelect) {
+            selectById: function selectById(ids, isSingleSelect) {
                 ids = utils.isArray(ids) ? ids : [ ids ];
                 var nodes = this.getNodesById(ids);
                 return this.select(nodes, isSingleSelect);
             },
             //当前选区中的节点在给定的节点范围内的保留选中状态，
             //没在给定范围的取消选中，给定范围中的但没在当前选中范围的也做选中效果
-            toggleSelect: function(node) {
+            toggleSelect: function toggleSelect(node) {
                 if (utils.isArray(node)) {
                     node.forEach(this.toggleSelect.bind(this));
                 } else {
@@ -3279,10 +3361,10 @@ _p[29] = {
                 }
                 return this;
             },
-            isSingleSelect: function() {
+            isSingleSelect: function isSingleSelect() {
                 return this._selectedNodes.length == 1;
             },
-            getSelectedAncestors: function(includeRoot) {
+            getSelectedAncestors: function getSelectedAncestors(includeRoot) {
                 var nodes = this.getSelectedNodes().slice(0), ancestors = [], judge;
                 // 根节点不参与计算
                 var rootIndex = nodes.indexOf(this.getRoot());
@@ -3310,7 +3392,7 @@ _p[29] = {
             }
         });
         kity.extendClass(MinderNode, {
-            isSelected: function() {
+            isSelected: function isSelected() {
                 var minder = this.getMinder();
                 return minder && minder.getSelectedNodes().indexOf(this) != -1;
             }
@@ -3318,7 +3400,9 @@ _p[29] = {
     }
 };
 
-//src/core/shortcut.js
+//tem/core/shortcut.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -3335,10 +3419,10 @@ _p[30] = {
         var Minder = _p.r(20);
         var MinderEvent = _p.r(14);
         /**
-     * 计算包含 meta 键的 keycode
-     *
-     * @param  {String|KeyEvent} unknown
-     */
+   * 计算包含 meta 键的 keycode
+   *
+   * @param  {String|KeyEvent} unknown
+   */
         function getMetaKeyCode(unknown) {
             var CTRL_MASK = 4096;
             var ALT_MASK = 8192;
@@ -3381,7 +3465,7 @@ _p[30] = {
             return metaKeyCode;
         }
         kity.extendClass(MinderEvent, {
-            isShortcutKey: function(keyCombine) {
+            isShortcutKey: function isShortcutKey(keyCombine) {
                 var keyEvent = this.originEvent;
                 if (!keyEvent) return false;
                 return getMetaKeyCode(keyCombine) == getMetaKeyCode(keyEvent);
@@ -3391,10 +3475,10 @@ _p[30] = {
             this._initShortcutKey();
         });
         kity.extendClass(Minder, {
-            _initShortcutKey: function() {
+            _initShortcutKey: function _initShortcutKey() {
                 this._bindShortcutKeys();
             },
-            _bindShortcutKeys: function() {
+            _bindShortcutKeys: function _bindShortcutKeys() {
                 var map = this._shortcutKeys = {};
                 var has = "hasOwnProperty";
                 this.on("keydown", function(e) {
@@ -3409,7 +3493,7 @@ _p[30] = {
                     }
                 });
             },
-            addShortcut: function(keys, fn) {
+            addShortcut: function addShortcut(keys, fn) {
                 var binds = this._shortcutKeys;
                 keys.split(/\|\s*/).forEach(function(combine) {
                     var parts = combine.split("::");
@@ -3422,7 +3506,7 @@ _p[30] = {
                     binds[combine] = fn;
                 });
             },
-            addCommandShortcutKeys: function(cmd, keys) {
+            addCommandShortcutKeys: function addCommandShortcutKeys(cmd, keys) {
                 var binds = this._commandShortcutKeys || (this._commandShortcutKeys = {});
                 var obj = {}, km = this;
                 if (keys) {
@@ -3435,25 +3519,25 @@ _p[30] = {
                     binds[command] = keys;
                     minder.addShortcut(keys, function execCommandByShortcut() {
                         /**
-                     * 之前判断有问题，由 === 0 改为 !== -1
-                     * @editor Naixor
-                     * @Date 2015-12-2
-                     */
+           * 之前判断有问题，由 === 0 改为 !== -1
+           * @editor Naixor
+           * @Date 2015-12-2
+           */
                         if (minder.queryCommandState(command) !== -1) {
                             minder.execCommand(command);
                         }
                     });
                 });
             },
-            getCommandShortcutKey: function(cmd) {
+            getCommandShortcutKey: function getCommandShortcutKey(cmd) {
                 var binds = this._commandShortcutKeys;
                 return binds && binds[cmd] || null;
             },
             /**
-         * @Desc: 添加一个判断是否支持原生Clipboard的变量，用于对ctrl + v和ctrl + c的处理
-         * @Editor: Naixor
-         * @Date: 2015.9.20
-         */
+     * @Desc: 添加一个判断是否支持原生Clipboard的变量，用于对ctrl + v和ctrl + c的处理
+     * @Editor: Naixor
+     * @Date: 2015.9.20
+     */
             supportClipboardEvent: function(window) {
                 return !!window.ClipboardEvent;
             }(window)
@@ -3461,7 +3545,9 @@ _p[30] = {
     }
 };
 
-//src/core/status.js
+//tem/core/status.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -3480,11 +3566,11 @@ _p[31] = {
             this._initStatus();
         });
         kity.extendClass(Minder, {
-            _initStatus: function() {
+            _initStatus: function _initStatus() {
                 this._status = "normal";
                 this._rollbackStatus = "normal";
             },
-            setStatus: function(status, force) {
+            setStatus: function setStatus(status, force) {
                 // 在 readonly 模式下，只有 force 为 true 才能切换回来
                 if (this._status == "readonly" && !force) return this;
                 if (status != this._status) {
@@ -3504,20 +3590,22 @@ _p[31] = {
                 }
                 return this;
             },
-            rollbackStatus: function() {
+            rollbackStatus: function rollbackStatus() {
                 this.setStatus(this._rollbackStatus);
             },
-            getRollbackStatus: function() {
+            getRollbackStatus: function getRollbackStatus() {
                 return this._rollbackStatus;
             },
-            getStatus: function() {
+            getStatus: function getStatus() {
                 return this._status;
             }
         });
     }
 };
 
-//src/core/template.js
+//tem/core/template.js
+"use strict";
+
 _p[32] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -3532,28 +3620,28 @@ _p[32] = {
         }
         exports.register = register;
         utils.extend(Minder, {
-            getTemplateList: function() {
+            getTemplateList: function getTemplateList() {
                 return _templates;
             }
         });
         kity.extendClass(Minder, function() {
             var originGetTheme = Minder.prototype.getTheme;
             return {
-                useTemplate: function(name, duration) {
+                useTemplate: function useTemplate(name, duration) {
                     this.setTemplate(name);
                     this.refresh(duration || 800);
                 },
-                getTemplate: function() {
+                getTemplate: function getTemplate() {
                     return this._template || "default";
                 },
-                setTemplate: function(name) {
+                setTemplate: function setTemplate(name) {
                     this._template = name || null;
                 },
-                getTemplateSupport: function(method) {
+                getTemplateSupport: function getTemplateSupport(method) {
                     var supports = _templates[this.getTemplate()];
                     return supports && supports[method];
                 },
-                getTheme: function(node) {
+                getTheme: function getTheme(node) {
                     var support = this.getTemplateSupport("getTheme") || originGetTheme;
                     return support.call(this, node);
                 }
@@ -3563,11 +3651,11 @@ _p[32] = {
             var originGetLayout = MinderNode.prototype.getLayout;
             var originGetConnect = MinderNode.prototype.getConnect;
             return {
-                getLayout: function() {
+                getLayout: function getLayout() {
                     var support = this.getMinder().getTemplateSupport("getLayout") || originGetLayout;
                     return support.call(this, this);
                 },
-                getConnect: function() {
+                getConnect: function getConnect() {
                     var support = this.getMinder().getTemplateSupport("getConnect") || originGetConnect;
                     return support.call(this, this);
                 }
@@ -3575,22 +3663,22 @@ _p[32] = {
         }());
         Module.register("TemplateModule", {
             /**
-         * @command Template
-         * @description 设置当前脑图的模板
-         * @param {string} name 模板名称
-         *    允许使用的模板可以使用 `kityminder.Minder.getTemplateList()` 查询
-         * @state
-         *   0: 始终可用
-         * @return 返回当前的模板名称
-         */
+     * @command Template
+     * @description 设置当前脑图的模板
+     * @param {string} name 模板名称
+     *    允许使用的模板可以使用 `kityminder.Minder.getTemplateList()` 查询
+     * @state
+     *   0: 始终可用
+     * @return 返回当前的模板名称
+     */
             commands: {
                 template: kity.createClass("TemplateCommand", {
                     base: Command,
-                    execute: function(minder, name) {
+                    execute: function execute(minder, name) {
                         minder.useTemplate(name);
                         minder.execCommand("camera");
                     },
-                    queryValue: function(minder) {
+                    queryValue: function queryValue(minder) {
                         return minder.getTemplate() || "default";
                     }
                 })
@@ -3599,7 +3687,9 @@ _p[32] = {
     }
 };
 
-//src/core/theme.js
+//tem/core/theme.js
+"use strict";
+
 _p[33] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -3609,53 +3699,53 @@ _p[33] = {
         var Module = _p.r(21);
         var Command = _p.r(10);
         var cssLikeValueMatcher = {
-            left: function(value) {
+            left: function left(value) {
                 return 3 in value && value[3] || 1 in value && value[1] || value[0];
             },
-            right: function(value) {
+            right: function right(value) {
                 return 1 in value && value[1] || value[0];
             },
-            top: function(value) {
+            top: function top(value) {
                 return value[0];
             },
-            bottom: function(value) {
+            bottom: function bottom(value) {
                 return 2 in value && value[2] || value[0];
             }
         };
         var _themes = {};
         /**
-     * 注册一个主题
-     *
-     * @param  {String} name  主题的名称
-     * @param  {Plain} theme 主题的样式描述
-     *
-     * @example
-     *     Minder.registerTheme('default', {
-     *         'root-color': 'red',
-     *         'root-stroke': 'none',
-     *         'root-padding': [10, 20]
-     *     });
-     */
+   * 注册一个主题
+   *
+   * @param  {String} name  主题的名称
+   * @param  {Plain} theme 主题的样式描述
+   *
+   * @example
+   *     Minder.registerTheme('default', {
+   *         'root-color': 'red',
+   *         'root-stroke': 'none',
+   *         'root-padding': [10, 20]
+   *     });
+   */
         function register(name, theme) {
             _themes[name] = theme;
         }
         exports.register = register;
         utils.extend(Minder, {
-            getThemeList: function() {
+            getThemeList: function getThemeList() {
                 return _themes;
             }
         });
         kity.extendClass(Minder, {
             /**
-         * 切换脑图实例上的主题
-         * @param  {String} name 要使用的主题的名称
-         */
-            useTheme: function(name) {
+     * 切换脑图实例上的主题
+     * @param  {String} name 要使用的主题的名称
+     */
+            useTheme: function useTheme(name) {
                 this.setTheme(name);
                 this.refresh(800);
                 return true;
             },
-            setTheme: function(name) {
+            setTheme: function setTheme(name) {
                 if (name && !_themes[name]) throw new Error("Theme " + name + " not exists!");
                 var lastTheme = this._theme;
                 this._theme = name || null;
@@ -3673,21 +3763,21 @@ _p[33] = {
                 return this;
             },
             /**
-         * 获取脑图实例上的当前主题
-         * @return {[type]} [description]
-         */
-            getTheme: function(node) {
+     * 获取脑图实例上的当前主题
+     * @return {[type]} [description]
+     */
+            getTheme: function getTheme(node) {
                 return this._theme || this.getOption("defaultTheme") || "fresh-blue";
             },
-            getThemeItems: function(node) {
+            getThemeItems: function getThemeItems(node) {
                 var theme = this.getTheme(node);
                 return _themes[this.getTheme(node)];
             },
             /**
-         * 获得脑图实例上的样式
-         * @param  {String} item 样式名称
-         */
-            getStyle: function(item, node) {
+     * 获得脑图实例上的样式
+     * @param  {String} item 样式名称
+     */
+            getStyle: function getStyle(item, node) {
                 var items = this.getThemeItems(node);
                 var segment, dir, selector, value, matcher;
                 if (item in items) return items[item];
@@ -3708,16 +3798,16 @@ _p[33] = {
                 return null;
             },
             /**
-         * 获取指定节点的样式
-         * @param  {String} name 样式名称，可以不加节点类型的前缀
-         */
-            getNodeStyle: function(node, name) {
+     * 获取指定节点的样式
+     * @param  {String} name 样式名称，可以不加节点类型的前缀
+     */
+            getNodeStyle: function getNodeStyle(node, name) {
                 var value = this.getStyle(node.getType() + "-" + name, node);
                 return value !== null ? value : this.getStyle(name, node);
             }
         });
         kity.extendClass(MinderNode, {
-            getStyle: function(name) {
+            getStyle: function getStyle(name) {
                 return this.getMinder().getNodeStyle(this, name);
             }
         });
@@ -3727,20 +3817,20 @@ _p[33] = {
             },
             commands: {
                 /**
-             * @command Theme
-             * @description 设置当前脑图的主题
-             * @param {string} name 主题名称
-             *    允许使用的主题可以使用 `kityminder.Minder.getThemeList()` 查询
-             * @state
-             *   0: 始终可用
-             * @return 返回当前的主题名称
-             */
+       * @command Theme
+       * @description 设置当前脑图的主题
+       * @param {string} name 主题名称
+       *    允许使用的主题可以使用 `kityminder.Minder.getThemeList()` 查询
+       * @state
+       *   0: 始终可用
+       * @return 返回当前的主题名称
+       */
                 theme: kity.createClass("ThemeCommand", {
                     base: Command,
-                    execute: function(km, name) {
+                    execute: function execute(km, name) {
                         return km.useTheme(name);
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         return km.getTheme() || "default";
                     }
                 })
@@ -3752,7 +3842,9 @@ _p[33] = {
     }
 };
 
-//src/core/utils.js
+//tem/core/utils.js
+"use strict";
+
 _p[34] = {
     value: function(require, exports) {
         var kity = _p.r(18);
@@ -3811,14 +3903,18 @@ _p[34] = {
     }
 };
 
-//src/expose-kityminder.js
+//tem/expose-kityminder.js
+"use strict";
+
 _p[35] = {
     value: function(require, exports, module) {
         module.exports = window.kityminder = _p.r(36);
     }
 };
 
-//src/kityminder.js
+//tem/kityminder.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -3922,7 +4018,9 @@ _p[36] = {
     }
 };
 
-//src/layout/btree.js
+//tem/layout/btree.js
+"use strict";
+
 _p[37] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -3994,7 +4092,7 @@ _p[37] = {
             }
             Layout.register(name, kity.createClass({
                 base: Layout,
-                doLayout: function(parent, children) {
+                doLayout: function doLayout(parent, children) {
                     var pbox = parent.getContentBox();
                     if (axis == "x") {
                         parent.setVertexOut(new kity.Point(pbox[name], pbox.cy));
@@ -4046,7 +4144,9 @@ _p[37] = {
     }
 };
 
-//src/layout/filetree.js
+//tem/layout/filetree.js
+"use strict";
+
 _p[38] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4056,7 +4156,7 @@ _p[38] = {
             var name = "filetree-" + (dir > 0 ? "down" : "up");
             Layout.register(name, kity.createClass({
                 base: Layout,
-                doLayout: function(parent, children, round) {
+                doLayout: function doLayout(parent, children, round) {
                     var pBox = parent.getContentBox();
                     var indent = 20;
                     parent.setVertexOut(new kity.Point(pBox.left + indent, dir > 0 ? pBox.bottom : pBox.top));
@@ -4087,7 +4187,7 @@ _p[38] = {
                     }
                     this.move(children, xAdjust, yAdjust);
                 },
-                getOrderHint: function(node) {
+                getOrderHint: function getOrderHint(node) {
                     var hint = [];
                     var box = node.getLayoutBox();
                     var offset = node.getLevel() > 1 ? 3 : 5;
@@ -4120,7 +4220,9 @@ _p[38] = {
     }
 };
 
-//src/layout/fish-bone-master.js
+//tem/layout/fish-bone-master.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -4135,7 +4237,7 @@ _p[39] = {
         var Layout = _p.r(19);
         Layout.register("fish-bone-master", kity.createClass("FishBoneMasterLayout", {
             base: Layout,
-            doLayout: function(parent, children, round) {
+            doLayout: function doLayout(parent, children, round) {
                 var upPart = [], downPart = [];
                 var child = children[0];
                 var pBox = parent.getContentBox();
@@ -4174,7 +4276,9 @@ _p[39] = {
     }
 };
 
-//src/layout/fish-bone-slave.js
+//tem/layout/fish-bone-slave.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -4189,7 +4293,7 @@ _p[40] = {
         var Layout = _p.r(19);
         Layout.register("fish-bone-slave", kity.createClass("FishBoneSlaveLayout", {
             base: Layout,
-            doLayout: function(parent, children, round) {
+            doLayout: function doLayout(parent, children, round) {
                 var layout = this;
                 var abs = Math.abs;
                 var GOLD_CUT = 1 - .618;
@@ -4235,7 +4339,9 @@ _p[40] = {
     }
 };
 
-//src/layout/mind.js
+//tem/layout/mind.js
+"use strict";
+
 _p[41] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4243,7 +4349,7 @@ _p[41] = {
         var Minder = _p.r(20);
         Layout.register("mind", kity.createClass({
             base: Layout,
-            doLayout: function(node, children) {
+            doLayout: function doLayout(node, children) {
                 var layout = this;
                 var half = Math.ceil(node.children.length / 2);
                 var right = [];
@@ -4259,7 +4365,7 @@ _p[41] = {
                 node.setVertexOut(new kity.Point(box.cx, box.cy));
                 node.setLayoutVectorOut(new kity.Vector(0, 0));
             },
-            getOrderHint: function(node) {
+            getOrderHint: function getOrderHint(node) {
                 var hint = [];
                 var box = node.getLayoutBox();
                 var offset = 5;
@@ -4291,7 +4397,9 @@ _p[41] = {
     }
 };
 
-//src/layout/tianpan.js
+//tem/layout/tianpan.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -4307,7 +4415,7 @@ _p[42] = {
         var Minder = _p.r(20);
         Layout.register("tianpan", kity.createClass({
             base: Layout,
-            doLayout: function(parent, children) {
+            doLayout: function doLayout(parent, children) {
                 if (children.length == 0) return;
                 var layout = this;
                 var pbox = parent.getContentBox();
@@ -4330,7 +4438,7 @@ _p[42] = {
                     layout.move([ child ], x, y);
                 });
             },
-            getOrderHint: function(node) {
+            getOrderHint: function getOrderHint(node) {
                 var hint = [];
                 var box = node.getLayoutBox();
                 var offset = 5;
@@ -4362,7 +4470,9 @@ _p[42] = {
     }
 };
 
-//src/module/arrange.js
+//tem/module/arrange.js
+"use strict";
+
 _p[43] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4370,7 +4480,7 @@ _p[43] = {
         var Command = _p.r(10);
         var Module = _p.r(21);
         kity.extendClass(MinderNode, {
-            arrange: function(index) {
+            arrange: function arrange(index) {
                 var parent = this.parent;
                 if (!parent) return;
                 var sibling = parent.children;
@@ -4391,16 +4501,16 @@ _p[43] = {
             return selected && selected.parent && selected.parent.children.length > 1;
         }
         /**
-     * @command ArrangeUp
-     * @description 向上调整选中节点的位置
-     * @shortcut Alt + Up
-     * @state
-     *    0: 当前选中了具有相同父亲的节点
-     *   -1: 其它情况
-     */
+   * @command ArrangeUp
+   * @description 向上调整选中节点的位置
+   * @shortcut Alt + Up
+   * @state
+   *    0: 当前选中了具有相同父亲的节点
+   *   -1: 其它情况
+   */
         var ArrangeUpCommand = kity.createClass("ArrangeUpCommand", {
             base: Command,
-            execute: function(km) {
+            execute: function execute(km) {
                 var nodes = km.getSelectedNodes();
                 nodes.sort(asc);
                 var lastIndexes = nodes.map(function(node) {
@@ -4411,22 +4521,22 @@ _p[43] = {
                 });
                 km.layout(300);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selected = km.getSelectedNode();
                 return selected ? 0 : -1;
             }
         });
         /**
-     * @command ArrangeDown
-     * @description 向下调整选中节点的位置
-     * @shortcut Alt + Down
-     * @state
-     *    0: 当前选中了具有相同父亲的节点
-     *   -1: 其它情况
-     */
+   * @command ArrangeDown
+   * @description 向下调整选中节点的位置
+   * @shortcut Alt + Down
+   * @state
+   *    0: 当前选中了具有相同父亲的节点
+   *   -1: 其它情况
+   */
         var ArrangeDownCommand = kity.createClass("ArrangeUpCommand", {
             base: Command,
-            execute: function(km) {
+            execute: function execute(km) {
                 var nodes = km.getSelectedNodes();
                 nodes.sort(desc);
                 var lastIndexes = nodes.map(function(node) {
@@ -4437,22 +4547,22 @@ _p[43] = {
                 });
                 km.layout(300);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selected = km.getSelectedNode();
                 return selected ? 0 : -1;
             }
         });
         /**
-     * @command Arrange
-     * @description 调整选中节点的位置
-     * @param {number} index 调整后节点的新位置
-     * @state
-     *    0: 当前选中了具有相同父亲的节点
-     *   -1: 其它情况
-     */
+   * @command Arrange
+   * @description 调整选中节点的位置
+   * @param {number} index 调整后节点的新位置
+   * @state
+   *    0: 当前选中了具有相同父亲的节点
+   *   -1: 其它情况
+   */
         var ArrangeCommand = kity.createClass("ArrangeCommand", {
             base: Command,
-            execute: function(km, index) {
+            execute: function execute(km, index) {
                 var nodes = km.getSelectedNodes().slice();
                 if (!nodes.length) return;
                 var ancestor = MinderNode.getCommonAncestor(nodes);
@@ -4474,7 +4584,7 @@ _p[43] = {
                 });
                 km.layout(300);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selected = km.getSelectedNode();
                 return selected ? 0 : -1;
             }
@@ -4500,7 +4610,9 @@ _p[43] = {
     }
 };
 
-//src/module/basestyle.js
+//tem/module/basestyle.js
+"use strict";
+
 _p[44] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4529,17 +4641,17 @@ _p[44] = {
             return {
                 commands: {
                     /**
-                 * @command Bold
-                 * @description 加粗选中的节点
-                 * @shortcut Ctrl + B
-                 * @state
-                 *   0: 当前有选中的节点
-                 *  -1: 当前没有选中的节点
-                 *   1: 当前已选中的节点已加粗
-                 */
+         * @command Bold
+         * @description 加粗选中的节点
+         * @shortcut Ctrl + B
+         * @state
+         *   0: 当前有选中的节点
+         *  -1: 当前没有选中的节点
+         *   1: 当前已选中的节点已加粗
+         */
                     bold: kity.createClass("boldCommand", {
                         base: Command,
-                        execute: function(km) {
+                        execute: function execute(km) {
                             var nodes = km.getSelectedNodes();
                             if (this.queryState("bold") == 1) {
                                 nodes.forEach(function(n) {
@@ -4552,7 +4664,7 @@ _p[44] = {
                             }
                             km.layout();
                         },
-                        queryState: function() {
+                        queryState: function queryState() {
                             var nodes = km.getSelectedNodes(), result = 0;
                             if (nodes.length === 0) {
                                 return -1;
@@ -4567,17 +4679,17 @@ _p[44] = {
                         }
                     }),
                     /**
-                 * @command Italic
-                 * @description 加斜选中的节点
-                 * @shortcut Ctrl + I
-                 * @state
-                 *   0: 当前有选中的节点
-                 *  -1: 当前没有选中的节点
-                 *   1: 当前已选中的节点已加斜
-                 */
+         * @command Italic
+         * @description 加斜选中的节点
+         * @shortcut Ctrl + I
+         * @state
+         *   0: 当前有选中的节点
+         *  -1: 当前没有选中的节点
+         *   1: 当前已选中的节点已加斜
+         */
                     italic: kity.createClass("italicCommand", {
                         base: Command,
-                        execute: function(km) {
+                        execute: function execute(km) {
                             var nodes = km.getSelectedNodes();
                             if (this.queryState("italic") == 1) {
                                 nodes.forEach(function(n) {
@@ -4590,7 +4702,7 @@ _p[44] = {
                             }
                             km.layout();
                         },
-                        queryState: function() {
+                        queryState: function queryState() {
                             var nodes = km.getSelectedNodes(), result = 0;
                             if (nodes.length === 0) {
                                 return -1;
@@ -4615,7 +4727,9 @@ _p[44] = {
     }
 };
 
-//src/module/clipboard.js
+//tem/module/clipboard.js
+"use strict";
+
 _p[45] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4634,11 +4748,11 @@ _p[45] = {
                     return node.clone();
                 });
                 /*
-            * fixed bug: Modified on 2015.08.05
-            * 原因：粘贴递归 append 时没有清空原来父节点的子节点，而父节点被复制的时候，是连同子节点一起复制过来的
-            * 解决办法：增加了下面这一行代码
-            * by: @zhangbobell zhangbobell@163.com
-            */
+      * fixed bug: Modified on 2015.08.05
+      * 原因：粘贴递归 append 时没有清空原来父节点的子节点，而父节点被复制的时候，是连同子节点一起复制过来的
+      * 解决办法：增加了下面这一行代码
+      * by: @zhangbobell zhangbobell@163.com
+      */
                 child.clearChildren();
                 for (var i = 0, ci; ci = children[i]; i++) {
                     appendChildNode(child, ci);
@@ -4654,31 +4768,31 @@ _p[45] = {
                 });
             }
             /**
-         * @command Copy
-         * @description 复制当前选中的节点
-         * @shortcut Ctrl + C
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         */
+     * @command Copy
+     * @description 复制当前选中的节点
+     * @shortcut Ctrl + C
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
             var CopyCommand = kity.createClass("CopyCommand", {
                 base: Command,
-                execute: function(km) {
+                execute: function execute(km) {
                     sendToClipboard(km.getSelectedAncestors(true));
                     this.setContentChanged(false);
                 }
             });
             /**
-         * @command Cut
-         * @description 剪切当前选中的节点
-         * @shortcut Ctrl + X
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         */
+     * @command Cut
+     * @description 剪切当前选中的节点
+     * @shortcut Ctrl + X
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
             var CutCommand = kity.createClass("CutCommand", {
                 base: Command,
-                execute: function(km) {
+                execute: function execute(km) {
                     var ancestors = km.getSelectedAncestors();
                     if (ancestors.length === 0) return;
                     sendToClipboard(ancestors);
@@ -4690,16 +4804,16 @@ _p[45] = {
                 }
             });
             /**
-         * @command Paste
-         * @description 粘贴已复制的节点到每一个当前选中的节点上
-         * @shortcut Ctrl + V
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         */
+     * @command Paste
+     * @description 粘贴已复制的节点到每一个当前选中的节点上
+     * @shortcut Ctrl + V
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     */
             var PasteCommand = kity.createClass("PasteCommand", {
                 base: Command,
-                execute: function(km) {
+                execute: function execute(km) {
                     if (_clipboardNodes.length) {
                         var nodes = km.getSelectedNodes();
                         if (!nodes.length) return;
@@ -4713,23 +4827,23 @@ _p[45] = {
                         km.layout(300);
                     }
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     return km.getSelectedNode() ? 0 : -1;
                 }
             });
             /**
-         * @Desc: 若支持原生clipboadr事件则基于原生扩展，否则使用km的基础事件只处理节点的粘贴复制
-         * @Editor: Naixor
-         * @Date: 2015.9.20
-         */
+     * @Desc: 若支持原生clipboadr事件则基于原生扩展，否则使用km的基础事件只处理节点的粘贴复制
+     * @Editor: Naixor
+     * @Date: 2015.9.20
+     */
             if (km.supportClipboardEvent && !kity.Browser.gecko) {
-                var Copy = function(e) {
+                var Copy = function Copy(e) {
                     this.fire("beforeCopy", e);
                 };
-                var Cut = function(e) {
+                var Cut = function Cut(e) {
                     this.fire("beforeCut", e);
                 };
-                var Paste = function(e) {
+                var Paste = function Paste(e) {
                     this.fire("beforePaste", e);
                 };
                 return {
@@ -4764,7 +4878,46 @@ _p[45] = {
     }
 };
 
-//src/module/dragtree.js
+//tem/module/dragtree.js
+"use strict";
+
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        enumerableOnly && (symbols = symbols.filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+
+function _objectSpread(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = null != arguments[i] ? arguments[i] : {};
+        i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+
 _p[46] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -4775,7 +4928,7 @@ _p[46] = {
         // 矩形的变形动画定义
         var MoveToParentCommand = kity.createClass("MoveToParentCommand", {
             base: Command,
-            execute: function(minder, nodes, parent) {
+            execute: function execute(minder, nodes, parent) {
                 var node;
                 for (var i = 0; i < nodes.length; i++) {
                     node = nodes[i];
@@ -4791,12 +4944,12 @@ _p[46] = {
         });
         var DropHinter = kity.createClass("DropHinter", {
             base: kity.Group,
-            constructor: function() {
+            constructor: function constructor() {
                 this.callBase();
                 this.rect = new kity.Rect();
                 this.addShape(this.rect);
             },
-            render: function(target) {
+            render: function render(target) {
                 this.setVisible(!!target);
                 if (target) {
                     this.rect.setBox(target.getLayoutBox()).setRadius(target.getStyle("radius") || 0).stroke(target.getStyle("drop-hint-color") || "yellow", target.getStyle("drop-hint-width") || 2);
@@ -4806,13 +4959,13 @@ _p[46] = {
         });
         var OrderHinter = kity.createClass("OrderHinter", {
             base: kity.Group,
-            constructor: function() {
+            constructor: function constructor() {
                 this.callBase();
                 this.area = new kity.Rect();
                 this.path = new kity.Path();
                 this.addShapes([ this.area, this.path ]);
             },
-            render: function(hint) {
+            render: function render(hint) {
                 this.setVisible(!!hint);
                 if (hint) {
                     this.area.setBox(hint.area);
@@ -4826,18 +4979,19 @@ _p[46] = {
         //    1. 从节点列表计算出拖动部分
         //    2. 计算可以 drop 的节点，产生 drop 交互提示
         var TreeDragger = kity.createClass("TreeDragger", {
-            constructor: function(minder) {
+            constructor: function constructor(minder) {
                 this._minder = minder;
                 this._dropHinter = new DropHinter();
                 this._orderHinter = new OrderHinter();
+                this.dragNodeCopy = null;
                 minder.getRenderContainer().addShapes([ this._dropHinter, this._orderHinter ]);
             },
-            dragStart: function(position) {
+            dragStart: function dragStart(position) {
                 // 只记录开始位置，不马上开启拖放模式
                 // 这个位置同时是拖放范围收缩时的焦点位置（中心）
                 this._startPosition = position;
             },
-            dragMove: function(position) {
+            dragMove: function dragMove(position) {
                 // 启动拖放模式需要最小的移动距离
                 var DRAG_MOVE_THRESHOLD = 10;
                 if (!this._startPosition) return;
@@ -4863,13 +5017,13 @@ _p[46] = {
                     this._renderOrderHint(this._orderSucceedHint = null);
                 }
             },
-            dragEnd: function() {
+            dragEnd: function dragEnd() {
                 this._startPosition = null;
                 this._dragPosition = null;
                 if (!this._dragMode) {
                     return;
                 }
-                this._fadeDragSources(1);
+                this._fadeDragSources(1, false);
                 if (this._dropSucceedTarget) {
                     this._dragSources.forEach(function(source) {
                         source.setLayoutOffset(null);
@@ -4902,13 +5056,13 @@ _p[46] = {
             // 进入拖放模式：
             //    1. 计算拖放源和允许的拖放目标
             //    2. 标记已启动
-            _enterDragMode: function() {
+            _enterDragMode: function _enterDragMode() {
                 this._calcDragSources();
                 if (!this._dragSources.length) {
                     this._startPosition = null;
                     return false;
                 }
-                this._fadeDragSources(.5);
+                this._fadeDragSources(.5, true);
                 this._calcDropTargets();
                 this._calcOrderHints();
                 this._dragMode = true;
@@ -4923,13 +5077,27 @@ _p[46] = {
             //       1. 将节点按照树高排序，排序后只可能是前面节点是后面节点的祖先
             //       2. 从后往前枚举排序的结果，如果发现枚举目标之前存在其祖先，
             //          则排除枚举目标作为拖放源，否则加入拖放源
-            _calcDragSources: function() {
+            _calcDragSources: function _calcDragSources() {
                 this._dragSources = this._minder.getSelectedAncestors();
             },
-            _fadeDragSources: function(opacity) {
+            _fadeDragSources: function _fadeDragSources(opacity, hideConnect) {
                 var minder = this._minder;
+                var dragNode = this._dragSources[0];
+                if (hideConnect) {
+                    if (dragNode && dragNode.parent) {
+                        this.dragNodeCopy = minder.createNode(dragNode.data.text, dragNode.parent, dragNode.getIndex() + 1);
+                        this.dragNodeCopy.setGlobalLayoutTransform(dragNode.getGlobalLayoutTransform());
+                        this.dragNodeCopy.render();
+                        this.dragNodeCopy.getRenderContainer().items.forEach(function(i) {
+                            i.fill("#E1DFFF");
+                        });
+                    }
+                } else {
+                    minder.removeNode(this.dragNodeCopy);
+                }
                 this._dragSources.forEach(function(source) {
                     source.getRenderContainer().setOpacity(opacity, 200);
+                    source.hideConnect = hideConnect;
                     source.traverse(function(node) {
                         if (opacity < 1) {
                             minder.detachNode(node);
@@ -4948,7 +5116,7 @@ _p[46] = {
             //       (2) 如果不是拖放目标之一，以当前子节点为当前节点，回到 1 计算
             //    3. 返回允许列表
             //
-            _calcDropTargets: function() {
+            _calcDropTargets: function _calcDropTargets() {
                 function findAvailableParents(nodes, root) {
                     var availables = [], i;
                     availables.push(root);
@@ -4965,7 +5133,7 @@ _p[46] = {
                     return source.getLayoutBox();
                 });
             },
-            _calcOrderHints: function() {
+            _calcOrderHints: function _calcOrderHints() {
                 var sources = this._dragSources;
                 var ancestor = MinderNode.getCommonAncestor(sources);
                 // 只有一个元素选中，公共祖先是其父
@@ -4982,7 +5150,7 @@ _p[46] = {
                     return hint;
                 }, []);
             },
-            _leaveDragMode: function() {
+            _leaveDragMode: function _leaveDragMode() {
                 this._dragMode = false;
                 this._dropSucceedTarget = null;
                 this._orderSucceedHint = null;
@@ -4990,7 +5158,7 @@ _p[46] = {
                 this._renderOrderHint(null);
                 this._minder.rollbackStatus();
             },
-            _drawForDragMode: function() {
+            _drawForDragMode: function _drawForDragMode() {
                 this._text.setContent(this._dragSources.length + " items");
                 this._text.setPosition(this._startPosition.x, this._startPosition.y + 5);
                 this._minder.getRenderContainer().addShape(this);
@@ -5003,7 +5171,7 @@ _p[46] = {
      * @returns {*}
      * @private
      */
-            _boxTest: function(targets, targetBoxMapper, judge) {
+            _boxTest: function _boxTest(targets, targetBoxMapper, judge) {
                 var sourceBoxes = this._dragSources.map(function(source) {
                     return source.getLayoutBox();
                 });
@@ -5011,20 +5179,29 @@ _p[46] = {
                 judge = judge || function(intersectBox, sourceBox, targetBox) {
                     return intersectBox && !intersectBox.isEmpty();
                 };
+                var returnTarget = null, maxArea = 0;
                 for (i = 0; i < targets.length; i++) {
                     target = targets[i];
                     targetBox = targetBoxMapper.call(this, target, i);
+                    var right = target.children && target.children.length > 0 ? target.getStyle && target.getStyle("margin-right") || 0 : targetBox.width * 2;
+                    targetBox = _objectSpread(_objectSpread({}, targetBox), {}, {
+                        top: targetBox.top - targetBox.height * .5,
+                        bottom: targetBox.bottom + targetBox.height * .5,
+                        right: targetBox.right + right
+                    });
                     for (j = 0; j < sourceBoxes.length; j++) {
                         sourceBox = sourceBoxes[j];
                         var intersectBox = sourceBox.intersect(targetBox);
-                        if (judge(intersectBox, sourceBox, targetBox)) {
-                            return target;
+                        var intersectBoxArea = intersectBox.width * intersectBox.height;
+                        if (judge(intersectBox, sourceBox, targetBox) && intersectBoxArea > maxArea && target != this.dragNodeCopy) {
+                            maxArea = intersectBoxArea;
+                            returnTarget = target;
                         }
                     }
                 }
-                return null;
+                return returnTarget;
             },
-            _dropTest: function() {
+            _dropTest: function _dropTest() {
                 this._dropSucceedTarget = this._boxTest(this._dropTargets, function(target, i) {
                     return this._dropTargetBoxes[i];
                 }, function(intersectBox, sourceBox, targetBox) {
@@ -5033,66 +5210,65 @@ _p[46] = {
                     }
                     if (!intersectBox) return false;
                     /*
-           * Added by zhangbobell, 2015.9.8
-           *
-           * 增加了下面一行判断，修复了循环比较中 targetBox 为折叠节点时，intersetBox 面积为 0，
-           * 而 targetBox 的 width 和 height 均为 0
-           * 此时造成了满足以下的第二个条件而返回 true
-           * */
+         * Added by zhangbobell, 2015.9.8
+         *
+         * 增加了下面一行判断，修复了循环比较中 targetBox 为折叠节点时，intersetBox 面积为 0，
+         * 而 targetBox 的 width 和 height 均为 0
+         * 此时造成了满足以下的第二个条件而返回 true
+         * */
                     if (!area(intersectBox)) return false;
                     // 面积判断，交叉面积大于其中的一半
                     if (area(intersectBox) > .5 * Math.min(area(sourceBox), area(targetBox))) return true;
-                    // 有一个边完全重合的情况，也认为两个是交叉的
-                    if (intersectBox.width + 1 >= Math.min(sourceBox.width, targetBox.width)) return true;
-                    if (intersectBox.height + 1 >= Math.min(sourceBox.height, targetBox.height)) return true;
+                    // 产生了交集,则合并
+                    if (intersectBox.width && intersectBox.height) return true;
                     return false;
                 });
                 this._renderDropHint(this._dropSucceedTarget);
                 return !!this._dropSucceedTarget;
             },
-            _orderTest: function() {
+            _orderTest: function _orderTest() {
                 this._orderSucceedHint = this._boxTest(this._orderHints, function(hint) {
                     return hint.area;
                 });
                 this._renderOrderHint(this._orderSucceedHint);
                 return !!this._orderSucceedHint;
             },
-            _renderDropHint: function(target) {
+            _renderDropHint: function _renderDropHint(target) {
                 this._dropHinter.render(target);
             },
-            _renderOrderHint: function(hint) {
+            _renderOrderHint: function _renderOrderHint(hint) {
                 this._orderHinter.render(hint);
             },
-            preventDragMove: function() {
+            preventDragMove: function preventDragMove() {
                 this._startPosition = null;
             }
         });
         Module.register("DragTree", function() {
             var dragger;
             return {
-                init: function() {
+                init: function init() {
                     dragger = new TreeDragger(this);
                     window.addEventListener("mouseup", function() {
                         dragger.dragEnd();
                     });
                 },
                 events: {
-                    "normal.mousedown inputready.mousedown": function(e) {
+                    "normal.mousedown inputready.mousedown": function normalMousedownInputreadyMousedown(e) {
                         // 单选中根节点也不触发拖拽
                         if (e.originEvent.button) return;
                         if (e.getTargetNode() && e.getTargetNode() != this.getRoot()) {
                             dragger.dragStart(e.getPosition());
                         }
                     },
-                    "normal.mousemove dragtree.mousemove": function(e) {
+                    "normal.mousemove dragtree.mousemove": function normalMousemoveDragtreeMousemove(e) {
                         dragger.dragMove(e.getPosition());
                     },
-                    "normal.mouseup dragtree.beforemouseup": function(e) {
+                    "normal.mouseup dragtree.beforemouseup": function normalMouseupDragtreeBeforemouseup(e) {
                         dragger.dragEnd();
                         //e.stopPropagation();
                         e.preventDefault();
                     },
-                    statuschange: function(e) {
+                    statuschange: function statuschange(e) {
                         if (e.lastStatus == "textedit" && e.currentStatus == "normal") {
                             dragger.preventDragMove();
                         }
@@ -5106,7 +5282,9 @@ _p[46] = {
     }
 };
 
-//src/module/expand.js
+//tem/module/expand.js
+"use strict";
+
 _p[47] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -5125,28 +5303,28 @@ _p[47] = {
        * 展开节点
        * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
        */
-                expand: function() {
+                expand: function expand() {
                     this.setData(EXPAND_STATE_DATA, STATE_EXPAND);
                     return this;
                 },
                 /**
        * 收起节点
        */
-                collapse: function() {
+                collapse: function collapse() {
                     this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE);
                     return this;
                 },
                 /**
        * 判断节点当前的状态是否为展开
        */
-                isExpanded: function() {
+                isExpanded: function isExpanded() {
                     var expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE;
                     return expanded && (this.isRoot() || this.parent.isExpanded());
                 },
                 /**
        * 判断节点当前的状态是否为收起
        */
-                isCollapsed: function() {
+                isCollapsed: function isCollapsed() {
                     return !this.isExpanded();
                 }
             });
@@ -5162,7 +5340,7 @@ _p[47] = {
      */
             var ExpandCommand = kity.createClass("ExpandCommand", {
                 base: Command,
-                execute: function(km, justParents) {
+                execute: function execute(km, justParents) {
                     var node = km.getSelectedNode();
                     if (!node) return;
                     if (justParents) {
@@ -5175,7 +5353,7 @@ _p[47] = {
                     node.renderTree();
                     km.layout(100);
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     var node = km.getSelectedNode();
                     return node && !node.isRoot() && !node.isExpanded() ? 0 : -1;
                 }
@@ -5189,7 +5367,7 @@ _p[47] = {
      */
             var ExpandToLevelCommand = kity.createClass("ExpandToLevelCommand", {
                 base: Command,
-                execute: function(km, level) {
+                execute: function execute(km, level) {
                     km.getRoot().traverse(function(node) {
                         if (node.getLevel() < level) node.expand();
                         if (node.getLevel() == level && !node.isLeaf()) node.collapse();
@@ -5207,25 +5385,25 @@ _p[47] = {
      */
             var CollapseCommand = kity.createClass("CollapseCommand", {
                 base: Command,
-                execute: function(km) {
+                execute: function execute(km) {
                     var node = km.getSelectedNode();
                     if (!node) return;
                     node.collapse();
                     node.renderTree();
                     km.layout();
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     var node = km.getSelectedNode();
                     return node && !node.isRoot() && node.isExpanded() ? 0 : -1;
                 }
             });
             var Expander = kity.createClass("Expander", {
                 base: kity.Group,
-                constructor: function(node) {
+                constructor: function constructor(node) {
                     this.commonColor = "#7262FD";
                     this.callBase();
-                    const plusPaths = "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
-                    const arrorPaths = "m686.08,292.04l-522.24,0l230.4,-230.4l-61.44,-61.44l-332.8,332.8l332.8,332.8l61.44,-61.44l-230.4,-230.4l522.24,0l0,-81.92z";
+                    var plusPaths = "M290 448 H896v85.333333H290.133333l132.266667 132.266667L362.666667 725.333333 128 490.666667 362.666667 256l59.733333 59.733333-132.266667 132.266667z";
+                    var arrorPaths = "m686.08,292.04l-522.24,0l230.4,-230.4l-61.44,-61.44l-332.8,332.8l332.8,332.8l61.44,-61.44l-230.4,-230.4l522.24,0l0,-81.92z";
                     this.radius = 10;
                     //this.box = new kity.Rect(30, 20, 90, -10, 10).fill("red");
                     this.box = new kity.Rect(30, 20, -8, -10, 10).fill(this.commonColor).setTranslate(-4, 0);
@@ -5249,7 +5427,7 @@ _p[47] = {
                     this.setId(utils.uuid("node_expander"));
                     this.setStyle("cursor", "pointer");
                 },
-                initEvent: function(node) {
+                initEvent: function initEvent(node) {
                     this.on("mousedown", function(e) {
                         minder.select([ node ], true);
                         if (node.isExpanded()) {
@@ -5284,7 +5462,7 @@ _p[47] = {
                         e.preventDefault();
                     });
                 },
-                setState: function(state, text) {
+                setState: function setState(state, text) {
                     if (state == "hide") {
                         this.setVisible(false);
                         return;
@@ -5294,7 +5472,7 @@ _p[47] = {
                     this.clear();
                     this.addShapes(state == STATE_COLLAPSE ? this.hideSign : this.expandSign);
                 },
-                toggleExpandVisible: function(visible) {
+                toggleExpandVisible: function toggleExpandVisible(visible) {
                     if (visible) {
                         this.outline.stroke("gray").fill(this.commonColor);
                         this.sign.fill("white");
@@ -5306,7 +5484,7 @@ _p[47] = {
             });
             var ExpanderRenderer = kity.createClass("ExpanderRenderer", {
                 base: Renderer,
-                create: function(node) {
+                create: function create(node) {
                     if (node.isRoot()) return;
                     this.expander = new Expander(node);
                     node.getRenderContainer().prependShape(this.expander);
@@ -5314,10 +5492,10 @@ _p[47] = {
                     this.node = node;
                     return this.expander;
                 },
-                shouldRender: function(node) {
+                shouldRender: function shouldRender(node) {
                     return !node.isRoot();
                 },
-                update: function(expander, node, box) {
+                update: function update(expander, node, box) {
                     if (!node.parent) return;
                     var visible = node.parent.isExpanded();
                     expander.setState(visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : "hide", node.getComplex() - 1);
@@ -5333,20 +5511,20 @@ _p[47] = {
                     collapse: CollapseCommand
                 },
                 events: {
-                    layoutapply: function(e) {
+                    layoutapply: function layoutapply(e) {
                         var r = e.node.getRenderer("ExpanderRenderer");
                         if (r.getRenderShape()) {
                             r.update(r.getRenderShape(), e.node);
                         }
                     },
-                    beforerender: function(e) {
+                    beforerender: function beforerender(e) {
                         var node = e.node;
                         var visible = !node.parent || node.parent.isExpanded();
                         var minder = this;
                         node.getRenderContainer().setVisible(visible);
                         if (!visible) e.stopPropagation();
                     },
-                    "normal.keydown": function(e) {
+                    "normal.keydown": function normalKeydown(e) {
                         if (this.getStatus() == "textedit") return;
                         if (e.originEvent.keyCode == keymap["/"]) {
                             var node = this.getSelectedNode();
@@ -5376,34 +5554,34 @@ _p[47] = {
                 },
                 contextmenu: [ {
                     command: "expandtoleaf",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 9999);
                     }
                 }, {
                     command: "expandtolevel1",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 1);
                     }
                 }, {
                     command: "expandtolevel2",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 2);
                     }
                 }, {
                     command: "expandtolevel3",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 3);
                     }
                 }, {
@@ -5414,7 +5592,9 @@ _p[47] = {
     }
 };
 
-//src/module/expand9.js
+//tem/module/expand9.js
+"use strict";
+
 _p[48] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -5433,28 +5613,28 @@ _p[48] = {
        * 展开节点
        * @param  {Policy} policy 展开的策略，默认为 KEEP_STATE
        */
-                expand: function() {
+                expand: function expand() {
                     this.setData(EXPAND_STATE_DATA, STATE_EXPAND);
                     return this;
                 },
                 /**
        * 收起节点
        */
-                collapse: function() {
+                collapse: function collapse() {
                     this.setData(EXPAND_STATE_DATA, STATE_COLLAPSE);
                     return this;
                 },
                 /**
        * 判断节点当前的状态是否为展开
        */
-                isExpanded: function() {
+                isExpanded: function isExpanded() {
                     var expanded = this.getData(EXPAND_STATE_DATA) !== STATE_COLLAPSE;
                     return expanded && (this.isRoot() || this.parent.isExpanded());
                 },
                 /**
        * 判断节点当前的状态是否为收起
        */
-                isCollapsed: function() {
+                isCollapsed: function isCollapsed() {
                     return !this.isExpanded();
                 }
             });
@@ -5470,7 +5650,7 @@ _p[48] = {
      */
             var ExpandCommand = kity.createClass("ExpandCommand", {
                 base: Command,
-                execute: function(km, justParents) {
+                execute: function execute(km, justParents) {
                     var node = km.getSelectedNode();
                     if (!node) return;
                     if (justParents) {
@@ -5483,7 +5663,7 @@ _p[48] = {
                     node.renderTree();
                     km.layout(100);
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     var node = km.getSelectedNode();
                     return node && !node.isRoot() && !node.isExpanded() ? 0 : -1;
                 }
@@ -5497,7 +5677,7 @@ _p[48] = {
      */
             var ExpandToLevelCommand = kity.createClass("ExpandToLevelCommand", {
                 base: Command,
-                execute: function(km, level) {
+                execute: function execute(km, level) {
                     km.getRoot().traverse(function(node) {
                         if (node.getLevel() < level) node.expand();
                         if (node.getLevel() == level && !node.isLeaf()) node.collapse();
@@ -5515,21 +5695,21 @@ _p[48] = {
      */
             var CollapseCommand = kity.createClass("CollapseCommand", {
                 base: Command,
-                execute: function(km) {
+                execute: function execute(km) {
                     var node = km.getSelectedNode();
                     if (!node) return;
                     node.collapse();
                     node.renderTree();
                     km.layout();
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     var node = km.getSelectedNode();
                     return node && !node.isRoot() && node.isExpanded() ? 0 : -1;
                 }
             });
             var Expander = kity.createClass("Expander", {
                 base: kity.Group,
-                constructor: function(node) {
+                constructor: function constructor(node) {
                     this.callBase();
                     this.radius = 6;
                     this.outline = new kity.Circle(this.radius).stroke("gray").fill("white");
@@ -5539,7 +5719,7 @@ _p[48] = {
                     this.setId(utils.uuid("node_expander"));
                     this.setStyle("cursor", "pointer");
                 },
-                initEvent: function(node) {
+                initEvent: function initEvent(node) {
                     this.on("mousedown", function(e) {
                         minder.select([ node ], true);
                         if (node.isExpanded()) {
@@ -5557,7 +5737,7 @@ _p[48] = {
                         e.preventDefault();
                     });
                 },
-                setState: function(state) {
+                setState: function setState(state) {
                     if (state == "hide") {
                         this.setVisible(false);
                         return;
@@ -5573,7 +5753,7 @@ _p[48] = {
             });
             var ExpanderRenderer = kity.createClass("ExpanderRenderer", {
                 base: Renderer,
-                create: function(node) {
+                create: function create(node) {
                     if (node.isRoot()) return;
                     this.expander = new Expander(node);
                     node.getRenderContainer().prependShape(this.expander);
@@ -5581,10 +5761,10 @@ _p[48] = {
                     this.node = node;
                     return this.expander;
                 },
-                shouldRender: function(node) {
+                shouldRender: function shouldRender(node) {
                     return !node.isRoot();
                 },
-                update: function(expander, node, box) {
+                update: function update(expander, node, box) {
                     if (!node.parent) return;
                     var visible = node.parent.isExpanded();
                     expander.setState(visible && node.children.length ? node.getData(EXPAND_STATE_DATA) : "hide");
@@ -5600,20 +5780,20 @@ _p[48] = {
                     collapse: CollapseCommand
                 },
                 events: {
-                    layoutapply: function(e) {
+                    layoutapply: function layoutapply(e) {
                         var r = e.node.getRenderer("ExpanderRenderer");
                         if (r.getRenderShape()) {
                             r.update(r.getRenderShape(), e.node);
                         }
                     },
-                    beforerender: function(e) {
+                    beforerender: function beforerender(e) {
                         var node = e.node;
                         var visible = !node.parent || node.parent.isExpanded();
                         var minder = this;
                         node.getRenderContainer().setVisible(visible);
                         if (!visible) e.stopPropagation();
                     },
-                    "normal.keydown": function(e) {
+                    "normal.keydown": function normalKeydown(e) {
                         if (this.getStatus() == "textedit") return;
                         if (e.originEvent.keyCode == keymap["/"]) {
                             var node = this.getSelectedNode();
@@ -5643,34 +5823,34 @@ _p[48] = {
                 },
                 contextmenu: [ {
                     command: "expandtoleaf",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 9999);
                     }
                 }, {
                     command: "expandtolevel1",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 1);
                     }
                 }, {
                     command: "expandtolevel2",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 2);
                     }
                 }, {
                     command: "expandtolevel3",
-                    query: function() {
+                    query: function query() {
                         return !minder.getSelectedNode();
                     },
-                    fn: function(minder) {
+                    fn: function fn(minder) {
                         minder.execCommand("expandtolevel", 3);
                     }
                 }, {
@@ -5681,7 +5861,9 @@ _p[48] = {
     }
 };
 
-//src/module/font.js
+//tem/module/font.js
+"use strict";
+
 _p[49] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -5712,27 +5894,27 @@ _p[49] = {
         Module.register("fontmodule", {
             commands: {
                 /**
-             * @command ForeColor
-             * @description 设置选中节点的字体颜色
-             * @param {string} color 表示颜色的字符串
-             * @state
-             *   0: 当前有选中的节点
-             *  -1: 当前没有选中的节点
-             * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 'mixed'。
-             */
+       * @command ForeColor
+       * @description 设置选中节点的字体颜色
+       * @param {string} color 表示颜色的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 如果只有一个节点选中，返回已选中节点的字体颜色；否则返回 'mixed'。
+       */
                 forecolor: kity.createClass("fontcolorCommand", {
                     base: Command,
-                    execute: function(km, color) {
+                    execute: function execute(km, color) {
                         var nodes = km.getSelectedNodes();
                         nodes.forEach(function(n) {
                             n.setData("color", color);
                             n.render();
                         });
                     },
-                    queryState: function(km) {
+                    queryState: function queryState(km) {
                         return km.getSelectedNodes().length === 0 ? -1 : 0;
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         if (km.getSelectedNodes().length == 1) {
                             return km.getSelectedNodes()[0].getData("color");
                         }
@@ -5740,27 +5922,27 @@ _p[49] = {
                     }
                 }),
                 /**
-             * @command Background
-             * @description 设置选中节点的背景颜色
-             * @param {string} color 表示颜色的字符串
-             * @state
-             *   0: 当前有选中的节点
-             *  -1: 当前没有选中的节点
-             * @return 如果只有一个节点选中，返回已选中节点的背景颜色；否则返回 'mixed'。
-             */
+       * @command Background
+       * @description 设置选中节点的背景颜色
+       * @param {string} color 表示颜色的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 如果只有一个节点选中，返回已选中节点的背景颜色；否则返回 'mixed'。
+       */
                 background: kity.createClass("backgroudCommand", {
                     base: Command,
-                    execute: function(km, color) {
+                    execute: function execute(km, color) {
                         var nodes = km.getSelectedNodes();
                         nodes.forEach(function(n) {
                             n.setData("background", color);
                             n.render();
                         });
                     },
-                    queryState: function(km) {
+                    queryState: function queryState(km) {
                         return km.getSelectedNodes().length === 0 ? -1 : 0;
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         if (km.getSelectedNodes().length == 1) {
                             return km.getSelectedNodes()[0].getData("background");
                         }
@@ -5768,17 +5950,17 @@ _p[49] = {
                     }
                 }),
                 /**
-             * @command FontFamily
-             * @description 设置选中节点的字体
-             * @param {string} family 表示字体的字符串
-             * @state
-             *   0: 当前有选中的节点
-             *  -1: 当前没有选中的节点
-             * @return 返回首个选中节点的字体
-             */
+       * @command FontFamily
+       * @description 设置选中节点的字体
+       * @param {string} family 表示字体的字符串
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 返回首个选中节点的字体
+       */
                 fontfamily: kity.createClass("fontfamilyCommand", {
                     base: Command,
-                    execute: function(km, family) {
+                    execute: function execute(km, family) {
                         var nodes = km.getSelectedNodes();
                         nodes.forEach(function(n) {
                             n.setData("font-family", family);
@@ -5786,27 +5968,27 @@ _p[49] = {
                             km.layout();
                         });
                     },
-                    queryState: function(km) {
+                    queryState: function queryState(km) {
                         return km.getSelectedNodes().length === 0 ? -1 : 0;
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         var node = km.getSelectedNode();
                         if (node) return node.getData("font-family");
                         return null;
                     }
                 }),
                 /**
-             * @command FontSize
-             * @description 设置选中节点的字体大小
-             * @param {number} size 字体大小（px）
-             * @state
-             *   0: 当前有选中的节点
-             *  -1: 当前没有选中的节点
-             * @return 返回首个选中节点的字体大小
-             */
+      * @command FontSize
+      * @description 设置选中节点的字体大小
+      * @param {number} size 字体大小（px）
+      * @state
+      *   0: 当前有选中的节点
+      *  -1: 当前没有选中的节点
+      * @return 返回首个选中节点的字体大小
+      */
                 fontsize: kity.createClass("fontsizeCommand", {
                     base: Command,
-                    execute: function(km, size) {
+                    execute: function execute(km, size) {
                         var nodes = km.getSelectedNodes();
                         nodes.forEach(function(n) {
                             n.setData("font-size", size);
@@ -5814,10 +5996,10 @@ _p[49] = {
                             km.layout(300);
                         });
                     },
-                    queryState: function(km) {
+                    queryState: function queryState(km) {
                         return km.getSelectedNodes().length === 0 ? -1 : 0;
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         var node = km.getSelectedNode();
                         if (node) return node.getData("font-size");
                         return null;
@@ -5828,7 +6010,9 @@ _p[49] = {
     }
 };
 
-//src/module/history.js
+//tem/module/history.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -5938,13 +6122,13 @@ _p[50] = {
    */
         var UndoCommand = kity.createClass("UndoCommand", {
             base: Command,
-            execute: function(minder, name) {
+            execute: function execute(minder, name) {
                 minder.history.undo();
             },
-            queryValue: function(minder) {
+            queryValue: function queryValue(minder) {
                 return minder.history;
             },
-            queryState: function(minder) {
+            queryState: function queryState(minder) {
                 return minder.history.hasUndo ? 0 : -1;
             }
         });
@@ -5958,10 +6142,10 @@ _p[50] = {
    */
         var RedoCommand = kity.createClass("RedoCommand", {
             base: Command,
-            execute: function(minder) {
+            execute: function execute(minder) {
                 minder.history.redo();
             },
-            queryState: function(minder) {
+            queryState: function queryState(minder) {
                 return minder.history.hasRedo ? 0 : -1;
             }
         });
@@ -5987,7 +6171,9 @@ _p[50] = {
     }
 };
 
-//src/module/hyperlink.js
+//tem/module/hyperlink.js
+"use strict";
+
 _p[51] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6002,18 +6188,18 @@ _p[51] = {
         Module.register("hyperlink", {
             commands: {
                 /**
-             * @command HyperLink
-             * @description 为选中的节点添加超链接
-             * @param {string} url 超链接的 URL，设置为 null 移除
-             * @param {string} title 超链接的说明
-             * @state
-             *   0: 当前有选中的节点
-             *  -1: 当前没有选中的节点
-             * @return 返回首个选中节点的超链接信息，JSON 对象： `{url: url, title: title}`
-             */
+       * @command HyperLink
+       * @description 为选中的节点添加超链接
+       * @param {string} url 超链接的 URL，设置为 null 移除
+       * @param {string} title 超链接的说明
+       * @state
+       *   0: 当前有选中的节点
+       *  -1: 当前没有选中的节点
+       * @return 返回首个选中节点的超链接信息，JSON 对象： `{url: url, title: title}`
+       */
                 hyperlink: kity.createClass("hyperlink", {
                     base: Command,
-                    execute: function(km, url, title) {
+                    execute: function execute(km, url, title) {
                         var nodes = km.getSelectedNodes();
                         nodes.forEach(function(n) {
                             n.setData("hyperlink", url);
@@ -6022,7 +6208,7 @@ _p[51] = {
                         });
                         km.layout();
                     },
-                    queryState: function(km) {
+                    queryState: function queryState(km) {
                         var nodes = km.getSelectedNodes(), result = 0;
                         if (nodes.length === 0) {
                             return -1;
@@ -6035,7 +6221,7 @@ _p[51] = {
                         });
                         return result;
                     },
-                    queryValue: function(km) {
+                    queryValue: function queryValue(km) {
                         var node = km.getSelectedNode();
                         return {
                             url: node.getData("hyperlink"),
@@ -6047,7 +6233,7 @@ _p[51] = {
             renderers: {
                 right: kity.createClass("hyperlinkrender", {
                     base: Renderer,
-                    create: function() {
+                    create: function create() {
                         var link = new kity.HyperLink();
                         var linkshape = new kity.Path();
                         var outline = new kity.Rect(24, 22, -2, -6, 4).fill("rgba(255, 255, 255, 0)");
@@ -6063,10 +6249,10 @@ _p[51] = {
                         });
                         return link;
                     },
-                    shouldRender: function(node) {
+                    shouldRender: function shouldRender(node) {
                         return node.getData("hyperlink");
                     },
-                    update: function(link, node, box) {
+                    update: function update(link, node, box) {
                         var href = node.getData("hyperlink");
                         link.setHref("#");
                         var allowed = [ "^http:", "^https:", "^ftp:", "^mailto:" ];
@@ -6099,7 +6285,9 @@ _p[51] = {
     }
 };
 
-//src/module/image-viewer.js
+//tem/module/image-viewer.js
+"use strict";
+
 _p[52] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6129,7 +6317,7 @@ _p[52] = {
                 });
             }
             var ImageViewer = kity.createClass("ImageViewer", {
-                constructor: function() {
+                constructor: function constructor() {
                     var btnClose = createEl("button", "km-image-viewer-btn km-image-viewer-close");
                     var btnSource = createEl("button", "km-image-viewer-btn km-image-viewer-source");
                     var image = this.image = createEl("img");
@@ -6143,11 +6331,11 @@ _p[52] = {
                     on(viewer, "contextmenu", this.toggleToolbar.bind(this));
                     on(document, "keydown", this.hotkeyHandler);
                 },
-                dispose: function() {
+                dispose: function dispose() {
                     this.close();
                     document.removeEventListener("remove", this.hotkeyHandler);
                 },
-                hotkeyHandler: function(e) {
+                hotkeyHandler: function hotkeyHandler(e) {
                     if (!this.actived) {
                         return;
                     }
@@ -6155,11 +6343,11 @@ _p[52] = {
                         this.close();
                     }
                 },
-                toggleToolbar: function(e) {
+                toggleToolbar: function toggleToolbar(e) {
                     e && e.preventDefault();
                     this.toolbar.classList.toggle("hidden");
                 },
-                zoomImage: function(restore) {
+                zoomImage: function zoomImage(restore) {
                     var image = this.image;
                     if (typeof restore === "boolean") {
                         restore && addClass(image, "limited");
@@ -6167,10 +6355,10 @@ _p[52] = {
                         image.classList.toggle("limited");
                     }
                 },
-                viewSource: function(src) {
+                viewSource: function viewSource(src) {
                     window.open(this.image.src);
                 },
-                open: function(src) {
+                open: function open(src) {
                     var input = document.querySelector("input");
                     if (input) {
                         input.focus();
@@ -6181,18 +6369,18 @@ _p[52] = {
                     document.body.appendChild(this.viewer);
                     this.actived = true;
                 },
-                close: function() {
+                close: function close() {
                     this.image.src = "";
                     document.body.removeChild(this.viewer);
                     this.actived = false;
                 }
             });
             return {
-                init: function() {
+                init: function init() {
                     this.viewer = new ImageViewer();
                 },
                 events: {
-                    "normal.dblclick": function(e) {
+                    "normal.dblclick": function normalDblclick(e) {
                         var shape = e.kityEvent.targetShape;
                         if (shape.__KityClassName === "Image" && shape.url) {
                             this.viewer.open(shape.url);
@@ -6204,7 +6392,9 @@ _p[52] = {
     }
 };
 
-//src/module/image.js
+//tem/module/image.js
+"use strict";
+
 _p[53] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6241,18 +6431,18 @@ _p[53] = {
                 };
             }
             /**
-         * @command Image
-         * @description 为选中的节点添加图片
-         * @param {string} url 图片的 URL，设置为 null 移除
-         * @param {string} title 图片的说明
-         * @state
-         *   0: 当前有选中的节点
-         *  -1: 当前没有选中的节点
-         * @return 返回首个选中节点的图片信息，JSON 对象： `{url: url, title: title}`
-         */
+     * @command Image
+     * @description 为选中的节点添加图片
+     * @param {string} url 图片的 URL，设置为 null 移除
+     * @param {string} title 图片的说明
+     * @state
+     *   0: 当前有选中的节点
+     *  -1: 当前没有选中的节点
+     * @return 返回首个选中节点的图片信息，JSON 对象： `{url: url, title: title}`
+     */
             var ImageCommand = kity.createClass("ImageCommand", {
                 base: Command,
-                execute: function(km, url, title) {
+                execute: function execute(km, url, title) {
                     var nodes = km.getSelectedNodes();
                     loadImageSize(url, function(width, height) {
                         nodes.forEach(function(n) {
@@ -6266,7 +6456,7 @@ _p[53] = {
                         km.layout(300);
                     });
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     var nodes = km.getSelectedNodes(), result = 0;
                     if (nodes.length === 0) {
                         return -1;
@@ -6279,7 +6469,7 @@ _p[53] = {
                     });
                     return result;
                 },
-                queryValue: function(km) {
+                queryValue: function queryValue(km) {
                     var node = km.getSelectedNode();
                     return {
                         url: node.getData("image"),
@@ -6289,13 +6479,13 @@ _p[53] = {
             });
             var ImageRenderer = kity.createClass("ImageRenderer", {
                 base: Renderer,
-                create: function(node) {
+                create: function create(node) {
                     return new kity.Image(node.getData("image"));
                 },
-                shouldRender: function(node) {
+                shouldRender: function shouldRender(node) {
                     return node.getData("image");
                 },
-                update: function(image, node, box) {
+                update: function update(image, node, box) {
                     var url = node.getData("image");
                     var title = node.getData("imageTitle");
                     var size = node.getData("imageSize");
@@ -6326,7 +6516,9 @@ _p[53] = {
     }
 };
 
-//src/module/keynav.js
+//tem/module/keynav.js
+"use strict";
+
 _p[54] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6454,11 +6646,11 @@ _p[54] = {
             var lastFrame;
             return {
                 events: {
-                    layoutallfinish: function() {
+                    layoutallfinish: function layoutallfinish() {
                         var root = this.getRoot();
                         buildPositionNetwork(root);
                     },
-                    "normal.keydown readonly.keydown": function(e) {
+                    "normal.keydown readonly.keydown": function normalKeydownReadonlyKeydown(e) {
                         var minder = this;
                         [ "left", "right", "up", "down" ].forEach(function(key) {
                             if (e.isShortcutKey(key)) {
@@ -6473,7 +6665,9 @@ _p[54] = {
     }
 };
 
-//src/module/layout.js
+//tem/module/layout.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -6488,43 +6682,43 @@ _p[55] = {
         var Command = _p.r(10);
         var Module = _p.r(21);
         /**
-     * @command Layout
-     * @description 设置选中节点的布局
-     *     允许使用的布局可以使用 `kityminder.Minder.getLayoutList()` 查询
-     * @param {string} name 布局的名称，设置为 null 则使用继承或默认的布局
-     * @state
-     *   0: 当前有选中的节点
-     *  -1: 当前没有选中的节点
-     * @return 返回首个选中节点的布局名称
-     */
+   * @command Layout
+   * @description 设置选中节点的布局
+   *     允许使用的布局可以使用 `kityminder.Minder.getLayoutList()` 查询
+   * @param {string} name 布局的名称，设置为 null 则使用继承或默认的布局
+   * @state
+   *   0: 当前有选中的节点
+   *  -1: 当前没有选中的节点
+   * @return 返回首个选中节点的布局名称
+   */
         var LayoutCommand = kity.createClass("LayoutCommand", {
             base: Command,
-            execute: function(minder, name) {
+            execute: function execute(minder, name) {
                 var nodes = minder.getSelectedNodes();
                 nodes.forEach(function(node) {
                     node.layout(name);
                 });
             },
-            queryValue: function(minder) {
+            queryValue: function queryValue(minder) {
                 var node = minder.getSelectedNode();
                 if (node) {
                     return node.getData("layout");
                 }
             },
-            queryState: function(minder) {
+            queryState: function queryState(minder) {
                 return minder.getSelectedNode() ? 0 : -1;
             }
         });
         /**
-     * @command ResetLayout
-     * @description 重设选中节点的布局，如果当前没有选中的节点，重设整个脑图的布局
-     * @state
-     *   0: 始终可用
-     * @return 返回首个选中节点的布局名称
-     */
+   * @command ResetLayout
+   * @description 重设选中节点的布局，如果当前没有选中的节点，重设整个脑图的布局
+   * @state
+   *   0: 始终可用
+   * @return 返回首个选中节点的布局名称
+   */
         var ResetLayoutCommand = kity.createClass("ResetLayoutCommand", {
             base: Command,
-            execute: function(minder) {
+            execute: function execute(minder) {
                 var nodes = minder.getSelectedNodes();
                 if (!nodes.length) nodes = [ minder.getRoot() ];
                 nodes.forEach(function(node) {
@@ -6556,7 +6750,9 @@ _p[55] = {
     }
 };
 
-//src/module/node.js
+//tem/module/node.js
+"use strict";
+
 _p[56] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6577,7 +6773,7 @@ _p[56] = {
    */
         var AppendChildCommand = kity.createClass("AppendChildCommand", {
             base: Command,
-            execute: function(km, text, autoSelect) {
+            execute: function execute(km, text, autoSelect) {
                 var parent = km.getSelectedNode();
                 var defaultNodeData = km.getOption().defaultNodeData;
                 if (!parent) {
@@ -6594,7 +6790,7 @@ _p[56] = {
                 }
                 km.layout(600);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selectedNode = km.getSelectedNode();
                 return selectedNode ? 0 : -1;
             }
@@ -6610,7 +6806,7 @@ _p[56] = {
    */
         var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
             base: Command,
-            execute: function(km, text, autoSelect) {
+            execute: function execute(km, text, autoSelect) {
                 var sibling = km.getSelectedNode();
                 var defaultNodeData = km.getOption().defaultNodeData;
                 var parent = sibling.parent;
@@ -6624,7 +6820,7 @@ _p[56] = {
                 node.render();
                 km.layout(600);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selectedNode = km.getSelectedNode();
                 return selectedNode ? 0 : -1;
             }
@@ -6638,7 +6834,7 @@ _p[56] = {
    */
         var RemoveNodeCommand = kity.createClass("RemoverNodeCommand", {
             base: Command,
-            execute: function(km) {
+            execute: function execute(km) {
                 var nodes = km.getSelectedNodes();
                 var ancestor = MinderNode.getCommonAncestor.apply(null, nodes);
                 var index = nodes[0].getIndex();
@@ -6653,14 +6849,14 @@ _p[56] = {
                 }
                 km.layout(600);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var selectedNode = km.getSelectedNode();
                 return selectedNode && !selectedNode.isRoot() ? 0 : -1;
             }
         });
         var AppendParentCommand = kity.createClass("AppendParentCommand", {
             base: Command,
-            execute: function(km, text) {
+            execute: function execute(km, text) {
                 var nodes = km.getSelectedNodes();
                 var defaultNodeData = km.getOption().defaultNodeData;
                 nodes.sort(function(a, b) {
@@ -6675,7 +6871,7 @@ _p[56] = {
                 km.select(newParent, true);
                 km.layout(600);
             },
-            queryState: function(km) {
+            queryState: function queryState(km) {
                 var nodes = km.getSelectedNodes();
                 if (!nodes.length) return -1;
                 var parent = nodes[0].parent;
@@ -6705,7 +6901,9 @@ _p[56] = {
     }
 };
 
-//src/module/note.js
+//tem/module/note.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -6726,32 +6924,32 @@ _p[57] = {
         Module.register("NoteModule", function() {
             var NOTE_PATH = "M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11";
             /**
-         * @command Note
-         * @description 设置节点的备注信息
-         * @param {string} note 要设置的备注信息，设置为 null 则移除备注信息
-         * @state
-         *    0: 当前有选中的节点
-         *   -1: 当前没有选中的节点
-         */
+     * @command Note
+     * @description 设置节点的备注信息
+     * @param {string} note 要设置的备注信息，设置为 null 则移除备注信息
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
             var NoteCommand = kity.createClass("NoteCommand", {
                 base: Command,
-                execute: function(minder, note) {
+                execute: function execute(minder, note) {
                     var node = minder.getSelectedNode();
                     node.setData("note", note);
                     node.render();
                     node.getMinder().layout(300);
                 },
-                queryState: function(minder) {
+                queryState: function queryState(minder) {
                     return minder.getSelectedNodes().length === 1 ? 0 : -1;
                 },
-                queryValue: function(minder) {
+                queryValue: function queryValue(minder) {
                     var node = minder.getSelectedNode();
                     return node && node.getData("note");
                 }
             });
             var NoteIcon = kity.createClass("NoteIcon", {
                 base: kity.Group,
-                constructor: function() {
+                constructor: function constructor() {
                     this.callBase();
                     this.width = 16;
                     this.height = 17;
@@ -6768,7 +6966,7 @@ _p[57] = {
             });
             var NoteIconRenderer = kity.createClass("NoteIconRenderer", {
                 base: Renderer,
-                create: function(node) {
+                create: function create(node) {
                     var icon = new NoteIcon();
                     icon.on("mousedown", function(e) {
                         e.preventDefault();
@@ -6788,10 +6986,10 @@ _p[57] = {
                     });
                     return icon;
                 },
-                shouldRender: function(node) {
+                shouldRender: function shouldRender(node) {
                     return node.getData("note");
                 },
-                update: function(icon, node, box) {
+                update: function update(icon, node, box) {
                     var x = box.right + node.getStyle("space-left");
                     var y = box.cy;
                     icon.path.fill(node.getStyle("color"));
@@ -6811,7 +7009,9 @@ _p[57] = {
     }
 };
 
-//src/module/outline.js
+//tem/module/outline.js
+"use strict";
+
 _p[58] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6823,12 +7023,12 @@ _p[58] = {
         var Renderer = _p.r(28);
         var OutlineRenderer = kity.createClass("OutlineRenderer", {
             base: Renderer,
-            create: function(node) {
+            create: function create(node) {
                 var outline = new kity.Rect().setId(utils.uuid("node_outline"));
                 this.bringToBack = true;
                 return outline;
             },
-            update: function(outline, node, box) {
+            update: function update(outline, node, box) {
                 var shape = node.getStyle("shape");
                 var paddingLeft = node.getStyle("padding-left"), paddingRight = node.getStyle("padding-right"), paddingTop = node.getStyle("padding-top"), paddingBottom = node.getStyle("padding-bottom");
                 var outlineBox = {
@@ -6857,14 +7057,14 @@ _p[58] = {
         });
         var ShadowRenderer = kity.createClass("ShadowRenderer", {
             base: Renderer,
-            create: function(node) {
+            create: function create(node) {
                 this.bringToBack = true;
                 return new kity.Rect();
             },
-            shouldRender: function(node) {
+            shouldRender: function shouldRender(node) {
                 return node.getStyle("shadow");
             },
-            update: function(shadow, node, box) {
+            update: function update(shadow, node, box) {
                 shadow.setPosition(box.x + 4, box.y + 5).fill(node.getStyle("shadow"));
                 var shape = node.getStyle("shape");
                 if (!shape) {
@@ -6886,7 +7086,7 @@ _p[58] = {
         var wireframeOption = /wire/.test(window.location.href);
         var WireframeRenderer = kity.createClass("WireframeRenderer", {
             base: Renderer,
-            create: function() {
+            create: function create() {
                 var wireframe = new kity.Group();
                 var oxy = this.oxy = new kity.Path().stroke("#f6f").setPathData("M0,-50L0,50M-50,0L50,0");
                 var box = this.wireframe = new kity.Rect().stroke("lightgreen");
@@ -6896,10 +7096,10 @@ _p[58] = {
                 vectorOut.setMarker(marker, "end");
                 return wireframe.addShapes([ oxy, box, vectorIn, vectorOut ]);
             },
-            shouldRender: function() {
+            shouldRender: function shouldRender() {
                 return wireframeOption;
             },
-            update: function(created, node, box) {
+            update: function update(created, node, box) {
                 this.wireframe.setPosition(box.x, box.y).setSize(box.width, box.height);
                 var pin = node.getVertexIn();
                 var pout = node.getVertexOut();
@@ -6912,10 +7112,10 @@ _p[58] = {
         Module.register("OutlineModule", function() {
             return {
                 events: !wireframeOption ? null : {
-                    ready: function() {
+                    ready: function ready() {
                         this.getPaper().addResource(marker);
                     },
-                    layoutallfinish: function() {
+                    layoutallfinish: function layoutallfinish() {
                         this.getRoot().traverse(function(node) {
                             node.getRenderer("WireframeRenderer").update(null, node, node.getContentBox());
                         });
@@ -6930,7 +7130,9 @@ _p[58] = {
     }
 };
 
-//src/module/priority.js
+//tem/module/priority.js
+"use strict";
+
 _p[59] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -6959,16 +7161,16 @@ _p[59] = {
             // 优先级图标的图形
             var PriorityIcon = kity.createClass("PriorityIcon", {
                 base: kity.Group,
-                constructor: function() {
+                constructor: function constructor() {
                     this.callBase();
                     this.setSize(20);
                     this.create();
                     this.setId(utils.uuid("node_priority"));
                 },
-                setSize: function(size) {
+                setSize: function setSize(size) {
                     this.width = this.height = size;
                 },
-                create: function() {
+                create: function create() {
                     var white, back, mask, number;
                     // 4 layer
                     white = new kity.Path().setPathData(MASK_PATH).fill("white");
@@ -6980,7 +7182,7 @@ _p[59] = {
                     this.back = back;
                     this.number = number;
                 },
-                setValue: function(value) {
+                setValue: function setValue(value) {
                     var back = this.back, mask = this.mask, number = this.number;
                     var color = PRIORITY_COLORS[value];
                     if (color) {
@@ -6991,25 +7193,25 @@ _p[59] = {
                 }
             });
             /**
-         * @command Priority
-         * @description 设置节点的优先级信息
-         * @param {number} value 要设置的优先级（添加一个优先级小图标）
-         *     取值为 0 移除优先级信息；
-         *     取值为 1 - 9 设置优先级，超过 9 的优先级不渲染
-         * @state
-         *    0: 当前有选中的节点
-         *   -1: 当前没有选中的节点
-         */
+     * @command Priority
+     * @description 设置节点的优先级信息
+     * @param {number} value 要设置的优先级（添加一个优先级小图标）
+     *     取值为 0 移除优先级信息；
+     *     取值为 1 - 9 设置优先级，超过 9 的优先级不渲染
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
             var PriorityCommand = kity.createClass("SetPriorityCommand", {
                 base: Command,
-                execute: function(km, value) {
+                execute: function execute(km, value) {
                     var nodes = km.getSelectedNodes();
                     for (var i = 0; i < nodes.length; i++) {
                         nodes[i].setData(PRIORITY_DATA, value || null).render();
                     }
                     km.layout();
                 },
-                queryValue: function(km) {
+                queryValue: function queryValue(km) {
                     var nodes = km.getSelectedNodes();
                     var val;
                     for (var i = 0; i < nodes.length; i++) {
@@ -7018,7 +7220,7 @@ _p[59] = {
                     }
                     return val || null;
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     return km.getSelectedNodes().length ? 0 : -1;
                 }
             });
@@ -7029,13 +7231,13 @@ _p[59] = {
                 renderers: {
                     left: kity.createClass("PriorityRenderer", {
                         base: Renderer,
-                        create: function(node) {
+                        create: function create(node) {
                             return new PriorityIcon();
                         },
-                        shouldRender: function(node) {
+                        shouldRender: function shouldRender(node) {
                             return node.getData(PRIORITY_DATA);
                         },
-                        update: function(icon, node, box) {
+                        update: function update(icon, node, box) {
                             var data = node.getData(PRIORITY_DATA);
                             var spaceLeft = node.getStyle("space-left"), x, y;
                             icon.setValue(data);
@@ -7056,7 +7258,9 @@ _p[59] = {
     }
 };
 
-//src/module/progress.js
+//tem/module/progress.js
+"use strict";
+
 _p[60] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -7088,7 +7292,7 @@ _p[60] = {
             // 进度图标的图形
             var ProgressIcon = kity.createClass("ProgressIcon", {
                 base: kity.Group,
-                constructor: function(value) {
+                constructor: function constructor(value) {
                     this.callBase();
                     this.setSize(20);
                     this.create();
@@ -7096,10 +7300,10 @@ _p[60] = {
                     this.setId(utils.uuid("node_progress"));
                     this.translate(.5, .5);
                 },
-                setSize: function(size) {
+                setSize: function setSize(size) {
                     this.width = this.height = size;
                 },
-                create: function() {
+                create: function create() {
                     var bg, pie, shadow, frame, check;
                     bg = new kity.Circle(9).fill(BG_COLOR);
                     pie = new kity.Pie(9, 0).fill(PIE_COLOR);
@@ -7110,35 +7314,35 @@ _p[60] = {
                     this.pie = pie;
                     this.check = check;
                 },
-                setValue: function(value) {
+                setValue: function setValue(value) {
                     this.pie.setAngle(-360 * (value - 1) / 8);
                     this.check.setVisible(value == 9);
                 }
             });
             /**
-         * @command Progress
-         * @description 设置节点的进度信息（添加一个进度小图标）
-         * @param {number} value 要设置的进度
-         *     取值为 0 移除进度信息；
-         *     取值为 1 表示未开始；
-         *     取值为 2 表示完成 1/8；
-         *     取值为 3 表示完成 2/8；
-         *     取值为 4 表示完成 3/8；
-         *     其余类推，取值为 9 表示全部完成
-         * @state
-         *    0: 当前有选中的节点
-         *   -1: 当前没有选中的节点
-         */
+     * @command Progress
+     * @description 设置节点的进度信息（添加一个进度小图标）
+     * @param {number} value 要设置的进度
+     *     取值为 0 移除进度信息；
+     *     取值为 1 表示未开始；
+     *     取值为 2 表示完成 1/8；
+     *     取值为 3 表示完成 2/8；
+     *     取值为 4 表示完成 3/8；
+     *     其余类推，取值为 9 表示全部完成
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
             var ProgressCommand = kity.createClass("ProgressCommand", {
                 base: Command,
-                execute: function(km, value) {
+                execute: function execute(km, value) {
                     var nodes = km.getSelectedNodes();
                     for (var i = 0; i < nodes.length; i++) {
                         nodes[i].setData(PROGRESS_DATA, value || null).render();
                     }
                     km.layout();
                 },
-                queryValue: function(km) {
+                queryValue: function queryValue(km) {
                     var nodes = km.getSelectedNodes();
                     var val;
                     for (var i = 0; i < nodes.length; i++) {
@@ -7147,7 +7351,7 @@ _p[60] = {
                     }
                     return val || null;
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     return km.getSelectedNodes().length ? 0 : -1;
                 }
             });
@@ -7158,13 +7362,13 @@ _p[60] = {
                 renderers: {
                     left: kity.createClass("ProgressRenderer", {
                         base: Renderer,
-                        create: function(node) {
+                        create: function create(node) {
                             return new ProgressIcon();
                         },
-                        shouldRender: function(node) {
+                        shouldRender: function shouldRender(node) {
                             return node.getData(PROGRESS_DATA);
                         },
-                        update: function(icon, node, box) {
+                        update: function update(icon, node, box) {
                             var data = node.getData(PROGRESS_DATA);
                             var spaceLeft = node.getStyle("space-left");
                             var x, y;
@@ -7181,7 +7385,9 @@ _p[60] = {
     }
 };
 
-//src/module/resource.js
+//tem/module/resource.js
+"use strict";
+
 _p[61] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -7199,18 +7405,18 @@ _p[61] = {
                 x = 4 * (1 << 30);
                 k = [ 1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225 ];
                 m = [ 608135816, 2242054355, 320440878, 57701188, 2752067618, 698298832, 137296536, 3964562569, 1160258022, 953160567, 3193202383, 887688300, 3232508343, 3380367581, 1065670069, 3041331479 ];
-                w = function(i) {
+                w = function w(i) {
                     if (i < 0) {
                         i += x;
                     }
                     return ("00000000" + i.toString(16)).slice(-8);
                 };
                 o = [ [ 16, 50, 84, 118, 152, 186, 220, 254 ], [ 174, 132, 249, 109, 193, 32, 123, 53 ], [ 139, 12, 37, 223, 234, 99, 23, 73 ], [ 151, 19, 205, 235, 98, 165, 4, 143 ], [ 9, 117, 66, 250, 30, 203, 134, 211 ], [ 194, 166, 176, 56, 212, 87, 239, 145 ], [ 92, 241, 222, 164, 112, 54, 41, 184 ], [ 189, 231, 28, 147, 5, 79, 104, 162 ], [ 246, 158, 59, 128, 44, 125, 65, 90 ], [ 42, 72, 103, 81, 191, 233, 195, 13 ] ];
-                p = function(a, b, n) {
+                p = function p(a, b, n) {
                     var s = q[a] ^ q[b];
                     q[a] = s >>> n | s << 32 - n;
                 };
-                g = function(i, a, b, c, d) {
+                g = function g(i, a, b, c, d) {
                     var u = l + o[r][i] % 16, v = l + (o[r][i] >> 4);
                     a %= 4;
                     b = 4 + b % 4;
@@ -7277,22 +7483,22 @@ _p[61] = {
                 };
             }();
             /**
-         * 自动使用的颜色序列
-         */
+     * 自动使用的颜色序列
+     */
             var RESOURCE_COLOR_SERIES = [ 51, 303, 75, 200, 157, 0, 26, 254 ].map(function(h) {
                 return kity.Color.createHSL(h, 100, 85);
             });
             /**
-         * 在 Minder 上拓展一些关于资源的支持接口
-         */
+     * 在 Minder 上拓展一些关于资源的支持接口
+     */
             kity.extendClass(Minder, {
                 /**
-             * 获取字符串的哈希值
-             *
-             * @param {String} str
-             * @return {Number} hashCode
-             */
-                getHashCode: function(str) {
+       * 获取字符串的哈希值
+       *
+       * @param {String} str
+       * @return {Number} hashCode
+       */
+                getHashCode: function getHashCode(str) {
                     str = blake32(str);
                     var hash = 1315423911, i, ch;
                     for (i = str.length - 1; i >= 0; i--) {
@@ -7302,16 +7508,16 @@ _p[61] = {
                     return hash & 2147483647;
                 },
                 /**
-             * 获取脑图中某个资源对应的颜色
-             *
-             * 如果存在同名资源，则返回已经分配给该资源的颜色，否则分配给该资源一个颜色，并且返回
-             *
-             * 如果资源数超过颜色序列数量，返回哈希颜色
-             *
-             * @param {String} resource 资源名称
-             * @return {Color}
-             */
-                getResourceColor: function(resource) {
+       * 获取脑图中某个资源对应的颜色
+       *
+       * 如果存在同名资源，则返回已经分配给该资源的颜色，否则分配给该资源一个颜色，并且返回
+       *
+       * 如果资源数超过颜色序列数量，返回哈希颜色
+       *
+       * @param {String} resource 资源名称
+       * @return {Color}
+       */
+                getResourceColor: function getResourceColor(resource) {
                     var colorMapping = this._getResourceColorIndexMapping();
                     var nextIndex;
                     if (!Object.prototype.hasOwnProperty.call(colorMapping, resource)) {
@@ -7323,11 +7529,11 @@ _p[61] = {
                     return RESOURCE_COLOR_SERIES[colorMapping[resource]] || kity.Color.createHSL(Math.floor(this.getHashCode(resource) / 2147483647 * 359), 100, 85);
                 },
                 /**
-             * 获得已使用的资源的列表
-             *
-             * @return {Array}
-             */
-                getUsedResource: function() {
+       * 获得已使用的资源的列表
+       *
+       * @return {Array}
+       */
+                getUsedResource: function getUsedResource() {
                     var mapping = this._getResourceColorIndexMapping();
                     var used = [], resource;
                     for (resource in mapping) {
@@ -7338,11 +7544,11 @@ _p[61] = {
                     return used;
                 },
                 /**
-             * 获取脑图下一个可用的资源颜色索引
-             *
-             * @return {int}
-             */
-                _getNextResourceColorIndex: function() {
+       * 获取脑图下一个可用的资源颜色索引
+       *
+       * @return {int}
+       */
+                _getNextResourceColorIndex: function _getNextResourceColorIndex() {
                     // 获取现有颜色映射
                     //     resource => color_index
                     var colorMapping = this._getResourceColorIndexMapping();
@@ -7363,29 +7569,29 @@ _p[61] = {
                 },
                 // 获取现有颜色映射
                 //     resource => color_index
-                _getResourceColorIndexMapping: function() {
+                _getResourceColorIndexMapping: function _getResourceColorIndexMapping() {
                     return this._resourceColorMapping || (this._resourceColorMapping = {});
                 }
             });
             /**
-         * @class 设置资源的命令
-         *
-         * @example
-         *
-         * // 设置选中节点资源为 "张三"
-         * minder.execCommand('resource', ['张三']);
-         *
-         * // 添加资源 "李四" 到选中节点
-         * var resource = minder.queryCommandValue();
-         * resource.push('李四');
-         * minder.execCommand('resource', resource);
-         *
-         * // 清除选中节点的资源
-         * minder.execCommand('resource', null);
-         */
+     * @class 设置资源的命令
+     *
+     * @example
+     *
+     * // 设置选中节点资源为 "张三"
+     * minder.execCommand('resource', ['张三']);
+     *
+     * // 添加资源 "李四" 到选中节点
+     * var resource = minder.queryCommandValue();
+     * resource.push('李四');
+     * minder.execCommand('resource', resource);
+     *
+     * // 清除选中节点的资源
+     * minder.execCommand('resource', null);
+     */
             var ResourceCommand = kity.createClass("ResourceCommand", {
                 base: Command,
-                execute: function(minder, resource) {
+                execute: function execute(minder, resource) {
                     var nodes = minder.getSelectedNodes();
                     if (typeof resource == "string") {
                         resource = [ resource ];
@@ -7395,7 +7601,7 @@ _p[61] = {
                     });
                     minder.layout(200);
                 },
-                queryValue: function(minder) {
+                queryValue: function queryValue(minder) {
                     var nodes = minder.getSelectedNodes();
                     var resource = [];
                     nodes.forEach(function(node) {
@@ -7409,25 +7615,25 @@ _p[61] = {
                     });
                     return resource;
                 },
-                queryState: function(km) {
+                queryState: function queryState(km) {
                     return km.getSelectedNode() ? 0 : -1;
                 }
             });
             /**
-         * @class 资源的覆盖图形
-         *
-         * 该类为一个资源以指定的颜色渲染一个动态的覆盖图形
-         */
+     * @class 资源的覆盖图形
+     *
+     * 该类为一个资源以指定的颜色渲染一个动态的覆盖图形
+     */
             var ResourceOverlay = kity.createClass("ResourceOverlay", {
                 base: kity.Group,
-                constructor: function() {
+                constructor: function constructor() {
                     this.callBase();
                     var text, rect;
                     rect = this.rect = new kity.Rect().setRadius(4);
                     text = this.text = new kity.Text().setFontSize(12).setVerticalAlign("middle");
                     this.addShapes([ rect, text ]);
                 },
-                setValue: function(resourceName, color) {
+                setValue: function setValue(resourceName, color) {
                     var paddingX = 8, paddingY = 4, borderRadius = 4;
                     var text, box, rect;
                     text = this.text;
@@ -7449,24 +7655,24 @@ _p[61] = {
                 }
             });
             /**
-         * @class 资源渲染器
-         */
+     * @class 资源渲染器
+     */
             var ResourceRenderer = kity.createClass("ResourceRenderer", {
                 base: Renderer,
-                create: function(node) {
+                create: function create(node) {
                     this.overlays = [];
                     return new kity.Group();
                 },
-                shouldRender: function(node) {
+                shouldRender: function shouldRender(node) {
                     return node.getData("resource") && node.getData("resource").length;
                 },
-                update: function(container, node, box) {
+                update: function update(container, node, box) {
                     var spaceRight = node.getStyle("space-right");
                     var overlays = this.overlays;
                     /*  修复 resource 数组中出现 null 的 bug
-                 *  @Author zhangbobell
-                 *  @date 2016-01-15
-                 */
+         *  @Author zhangbobell
+         *  @date 2016-01-15
+         */
                     var resource = node.getData("resource").filter(function(ele) {
                         return ele !== null;
                     });
@@ -7489,7 +7695,9 @@ _p[61] = {
                         overlay.setTranslate(x, -1);
                         x += overlay.width;
                     }
-                    while (overlay = overlays[i++]) overlay.setVisible(false);
+                    while (overlay = overlays[i++]) {
+                        overlay.setVisible(false);
+                    }
                     container.setTranslate(box.right, 0);
                     return new kity.Box({
                         x: box.right,
@@ -7511,7 +7719,9 @@ _p[61] = {
     }
 };
 
-//src/module/select.js
+//tem/module/select.js
+"use strict";
+
 _p[62] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -7535,7 +7745,7 @@ _p[62] = {
                 var marqueeMode = false;
                 var MARQUEE_MODE_THRESHOLD = 10;
                 return {
-                    selectStart: function(e) {
+                    selectStart: function selectStart(e) {
                         // 只接受左键
                         if (e.originEvent.button || e.originEvent.altKey) return;
                         // 清理不正确状态
@@ -7544,7 +7754,7 @@ _p[62] = {
                         }
                         startPosition = e.getPosition(rc).round();
                     },
-                    selectMove: function(e) {
+                    selectMove: function selectMove(e) {
                         if (minder.getStatus() == "textedit") {
                             return;
                         }
@@ -7588,7 +7798,7 @@ _p[62] = {
                         // 清除多余的东西
                         window.getSelection().removeAllRanges();
                     },
-                    selectEnd: function(e) {
+                    selectEnd: function selectEnd(e) {
                         if (startPosition) {
                             startPosition = null;
                         }
@@ -7603,13 +7813,13 @@ _p[62] = {
             }();
             var lastDownNode = null, lastDownPosition = null;
             return {
-                init: function() {
+                init: function init() {
                     window.addEventListener("mouseup", function() {
                         marqueeActivator.selectEnd();
                     });
                 },
                 events: {
-                    mousedown: function(e) {
+                    mousedown: function mousedown(e) {
                         var downNode = e.getTargetNode();
                         // 没有点中节点：
                         //     清除选中状态，并且标记选区开始位置
@@ -7627,7 +7837,7 @@ _p[62] = {
                         }
                     },
                     mousemove: marqueeActivator.selectMove,
-                    mouseup: function(e) {
+                    mouseup: function mouseup(e) {
                         var upNode = e.getTargetNode();
                         // 如果 mouseup 发生在 lastDownNode 外，是无需理会的
                         if (upNode && upNode == lastDownNode) {
@@ -7640,7 +7850,7 @@ _p[62] = {
                         marqueeActivator.selectEnd(e);
                     },
                     //全选操作
-                    "normal.keydown": function(e) {
+                    "normal.keydown": function normalKeydown(e) {
                         if (e.isShortcutKey("ctrl+a")) {
                             var selectedNodes = [];
                             this.getRoot().traverse(function(node) {
@@ -7656,7 +7866,9 @@ _p[62] = {
     }
 };
 
-//src/module/style.js
+//tem/module/style.js
+"use strict";
+
 _p[63] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -7678,15 +7890,15 @@ _p[63] = {
             return {
                 commands: {
                     /**
-                 * @command CopyStyle
-                 * @description 拷贝选中节点的当前样式，包括字体、字号、粗体、斜体、背景色、字体色
-                 * @state
-                 *   0: 当前有选中的节点
-                 *  -1: 当前没有选中的节点
-                 */
+         * @command CopyStyle
+         * @description 拷贝选中节点的当前样式，包括字体、字号、粗体、斜体、背景色、字体色
+         * @state
+         *   0: 当前有选中的节点
+         *  -1: 当前没有选中的节点
+         */
                     copystyle: kity.createClass("CopyStyleCommand", {
                         base: Command,
-                        execute: function(minder) {
+                        execute: function execute(minder) {
                             var node = minder.getSelectedNode();
                             var nodeData = node.getData();
                             styleClipBoard = {};
@@ -7698,22 +7910,22 @@ _p[63] = {
                             });
                             return styleClipBoard;
                         },
-                        queryState: function(minder) {
+                        queryState: function queryState(minder) {
                             var nodes = minder.getSelectedNodes();
                             if (nodes.length !== 1) return -1;
                             return hasStyle(nodes[0]) ? 0 : -1;
                         }
                     }),
                     /**
-                 * @command PasteStyle
-                 * @description 粘贴已拷贝的样式到选中的节点上，包括字体、字号、粗体、斜体、背景色、字体色
-                 * @state
-                 *   0: 当前有选中的节点，并且已经有复制的样式
-                 *  -1: 当前没有选中的节点，或者没有复制的样式
-                 */
+         * @command PasteStyle
+         * @description 粘贴已拷贝的样式到选中的节点上，包括字体、字号、粗体、斜体、背景色、字体色
+         * @state
+         *   0: 当前有选中的节点，并且已经有复制的样式
+         *  -1: 当前没有选中的节点，或者没有复制的样式
+         */
                     pastestyle: kity.createClass("PastStyleCommand", {
                         base: Command,
-                        execute: function(minder) {
+                        execute: function execute(minder) {
                             minder.getSelectedNodes().forEach(function(node) {
                                 for (var name in styleClipBoard) {
                                     if (styleClipBoard.hasOwnProperty(name)) node.setData(name, styleClipBoard[name]);
@@ -7723,20 +7935,20 @@ _p[63] = {
                             minder.layout(300);
                             return styleClipBoard;
                         },
-                        queryState: function(minder) {
+                        queryState: function queryState(minder) {
                             return styleClipBoard && minder.getSelectedNodes().length ? 0 : -1;
                         }
                     }),
                     /**
-                 * @command ClearStyle
-                 * @description 移除选中节点的样式，包括字体、字号、粗体、斜体、背景色、字体色
-                 * @state
-                 *   0: 当前有选中的节点，并且至少有一个设置了至少一种样式
-                 *  -1: 其它情况
-                 */
+         * @command ClearStyle
+         * @description 移除选中节点的样式，包括字体、字号、粗体、斜体、背景色、字体色
+         * @state
+         *   0: 当前有选中的节点，并且至少有一个设置了至少一种样式
+         *  -1: 其它情况
+         */
                     clearstyle: kity.createClass("ClearStyleCommand", {
                         base: Command,
-                        execute: function(minder) {
+                        execute: function execute(minder) {
                             minder.getSelectedNodes().forEach(function(node) {
                                 styleNames.forEach(function(name) {
                                     node.setData(name);
@@ -7746,7 +7958,7 @@ _p[63] = {
                             minder.layout(300);
                             return styleClipBoard;
                         },
-                        queryState: function(minder) {
+                        queryState: function queryState(minder) {
                             var nodes = minder.getSelectedNodes();
                             if (!nodes.length) return -1;
                             for (var i = 0; i < nodes.length; i++) {
@@ -7761,7 +7973,9 @@ _p[63] = {
     }
 };
 
-//src/module/text.js
+//tem/module/text.js
+"use strict";
+
 _p[64] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -7772,9 +7986,9 @@ _p[64] = {
         var Module = _p.r(21);
         var Renderer = _p.r(28);
         /**
-     * 针对不同系统、不同浏览器、不同字体做居中兼容性处理
-     * 暂时未增加Linux的处理
-     */
+   * 针对不同系统、不同浏览器、不同字体做居中兼容性处理
+   * 暂时未增加Linux的处理
+   */
         var FONT_ADJUST = {
             safari: {
                 "微软雅黑,Microsoft YaHei": -.17,
@@ -7891,10 +8105,10 @@ _p[64] = {
         };
         var TextRenderer = kity.createClass("TextRenderer", {
             base: Renderer,
-            create: function() {
+            create: function create() {
                 return new kity.Group().setId(utils.uuid("node_text"));
             },
-            update: function(textGroup, node) {
+            update: function update(textGroup, node) {
                 function getDataOrStyle(name) {
                     return node.getData(name) || node.getStyle(name);
                 }
@@ -7967,7 +8181,7 @@ _p[64] = {
                     return nBox;
                 };
             },
-            setTextStyle: function(node, text) {
+            setTextStyle: function setTextStyle(node, text) {
                 var hooks = TextRenderer._styleHooks;
                 hooks.forEach(function(hook) {
                     hook(node, text);
@@ -7976,7 +8190,7 @@ _p[64] = {
         });
         var TextCommand = kity.createClass({
             base: Command,
-            execute: function(minder, text) {
+            execute: function execute(minder, text) {
                 var node = minder.getSelectedNode();
                 if (node) {
                     node.setText(text);
@@ -7984,22 +8198,22 @@ _p[64] = {
                     minder.layout();
                 }
             },
-            queryState: function(minder) {
+            queryState: function queryState(minder) {
                 return minder.getSelectedNodes().length == 1 ? 0 : -1;
             },
-            queryValue: function(minder) {
+            queryValue: function queryValue(minder) {
                 var node = minder.getSelectedNode();
                 return node ? node.getText() : null;
             }
         });
         utils.extend(TextRenderer, {
             _styleHooks: [],
-            registerStyleHook: function(fn) {
+            registerStyleHook: function registerStyleHook(fn) {
                 TextRenderer._styleHooks.push(fn);
             }
         });
         kity.extendClass(MinderNode, {
-            getTextGroup: function() {
+            getTextGroup: function getTextGroup() {
                 return this.getRenderer("TextRenderer").getRenderShape();
             }
         });
@@ -8015,7 +8229,9 @@ _p[64] = {
     }
 };
 
-//src/module/view.js
+//tem/module/view.js
+"use strict";
+
 _p[65] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -8027,7 +8243,7 @@ _p[65] = {
         var Renderer = _p.r(28);
         var keymap = _p.r(16);
         var ViewDragger = kity.createClass("ViewDragger", {
-            constructor: function(minder) {
+            constructor: function constructor(minder) {
                 this._minder = minder;
                 this._enabled = false;
                 this._bind();
@@ -8037,24 +8253,24 @@ _p[65] = {
                 };
                 this.setEnabled(false);
             },
-            isEnabled: function() {
+            isEnabled: function isEnabled() {
                 return this._enabled;
             },
-            setEnabled: function(value) {
+            setEnabled: function setEnabled(value) {
                 var paper = this._minder.getPaper();
                 paper.setStyle("cursor", value ? "pointer" : "default");
                 paper.setStyle("cursor", value ? "-webkit-grab" : "default");
                 this._enabled = value;
             },
-            timeline: function() {
+            timeline: function timeline() {
                 return this._moveTimeline;
             },
-            move: function(offset, duration) {
+            move: function move(offset, duration) {
                 var minder = this._minder;
                 var targetPosition = this.getMovement().offset(offset);
                 this.moveTo(targetPosition, duration);
             },
-            moveTo: function(position, duration) {
+            moveTo: function moveTo(position, duration) {
                 if (duration) {
                     var dragger = this;
                     if (this._moveTimeline) this._moveTimeline.stop();
@@ -8069,11 +8285,11 @@ _p[65] = {
                 this._minder.getRenderContainer().setTranslate(position.round());
                 this._minder.fire("viewchange");
             },
-            getMovement: function() {
+            getMovement: function getMovement() {
                 var translate = this._minder.getRenderContainer().transform.translate;
                 return translate ? translate[0] : new kity.Point();
             },
-            getView: function() {
+            getView: function getView() {
                 var minder = this._minder;
                 var c = minder._lastClientSize || {
                     width: minder.getRenderTarget().clientWidth,
@@ -8084,7 +8300,7 @@ _p[65] = {
                 var viewMatrix = minder.getPaper().getViewPortMatrix();
                 return viewMatrix.inverse().translate(-m.x, -m.y).transformBox(box);
             },
-            _bind: function() {
+            _bind: function _bind() {
                 var dragger = this, isTempDrag = false, lastPosition = null, currentPosition = null;
                 function dragEnd(e) {
                     if (!lastPosition) return;
@@ -8165,7 +8381,7 @@ _p[65] = {
      */
             var ToggleHandCommand = kity.createClass("ToggleHandCommand", {
                 base: Command,
-                execute: function(minder) {
+                execute: function execute(minder) {
                     if (minder.getStatus() != "hand") {
                         minder.setStatus("hand", true);
                     } else {
@@ -8173,7 +8389,7 @@ _p[65] = {
                     }
                     this.setContentChanged(false);
                 },
-                queryState: function(minder) {
+                queryState: function queryState(minder) {
                     return minder.getStatus() == "hand" ? 1 : 0;
                 },
                 enableReadOnly: true
@@ -8188,7 +8404,7 @@ _p[65] = {
      */
             var CameraCommand = kity.createClass("CameraCommand", {
                 base: Command,
-                execute: function(km, focusNode) {
+                execute: function execute(km, focusNode) {
                     focusNode = focusNode || km.getRoot();
                     var viewport = km.getPaper().getViewPort();
                     var offset = focusNode.getRenderContainer().getRenderBox("view");
@@ -8214,7 +8430,7 @@ _p[65] = {
      */
             var MoveCommand = kity.createClass("MoveCommand", {
                 base: Command,
-                execute: function(km, dir) {
+                execute: function execute(km, dir) {
                     var dragger = km._viewDragger;
                     var size = km._lastClientSize;
                     var duration = km.getOption("viewAnimationDuration");
@@ -8239,7 +8455,7 @@ _p[65] = {
                 enableReadOnly: true
             });
             return {
-                init: function() {
+                init: function init() {
                     this._viewDragger = new ViewDragger(this);
                 },
                 commands: {
@@ -8248,10 +8464,10 @@ _p[65] = {
                     move: MoveCommand
                 },
                 events: {
-                    statuschange: function(e) {
+                    statuschange: function statuschange(e) {
                         this._viewDragger.setEnabled(e.currentStatus == "hand");
                     },
-                    mousewheel: function(e) {
+                    mousewheel: function mousewheel(e) {
                         var dx, dy;
                         e = e.originEvent;
                         if (e.ctrlKey || e.shiftKey) return;
@@ -8273,13 +8489,13 @@ _p[65] = {
                         }, 100);
                         e.preventDefault();
                     },
-                    "normal.dblclick readonly.dblclick": function(e) {
+                    "normal.dblclick readonly.dblclick": function normalDblclickReadonlyDblclick(e) {
                         var needCamera = this.getOption().notAutoCamera;
                         if (e.kityEvent.targetShape instanceof kity.Paper && !needCamera) {
                             this.execCommand("camera", this.getRoot(), 800);
                         }
                     },
-                    "paperrender finishInitHook": function() {
+                    "paperrender finishInitHook": function paperrenderFinishInitHook() {
                         if (!this.getRenderTarget()) {
                             return;
                         }
@@ -8289,7 +8505,7 @@ _p[65] = {
                             height: this.getRenderTarget().clientHeight
                         };
                     },
-                    resize: function(e) {
+                    resize: function resize(e) {
                         var a = {
                             width: this.getRenderTarget().clientWidth,
                             height: this.getRenderTarget().clientHeight
@@ -8297,7 +8513,7 @@ _p[65] = {
                         this._viewDragger.move(new kity.Point((a.width - b.width) / 2 | 0, (a.height - b.height) / 2 | 0));
                         this._lastClientSize = a;
                     },
-                    "selectionchange layoutallfinish": function(e) {
+                    "selectionchange layoutallfinish": function selectionchangeLayoutallfinish(e) {
                         var selected = this.getSelectedNode();
                         var minder = this;
                         /*
@@ -8347,7 +8563,9 @@ _p[65] = {
     }
 };
 
-//src/module/zoom.js
+//tem/module/zoom.js
+"use strict";
+
 _p[66] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -8371,7 +8589,7 @@ _p[66] = {
                 node.setAttribute("transform", "matrix(" + matrix.toString() + ")");
             }
             kity.extendClass(Minder, {
-                zoom: function(value) {
+                zoom: function zoom(value) {
                     var paper = this.getPaper();
                     var viewport = paper.getViewPort();
                     viewport.zoom = value / 100;
@@ -8382,7 +8600,7 @@ _p[66] = {
                     paper.setViewPort(viewport);
                     if (value == 100) fixPaperCTM(paper);
                 },
-                getZoomValue: function() {
+                getZoomValue: function getZoomValue() {
                     return this._zoomValue;
                 }
             });
@@ -8400,7 +8618,7 @@ _p[66] = {
                     var animator = new kity.Animator({
                         beginValue: minder._zoomValue,
                         finishValue: value,
-                        setter: function(target, value) {
+                        setter: function setter(target, value) {
                             target.zoom(value);
                         }
                     });
@@ -8418,36 +8636,36 @@ _p[66] = {
                 });
             }
             /**
-         * @command Zoom
-         * @description 缩放当前的视野到一定的比例（百分比）
-         * @param {number} value 设置的比例，取值 100 则为原尺寸
-         * @state
-         *   0: 始终可用
-         */
+     * @command Zoom
+     * @description 缩放当前的视野到一定的比例（百分比）
+     * @param {number} value 设置的比例，取值 100 则为原尺寸
+     * @state
+     *   0: 始终可用
+     */
             var ZoomCommand = kity.createClass("Zoom", {
                 base: Command,
                 execute: zoomMinder,
-                queryValue: function(minder) {
+                queryValue: function queryValue(minder) {
                     return minder._zoomValue;
                 }
             });
             /**
-         * @command ZoomIn
-         * @description 放大当前的视野到下一个比例等级（百分比）
-         * @shortcut =
-         * @state
-         *   0: 如果当前脑图的配置中还有下一个比例等级
-         *  -1: 其它情况
-         */
+     * @command ZoomIn
+     * @description 放大当前的视野到下一个比例等级（百分比）
+     * @shortcut =
+     * @state
+     *   0: 如果当前脑图的配置中还有下一个比例等级
+     *  -1: 其它情况
+     */
             var ZoomInCommand = kity.createClass("ZoomInCommand", {
                 base: Command,
-                execute: function(minder) {
+                execute: function execute(minder) {
                     zoomMinder(minder, this.nextValue(minder));
                 },
-                queryState: function(minder) {
+                queryState: function queryState(minder) {
                     return +!this.nextValue(minder);
                 },
-                nextValue: function(minder) {
+                nextValue: function nextValue(minder) {
                     var stack = minder.getOption("zoom"), i;
                     for (i = 0; i < stack.length; i++) {
                         if (stack[i] > minder._zoomValue) return stack[i];
@@ -8457,22 +8675,22 @@ _p[66] = {
                 enableReadOnly: true
             });
             /**
-         * @command ZoomOut
-         * @description 缩小当前的视野到上一个比例等级（百分比）
-         * @shortcut -
-         * @state
-         *   0: 如果当前脑图的配置中还有上一个比例等级
-         *  -1: 其它情况
-         */
+     * @command ZoomOut
+     * @description 缩小当前的视野到上一个比例等级（百分比）
+     * @shortcut -
+     * @state
+     *   0: 如果当前脑图的配置中还有上一个比例等级
+     *  -1: 其它情况
+     */
             var ZoomOutCommand = kity.createClass("ZoomOutCommand", {
                 base: Command,
-                execute: function(minder) {
+                execute: function execute(minder) {
                     zoomMinder(minder, this.nextValue(minder));
                 },
-                queryState: function(minder) {
+                queryState: function queryState(minder) {
                     return +!this.nextValue(minder);
                 },
-                nextValue: function(minder) {
+                nextValue: function nextValue(minder) {
                     var stack = minder.getOption("zoom"), i;
                     for (i = stack.length - 1; i >= 0; i--) {
                         if (stack[i] < minder._zoomValue) return stack[i];
@@ -8482,7 +8700,7 @@ _p[66] = {
                 enableReadOnly: true
             });
             return {
-                init: function() {
+                init: function init() {
                     this._zoomValue = 100;
                     this.setDefaultOptions({
                         zoom: [ 10, 20, 50, 100, 200 ]
@@ -8495,7 +8713,7 @@ _p[66] = {
                     zoom: ZoomCommand
                 },
                 events: {
-                    "normal.mousewheel readonly.mousewheel": function(e) {
+                    "normal.mousewheel readonly.mousewheel": function normalMousewheelReadonlyMousewheel(e) {
                         if (!e.originEvent.ctrlKey && !e.originEvent.metaKey) return;
                         var delta = e.originEvent.wheelDelta;
                         var me = this;
@@ -8526,7 +8744,9 @@ _p[66] = {
     }
 };
 
-//src/protocol/json.js
+//tem/protocol/json.js
+"use strict";
+
 _p[67] = {
     value: function(require, exports, module) {
         var data = _p.r(13);
@@ -8535,17 +8755,19 @@ _p[67] = {
             fileExtension: ".km",
             dataType: "text",
             mineType: "application/json",
-            encode: function(json) {
+            encode: function encode(json) {
                 return JSON.stringify(json);
             },
-            decode: function(local) {
+            decode: function decode(local) {
                 return JSON.parse(local);
             }
         });
     }
 };
 
-//src/protocol/markdown.js
+//tem/protocol/markdown.js
+"use strict";
+
 _p[68] = {
     value: function(require, exports, module) {
         var data = _p.r(13);
@@ -8553,7 +8775,7 @@ _p[68] = {
         var EMPTY_LINE = "";
         var NOTE_MARK_START = "\x3c!--Note--\x3e";
         var NOTE_MARK_CLOSE = "\x3c!--/Note--\x3e";
-        function encode(json) {
+        function _encode(json) {
             return _build(json, 1).join("\n");
         }
         function _build(node, level) {
@@ -8584,10 +8806,12 @@ _p[68] = {
         }
         function _generateHeaderSharp(level) {
             var sharps = "";
-            while (level--) sharps += "#";
+            while (level--) {
+                sharps += "#";
+            }
             return sharps;
         }
-        function decode(markdown) {
+        function _decode(markdown) {
             var json, parentMap = {}, lines, line, lineInfo, level, node, parent, noteProgress, codeBlock;
             // 一级标题转换 `{title}\n===` => `# {title}`
             markdown = markdown.replace(/^(.+)\n={3,}/, function($0, $1) {
@@ -8655,8 +8879,12 @@ _p[68] = {
                 delete node.data.note;
             } else {
                 var notes = node.data.note.split("\n");
-                while (notes.length && !/\S/.test(notes[0])) notes.shift();
-                while (notes.length && !/\S/.test(notes[notes.length - 1])) notes.pop();
+                while (notes.length && !/\S/.test(notes[0])) {
+                    notes.shift();
+                }
+                while (notes.length && !/\S/.test(notes[notes.length - 1])) {
+                    notes.pop();
+                }
                 node.data.note = notes.join("\n");
             }
             if (node.children) node.children.forEach(_cleanUp);
@@ -8666,17 +8894,19 @@ _p[68] = {
             fileExtension: ".md",
             mineType: "text/markdown",
             dataType: "text",
-            encode: function(json) {
-                return encode(json.root);
+            encode: function encode(json) {
+                return _encode(json.root);
             },
-            decode: function(markdown) {
-                return decode(markdown);
+            decode: function decode(markdown) {
+                return _decode(markdown);
             }
         });
     }
 };
 
-//src/protocol/png.js
+//tem/protocol/png.js
+"use strict";
+
 _p[69] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -8703,10 +8933,10 @@ _p[69] = {
             });
         }
         /**
-     * xhrLoadImage: 通过 xhr 加载保存在 BOS 上的图片
-     * @note: BOS 上的 CORS 策略是取 headers 里面的 Origin 字段进行判断
-     *        而通过 image 的 src 的方式是无法传递 origin 的，因此需要通过 xhr 进行
-     */
+   * xhrLoadImage: 通过 xhr 加载保存在 BOS 上的图片
+   * @note: BOS 上的 CORS 策略是取 headers 里面的 Origin 字段进行判断
+   *        而通过 image 的 src 的方式是无法传递 origin 的，因此需要通过 xhr 进行
+   */
         function xhrLoadImage(info, callback) {
             return Promise(function(resolve, reject) {
                 var xmlHttp = new XMLHttpRequest();
@@ -8896,17 +9126,19 @@ _p[69] = {
     }
 };
 
-//src/protocol/svg.js
+//tem/protocol/svg.js
+"use strict";
+
 _p[70] = {
     value: function(require, exports, module) {
         var data = _p.r(13);
         /**
-     * 导出svg时删除全部svg元素中的transform
-     * @auth Naixor
-     * @method removeTransform
-     * @param  {[type]}        svgDom [description]
-     * @return {[type]}               [description]
-     */
+   * 导出svg时删除全部svg元素中的transform
+   * @auth Naixor
+   * @method removeTransform
+   * @param  {[type]}        svgDom [description]
+   * @return {[type]}               [description]
+   */
         function cleanSVG(svgDom, x, y) {
             function getTransformToElement(target, source) {
                 var matrix;
@@ -8919,7 +9151,7 @@ _p[70] = {
             }
             function dealWithPath(d, dealWithPattern) {
                 if (!(dealWithPattern instanceof Function)) {
-                    dealWithPattern = function() {};
+                    dealWithPattern = function dealWithPattern() {};
                 }
                 var strArr = [], pattern = [], cache = [];
                 for (var i = 0, l = d.length; i < l; i++) {
@@ -9139,7 +9371,7 @@ _p[70] = {
             fileExtension: ".svg",
             mineType: "image/svg+xml",
             dataType: "text",
-            encode: function(json, minder) {
+            encode: function encode(json, minder) {
                 var paper = minder.getPaper(), paperTransform = paper.shapeNode.getAttribute("transform"), svgXml, svgContainer, svgDom, renderContainer = minder.getRenderContainer(), renderBox = renderContainer.getRenderBox(), transform = renderContainer.getTransform(), width = renderBox.width, height = renderBox.height, padding = 20;
                 paper.shapeNode.setAttribute("transform", "translate(0.5, 0.5)");
                 svgXml = paper.container.innerHTML;
@@ -9168,16 +9400,18 @@ _p[70] = {
     }
 };
 
-//src/protocol/text.js
+//tem/protocol/text.js
+"use strict";
+
 _p[71] = {
     value: function(require, exports, module) {
         var data = _p.r(13);
         var Browser = _p.r(18).Browser;
         /**
-     * @Desc: 增加对不容浏览器下节点中文本\t匹配的处理，不同浏览器下\t无法正确匹配，导致无法使用TAB来批量导入节点
-     * @Editor: Naixor
-     * @Date: 2015.9.17
-     */
+   * @Desc: 增加对不容浏览器下节点中文本\t匹配的处理，不同浏览器下\t无法正确匹配，导致无法使用TAB来批量导入节点
+   * @Editor: Naixor
+   * @Date: 2015.9.17
+   */
         var LINE_ENDING = "\r", LINE_ENDING_SPLITER = /\r\n|\r|\n/, TAB_CHAR = function(Browser) {
             if (Browser.gecko) {
                 return {
@@ -9199,15 +9433,17 @@ _p[71] = {
         }(Browser);
         function repeat(s, n) {
             var result = "";
-            while (n--) result += s;
+            while (n--) {
+                result += s;
+            }
             return result;
         }
         /**
-     * 对节点text中的换行符进行处理
-     * @method encodeWrap
-     * @param  {String}   nodeText MinderNode.data.text
-     * @return {String}            \n -> '\n'; \\n -> '\\n'
-     */
+   * 对节点text中的换行符进行处理
+   * @method encodeWrap
+   * @param  {String}   nodeText MinderNode.data.text
+   * @return {String}            \n -> '\n'; \\n -> '\\n'
+   */
         function encodeWrap(nodeText) {
             if (!nodeText) {
                 return "";
@@ -9244,11 +9480,11 @@ _p[71] = {
             return textArr.join("");
         }
         /**
-     * 将文本内容中的'\n'和'\\n'分别转换成\n和\\n
-     * @method decodeWrap
-     * @param  {[type]}   text [description]
-     * @return {[type]}        [description]
-     */
+   * 将文本内容中的'\n'和'\\n'分别转换成\n和\\n
+   * @method decodeWrap
+   * @param  {[type]}   text [description]
+   * @return {[type]}        [description]
+   */
         function decodeWrap(text) {
             if (!text) {
                 return "";
@@ -9295,14 +9531,14 @@ _p[71] = {
             }
             return textArr.join("");
         }
-        function encode(json, level) {
+        function _encode(json, level) {
             var local = "";
             level = level || 0;
             local += repeat("\t", level);
             local += encodeWrap(json.data.text) + LINE_ENDING;
             if (json.children) {
                 json.children.forEach(function(child) {
-                    local += encode(child, level + 1);
+                    local += _encode(child, level + 1);
                 });
             }
             return local;
@@ -9325,7 +9561,7 @@ _p[71] = {
                 }
             };
         }
-        function decode(local) {
+        function _decode(local) {
             var json, parentMap = {}, lines = local.split(LINE_ENDING_SPLITER), line, level, node;
             function addChild(parent, child) {
                 var children = parent.children || (parent.children = []);
@@ -9352,11 +9588,11 @@ _p[71] = {
             return json;
         }
         /**
-     * @Desc: 增加一个将当前选中节点转换成text的方法
-     * @Editor: Naixor
-     * @Date: 2015.9.21
-     */
-        function Node2Text(node) {
+   * @Desc: 增加一个将当前选中节点转换成text的方法
+   * @Editor: Naixor
+   * @Date: 2015.9.21
+   */
+        function _Node2Text(node) {
             function exportNode(node) {
                 var exported = {};
                 exported.data = node.getData();
@@ -9371,27 +9607,29 @@ _p[71] = {
             if (/^\s*$/.test(node.data.text)) {
                 node.data.text = "分支主题";
             }
-            return encode(exportNode(node));
+            return _encode(exportNode(node));
         }
         data.registerProtocol("text", module.exports = {
             fileDescription: "大纲文本",
             fileExtension: ".txt",
             dataType: "text",
             mineType: "text/plain",
-            encode: function(json) {
-                return encode(json.root, 0);
+            encode: function encode(json) {
+                return _encode(json.root, 0);
             },
-            decode: function(local) {
-                return decode(local);
+            decode: function decode(local) {
+                return _decode(local);
             },
-            Node2Text: function(node) {
-                return Node2Text(node);
+            Node2Text: function Node2Text(node) {
+                return _Node2Text(node);
             }
         });
     }
 };
 
-//src/template/default.js
+//tem/template/default.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9404,18 +9642,20 @@ _p[72] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("default", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 var level = node.getLevel();
                 return "right";
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 return "poly-circle";
             }
         });
     }
 };
 
-//src/template/filetree.js
+//tem/template/filetree.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9428,12 +9668,12 @@ _p[73] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("filetree", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 if (node.getData("layout")) return node.getData("layout");
                 if (node.isRoot()) return "bottom";
                 return "filetree-down";
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 if (node.getLevel() == 1) {
                     return "poly";
                 }
@@ -9443,7 +9683,9 @@ _p[73] = {
     }
 };
 
-//src/template/fish-bone.js
+//tem/template/fish-bone.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9456,7 +9698,7 @@ _p[74] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("fish-bone", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 if (node.getData("layout")) return node.getData("layout");
                 var level = node.getLevel();
                 // 根节点
@@ -9469,7 +9711,7 @@ _p[74] = {
                 }
                 return node.getLayoutPointPreview().y > 0 ? "filetree-up" : "filetree-down";
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 switch (node.getLevel()) {
                   case 1:
                     return "fish-bone-master";
@@ -9485,7 +9727,9 @@ _p[74] = {
     }
 };
 
-//src/template/normal.js
+//tem/template/normal.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9498,7 +9742,7 @@ _p[75] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("normal", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 if (node.getData("layout")) return node.getData("layout");
                 var level = node.getLevel();
                 // 根节点
@@ -9511,7 +9755,7 @@ _p[75] = {
                 }
                 return node.parent.getLayout();
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 if (node.getLevel() == 1) return "arc";
                 return "under";
             }
@@ -9519,7 +9763,9 @@ _p[75] = {
     }
 };
 
-//src/template/right.js
+//tem/template/right.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9532,10 +9778,10 @@ _p[76] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("right", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 return node.getData("layout") || "right";
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 if (node.getLevel() == 1) return "arc";
                 return "bezier";
             }
@@ -9543,7 +9789,9 @@ _p[76] = {
     }
 };
 
-//src/template/structure.js
+//tem/template/structure.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9556,17 +9804,19 @@ _p[77] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("structure", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 return node.getData("layout") || "bottom";
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 return "poly";
             }
         });
     }
 };
 
-//src/template/tianpan.js
+//tem/template/tianpan.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -9579,7 +9829,7 @@ _p[78] = {
     value: function(require, exports, module) {
         var template = _p.r(32);
         template.register("tianpan", {
-            getLayout: function(node) {
+            getLayout: function getLayout(node) {
                 if (node.getData("layout")) return node.getData("layout");
                 var level = node.getLevel();
                 // 根节点
@@ -9588,14 +9838,16 @@ _p[78] = {
                 }
                 return node.parent.getLayout();
             },
-            getConnect: function(node) {
+            getConnect: function getConnect(node) {
                 return "arc_tp";
             }
         });
     }
 };
 
-//src/theme/default.js
+//tem/theme/default.js
+"use strict";
+
 _p[79] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9654,7 +9906,9 @@ _p[79] = {
     }
 };
 
-//src/theme/fish.js
+//tem/theme/fish.js
+"use strict";
+
 _p[80] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9705,7 +9959,9 @@ _p[80] = {
     }
 };
 
-//src/theme/fresh.js
+//tem/theme/fresh.js
+"use strict";
+
 _p[81] = {
     value: function(require, exports, module) {
         var kity = _p.r(18);
@@ -9774,7 +10030,9 @@ _p[81] = {
     }
 };
 
-//src/theme/normal.js
+//tem/theme/normal.js
+"use strict";
+
 _p[82] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9839,7 +10097,9 @@ _p[82] = {
     }
 };
 
-//src/theme/snow.js
+//tem/theme/snow.js
+"use strict";
+
 _p[83] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9894,7 +10154,9 @@ _p[83] = {
     }
 };
 
-//src/theme/tianpan.js
+//tem/theme/tianpan.js
+"use strict";
+
 _p[84] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9956,7 +10218,9 @@ _p[84] = {
     }
 };
 
-//src/theme/wire.js
+//tem/theme/wire.js
+"use strict";
+
 _p[85] = {
     value: function(require, exports, module) {
         var theme = _p.r(33);
@@ -9986,11 +10250,22 @@ _p[85] = {
     }
 };
 
-//src/tool/format.js
+//tem/tool/format.js
+"use strict";
+
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+
 _p[86] = {
     value: function(require, exports, module) {
         function format(template, args) {
-            if (typeof args != "object") {
+            if (_typeof(args) != "object") {
                 args = [].slice.call(arguments, 1);
             }
             return String(template).replace(/\{(\w+)\}/gi, function(match, $key) {
@@ -10001,7 +10276,9 @@ _p[86] = {
     }
 };
 
-//src/tool/innertext.js
+//tem/tool/innertext.js
+"use strict";
+
 /**
  * @fileOverview
  *
@@ -10038,17 +10315,28 @@ _p[87] = {
             });
             HTMLElement.prototype.__defineSetter__("innerText", function(text) {
                 /**
-             * @Desc: 解决FireFox节点内容删除后text为null，出现报错的问题
-             * @Editor: Naixor
-             * @Date: 2015.9.16
-             */
+       * @Desc: 解决FireFox节点内容删除后text为null，出现报错的问题
+       * @Editor: Naixor
+       * @Date: 2015.9.16
+       */
                 this.innerHTML = (text || "").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
             });
         }
     }
 };
 
-//src/tool/jsondiff.js
+//tem/tool/jsondiff.js
+"use strict";
+
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+
 /**
  * @fileOverview
  *
@@ -10060,11 +10348,11 @@ _p[87] = {
 _p[88] = {
     value: function(require, exports, module) {
         /*!
-    * https://github.com/Starcounter-Jack/Fast-JSON-Patch
-    * json-patch-duplex.js 0.5.0
-    * (c) 2013 Joachim Wester
-    * MIT license
-    */
+  * https://github.com/Starcounter-Jack/Fast-JSON-Patch
+  * json-patch-duplex.js 0.5.0
+  * (c) 2013 Joachim Wester
+  * MIT license
+  */
         var _objectKeys = function() {
             if (Object.keys) return Object.keys;
             return function(o) {
@@ -10082,7 +10370,7 @@ _p[88] = {
             return str.replace(/~/g, "~0").replace(/\//g, "~1");
         }
         function deepClone(obj) {
-            if (typeof obj === "object") {
+            if (_typeof(obj) === "object") {
                 return JSON.parse(JSON.stringify(obj));
             } else {
                 return obj;
@@ -10099,7 +10387,7 @@ _p[88] = {
                 var oldVal = mirror[key];
                 if (obj.hasOwnProperty(key)) {
                     var newVal = obj[key];
-                    if (typeof oldVal == "object" && oldVal != null && typeof newVal == "object" && newVal != null) {
+                    if (_typeof(oldVal) == "object" && oldVal != null && _typeof(newVal) == "object" && newVal != null) {
                         _generate(oldVal, newVal, patches, path + "/" + escapePathComponent(key));
                     } else {
                         if (oldVal != newVal) {
