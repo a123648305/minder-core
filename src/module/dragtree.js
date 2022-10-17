@@ -348,13 +348,6 @@ define(function (require, exports, module) {
       for (i = 0; i < targets.length; i++) {
         target = targets[i];
         targetBox = targetBoxMapper.call(this, target, i);
-        const right = (target.children && target.children.length > 0 ?  (target.getStyle && target.getStyle('margin-right') || 0) +  (target.children[0].getStyle && target.children[0].getStyle('margin-left') || 0) : targetBox.width * 2)
-        targetBox = {
-          ...targetBox,
-          top: targetBox.top - (targetBox.height * 0.5),
-          bottom: targetBox.bottom + (targetBox.height * 0.5),
-          right: targetBox.right + right
-        }
         for (j = 0; j < sourceBoxes.length; j++) {
           sourceBox = sourceBoxes[j];
           var intersectBox = sourceBox.intersect(targetBox);
@@ -365,7 +358,6 @@ define(function (require, exports, module) {
           }
         }
       }
-
       return returnTarget;
     },
 

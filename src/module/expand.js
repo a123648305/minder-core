@@ -147,13 +147,9 @@ define(function (require, exports, module) {
           .fill("white")
           .setStyle({
             "font-size": 12,
-          });
-
-        if (childrenNum > 9) {
-          this.text.setPosition(this.getWidth() / 2 - 5, 0);
-        } else {
-          this.text.setPosition(this.getWidth(), 0);
-        }
+            "font-weight": 600,
+            "text-anchor": 'middle'
+          }).setPosition(3, 0);
 
         // 收起的时候展示
         this.hideSign = [this.box, this.text];
