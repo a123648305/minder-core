@@ -358,7 +358,7 @@ define(function (require, exports, module) {
         const nodeBox = target.getLayoutBox()
         let gapWidth = targetBox.center.x - box.center.x, gapHeight = targetBox.center.y - box.center.y
         let gap = Math.sqrt(Math.pow( gapWidth,2) + Math.pow(gapHeight,2))
-        if(intersectBox && nodeBox.right < box.left && (gap< minGap || (gap === minGap || gapHeight < minHeight))) {
+        if(intersectBox && !target.data?.notAppend && nodeBox.right < box.left && (gap< minGap || (gap === minGap || gapHeight < minHeight))) {
           returnTarget = target
           minGap = gap
           minHeight = gapHeight
