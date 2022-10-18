@@ -228,18 +228,23 @@ define(function (require, exports, module) {
     //          则排除枚举目标作为拖放源，否则加入拖放源
     _calcDragSources: function () {
       this._dragSources = this._minder.getSelectedAncestors();
-      this._selectedSource = this._minder.getSelectedNodes()
     },
 
     _fadeDragSources: function (opacity) {
-      this._minder.getSelectedNodes().forEach(function (source) {
-        source.getRenderContainer().setOpacity(opacity, 200);
-        source.isDrag = opacity < 1
-
+      this._dragSources.forEach(source => {
+        this.setNodeDrag(source, opacity)
       });
       if(opacity < 1) {
         this.setAreaByNode(this._minder._root)
       }
+    },
+    setNodeDrag: function(node, opacity) {
+      node.isDrag = opacity < 1
+      node.getRenderContainer().setOpacity(opacity, 200);
+      const children = node.children || []
+      children.forEach(i=> {
+        this.setNodeDrag(i, opacity)
+      })
     },
     setAreaByNode: function(node) {
       const children = node.children || []
@@ -353,7 +358,7 @@ define(function (require, exports, module) {
         const nodeBox = target.getLayoutBox()
         let gapWidth = targetBox.center.x - box.center.x, gapHeight = targetBox.center.y - box.center.y
         let gap = Math.sqrt(Math.pow( gapWidth,2) + Math.pow(gapHeight,2))
-        if(intersectBox && (gap< minGap || (gap === minGap || gapHeight < minHeight))) {
+        if(intersectBox && nodeBox.right < box.left && (gap< minGap || (gap === minGap || gapHeight < minHeight))) {
           returnTarget = target
           minGap = gap
           minHeight = gapHeight
