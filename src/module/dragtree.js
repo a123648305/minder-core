@@ -4,7 +4,7 @@ define(function (require, exports, module) {
   var MinderNode = require("../core/node");
   var Command = require("../core/command");
   var Module = require("../core/module");
-
+  var dragColor = "rgba(114,98,253,0.2)"
   // 矩形的变形动画定义
   var MoveToParentCommand = kity.createClass("MoveToParentCommand", {
     base: Command,
@@ -28,20 +28,17 @@ define(function (require, exports, module) {
 
     constructor: function () {
       this.callBase();
-      this.rect = new kity.Rect();
-      this.addShape(this.rect);
+      this.path = new kity.Path();
+      this.addShapes([this.path]);
     },
-
-    render: function (target) {
+    render: function (target, node) {
       this.setVisible(!!target);
       if (target) {
-        this.rect
-          .setBox(target.getLayoutBox())
-          .setRadius(target.getData('border-radius') || target.getStyle("radius") || 0)
-          .stroke(
-            target.getStyle("drop-hint-color") || "yellow",
-            target.getStyle("drop-hint-width") || 2
-          );
+        target.getConnectProvider()(node, target, this.path)
+        this.path.stroke(
+          dragColor,
+          2
+        );
         this.bringTop();
       }
     },
@@ -55,6 +52,10 @@ define(function (require, exports, module) {
       // 宽,高,左间距,上间距,圆角
       this.area = new kity.Rect(64, 24, 0,0, 4)
       this.areas = new kity.Rect(64, 24, 0,0, 4)
+      this.layoutVertexIn = {
+        x: 0,
+        y: 0
+      }
       this.addShapes([this.area, this.areas]);
     },
 
@@ -72,12 +73,12 @@ define(function (require, exports, module) {
           y: 0
         }
         // 一个上面,一个下面
-        this.area.setBox(box).setPosition(x - 32 - 3, y - 12 - 3).fill("rgba(114,98,253,0.2)");
-        this.areas.setBox(box).setPosition(x - 32 + 3, y - 12 + 3).fill("rgba(114,98,253,0.2)");
+        this.area.setBox(box).setPosition(x - 32 - 3, y - 12 - 3).fill(dragColor);
+        this.areas.setBox(box).setPosition(x - 32 + 3, y - 12 + 3).fill(dragColor);
       } else if (number > 0){
         this.area.setBox({width: 64, height: 24, 
           x: 0,
-          y: 0}).setPosition(x - 32, y - 12).fill("rgba(114,98,253,0.2)");
+          y: 0}).setPosition(x - 32, y - 12).fill(dragColor);
       }
       // 节点位置减去根节点的偏移量
       this.box = {
@@ -92,8 +93,15 @@ define(function (require, exports, module) {
         x: (this.box.left + this.box.right) /2 ,
         y: (this.box.top + this.box.bottom) /2 ,
       }
+      this.layoutVertexIn =  {
+        ...this.box.center,
+        x: this.box.left
+      }
       this.bringTop();
     },
+    getLayoutVertexIn: function() {
+      return this.layoutVertexIn
+    }
   });
 
   // 对拖动对象的一个替代盒子，控制整个拖放的逻辑，包括：
@@ -409,12 +417,13 @@ define(function (require, exports, module) {
           return false;
         }
       );
-      this._renderDropHint(this._dropSucceedTarget);
+      this._renderDropHint(this._dropSucceedTarget, this._sourceHinter);
       return !!this._dropSucceedTarget;
     },
 
-    _renderDropHint: function (target) {
-      this._dropHinter.render(target);
+    _renderDropHint: function (target, node) {
+      // 画根线
+      this._dropHinter.render(target, node);
     },
     _renderSourceHint: function (number, x, y, rootBox) {
       this._sourceHinter.render(number, x, y, rootBox)

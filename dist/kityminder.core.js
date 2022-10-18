@@ -4925,6 +4925,7 @@ _p[46] = {
         var MinderNode = _p.r(22);
         var Command = _p.r(10);
         var Module = _p.r(21);
+        var dragColor = "rgba(114,98,253,0.2)";
         // 矩形的变形动画定义
         var MoveToParentCommand = kity.createClass("MoveToParentCommand", {
             base: Command,
@@ -4946,33 +4947,85 @@ _p[46] = {
             base: kity.Group,
             constructor: function constructor() {
                 this.callBase();
-                this.rect = new kity.Rect();
-                this.addShape(this.rect);
+                this.path = new kity.Path();
+                this.addShapes([ this.path ]);
             },
-            render: function render(target) {
+            render: function render(target, node) {
                 this.setVisible(!!target);
                 if (target) {
-                    this.rect.setBox(target.getLayoutBox()).setRadius(target.getStyle("radius") || 0).stroke(target.getStyle("drop-hint-color") || "yellow", target.getStyle("drop-hint-width") || 2);
+                    target.getConnectProvider()(node, target, this.path);
+                    this.path.stroke(dragColor, 2);
                     this.bringTop();
                 }
             }
         });
-        var OrderHinter = kity.createClass("OrderHinter", {
+        var SourceHinter = kity.createClass("SourceHinter", {
             base: kity.Group,
             constructor: function constructor() {
                 this.callBase();
-                this.area = new kity.Rect();
-                this.path = new kity.Path();
-                this.addShapes([ this.area, this.path ]);
+                // 宽,高,左间距,上间距,圆角
+                this.area = new kity.Rect(64, 24, 0, 0, 4);
+                this.areas = new kity.Rect(64, 24, 0, 0, 4);
+                this.layoutVertexIn = {
+                    x: 0,
+                    y: 0
+                };
+                this.addShapes([ this.area, this.areas ]);
             },
-            render: function render(hint) {
-                this.setVisible(!!hint);
-                if (hint) {
-                    this.area.setBox(hint.area);
-                    this.area.fill(hint.node.getStyle("order-hint-area-color") || "rgba(0, 255, 0, .5)");
-                    this.path.setPathData(hint.path);
-                    this.path.stroke(hint.node.getStyle("order-hint-path-color") || "#0f0", hint.node.getStyle("order-hint-path-width") || 1);
+            render: function render(number, x, y, rootBox) {
+                if (!number) {
+                    this.area.setBox({
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0
+                    });
+                    this.areas.setBox({
+                        x: 0,
+                        y: 0,
+                        width: 0,
+                        height: 0
+                    });
+                    return;
                 }
+                if (number > 1) {
+                    var box = {
+                        width: 58,
+                        height: 18,
+                        x: 0,
+                        y: 0
+                    };
+                    // 一个上面,一个下面
+                    this.area.setBox(box).setPosition(x - 32 - 3, y - 12 - 3).fill(dragColor);
+                    this.areas.setBox(box).setPosition(x - 32 + 3, y - 12 + 3).fill(dragColor);
+                } else if (number > 0) {
+                    this.area.setBox({
+                        width: 64,
+                        height: 24,
+                        x: 0,
+                        y: 0
+                    }).setPosition(x - 32, y - 12).fill(dragColor);
+                }
+                // 节点位置减去根节点的偏移量
+                this.box = {
+                    width: 64,
+                    height: 24,
+                    left: x - 32,
+                    top: y - 12
+                };
+                this.box.right = this.box.left + 64;
+                this.box.bottom = this.box.top + 24;
+                this.box.center = {
+                    x: (this.box.left + this.box.right) / 2,
+                    y: (this.box.top + this.box.bottom) / 2
+                };
+                this.layoutVertexIn = _objectSpread(_objectSpread({}, this.box.center), {}, {
+                    x: this.box.left
+                });
+                this.bringTop();
+            },
+            getLayoutVertexIn: function getLayoutVertexIn() {
+                return this.layoutVertexIn;
             }
         });
         // 对拖动对象的一个替代盒子，控制整个拖放的逻辑，包括：
@@ -4982,9 +5035,9 @@ _p[46] = {
             constructor: function constructor(minder) {
                 this._minder = minder;
                 this._dropHinter = new DropHinter();
-                this._orderHinter = new OrderHinter();
+                this._sourceHinter = new SourceHinter();
                 this.dragNodeCopy = null;
-                minder.getRenderContainer().addShapes([ this._dropHinter, this._orderHinter ]);
+                minder.getRenderContainer().addShapes([ this._dropHinter, this._sourceHinter ]);
             },
             dragStart: function dragStart(position) {
                 // 只记录开始位置，不马上开启拖放模式
@@ -5007,15 +5060,9 @@ _p[46] = {
                         return;
                     }
                 }
-                for (var i = 0; i < this._dragSources.length; i++) {
-                    this._dragSources[i].setLayoutOffset(this._dragSources[i].getLayoutOffset().offset(movement));
-                    minder.applyLayoutResult(this._dragSources[i]);
-                }
-                if (!this._dropTest()) {
-                    this._orderTest();
-                } else {
-                    this._renderOrderHint(this._orderSucceedHint = null);
-                }
+                var rootBox = this._minder._root.getLayoutBox();
+                this._renderSourceHint(this._minder.getSelectedNodes().length, position.x, position.y, rootBox);
+                this._dropTest();
             },
             dragEnd: function dragEnd() {
                 this._startPosition = null;
@@ -5023,31 +5070,35 @@ _p[46] = {
                 if (!this._dragMode) {
                     return;
                 }
-                this._fadeDragSources(1, false);
                 if (this._dropSucceedTarget) {
-                    this._dragSources.forEach(function(source) {
-                        source.setLayoutOffset(null);
-                    });
+                    // 找到第一个top大于source的children
                     this._minder.layout(-1);
+                    // _dropSucceedTarget 是目标节点
+                    var sourceIndex = 0;
+                    var children = this._dropSucceedTarget.children || [];
+                    var min = Number.MAX_VALUE, dragNum = 0;
+                    var centerY = (this._sourceHinter.box.top + this._sourceHinter.box.bottom) / 2;
+                    // 找到一个最近的
+                    for (var i = 0; i < children.length; i++) {
+                        if (children[i].isDrag) {
+                            dragNum++;
+                            continue;
+                        }
+                        var childBox = children[i].area;
+                        var childCenterY = (childBox.top + childBox.bottom) / 2;
+                        var num = Math.abs(childCenterY - centerY);
+                        if (num < min) {
+                            min = num;
+                            sourceIndex = i + (childCenterY - centerY > 0 ? 0 : 1) - dragNum;
+                        }
+                    }
                     this._minder.execCommand("movetoparent", this._dragSources, this._dropSucceedTarget);
-                } else if (this._orderSucceedHint) {
-                    var hint = this._orderSucceedHint;
-                    var index = hint.node.getIndex();
-                    var sourceIndexes = this._dragSources.map(function(source) {
-                        // 顺便干掉布局偏移
-                        source.setLayoutOffset(null);
-                        return source.getIndex();
-                    });
-                    var maxIndex = Math.max.apply(Math, sourceIndexes);
-                    var minIndex = Math.min.apply(Math, sourceIndexes);
-                    if (index < minIndex && hint.type == "down") index++;
-                    if (index > maxIndex && hint.type == "up") index--;
-                    hint.node.setLayoutOffset(null);
-                    this._minder.execCommand("arrange", index);
-                    this._renderOrderHint(null);
+                    // 判断在哪个子节点中间
+                    this._minder.execCommand("arrange", sourceIndex);
                 } else {
                     this._minder.fire("savescene");
                 }
+                this._fadeDragSources(1);
                 this._minder.layout(300);
                 this._leaveDragMode();
                 this._minder.fire("contentchange");
@@ -5062,9 +5113,8 @@ _p[46] = {
                     this._startPosition = null;
                     return false;
                 }
-                this._fadeDragSources(.5, true);
+                this._fadeDragSources(.5);
                 this._calcDropTargets();
-                this._calcOrderHints();
                 this._dragMode = true;
                 this._minder.setStatus("dragtree");
                 return true;
@@ -5080,32 +5130,56 @@ _p[46] = {
             _calcDragSources: function _calcDragSources() {
                 this._dragSources = this._minder.getSelectedAncestors();
             },
-            _fadeDragSources: function _fadeDragSources(opacity, hideConnect) {
-                var minder = this._minder;
-                var dragNode = this._dragSources[0];
-                if (hideConnect) {
-                    if (dragNode && dragNode.parent) {
-                        this.dragNodeCopy = minder.createNode(dragNode.data.text, dragNode.parent, dragNode.getIndex() + 1);
-                        this.dragNodeCopy.setGlobalLayoutTransform(dragNode.getGlobalLayoutTransform());
-                        this.dragNodeCopy.render();
-                        this.dragNodeCopy.getRenderContainer().items.forEach(function(i) {
-                            i.fill("#E1DFFF");
-                        });
-                    }
-                } else {
-                    minder.removeNode(this.dragNodeCopy);
-                }
+            _fadeDragSources: function _fadeDragSources(opacity) {
+                var _this = this;
                 this._dragSources.forEach(function(source) {
-                    source.getRenderContainer().setOpacity(opacity, 200);
-                    source.hideConnect = hideConnect;
-                    source.traverse(function(node) {
-                        if (opacity < 1) {
-                            minder.detachNode(node);
-                        } else {
-                            minder.attachNode(node);
-                        }
-                    }, true);
+                    _this.setNodeDrag(source, opacity);
                 });
+                if (opacity < 1) {
+                    this.setAreaByNode(this._minder._root);
+                }
+            },
+            setNodeDrag: function setNodeDrag(node, opacity) {
+                var _this2 = this;
+                node.isDrag = opacity < 1;
+                node.getRenderContainer().setOpacity(opacity, 200);
+                var children = node.children || [];
+                children.forEach(function(i) {
+                    _this2.setNodeDrag(i, opacity);
+                });
+            },
+            setAreaByNode: function setAreaByNode(node) {
+                var _this3 = this;
+                var children = node.children || [];
+                var nodeBox = node.getLayoutBox();
+                var nodeArea = {};
+                if (children.length > 0) {
+                    nodeArea = {
+                        top: children[0].getLayoutBox().top - 16,
+                        left: nodeBox.right,
+                        right: nodeBox.right + 136,
+                        bottom: children[children.length - 1].getLayoutBox().bottom + 16,
+                        cx: nodeBox.cx,
+                        cy: nodeBox.cy
+                    };
+                    children.forEach(function(i) {
+                        _this3.setAreaByNode(i);
+                    });
+                } else {
+                    nodeArea = {
+                        top: nodeBox.top,
+                        left: nodeBox.right,
+                        right: nodeBox.right + 136,
+                        bottom: nodeBox.bottom,
+                        cx: nodeBox.cx,
+                        cy: nodeBox.cy
+                    };
+                }
+                nodeArea.center = {
+                    x: (nodeArea.left + nodeArea.right) / 2,
+                    y: (nodeArea.top + nodeArea.bottom) / 2
+                };
+                node.area = nodeArea;
             },
             // 计算拖放目标可以释放的节点列表（释放意味着成为其子树），存在这条限制规则：
             //    - 不能拖放到拖放目标的子树上（允许拖放到自身，因为多选的情况下可以把其它节点加入）
@@ -5133,29 +5207,12 @@ _p[46] = {
                     return source.getLayoutBox();
                 });
             },
-            _calcOrderHints: function _calcOrderHints() {
-                var sources = this._dragSources;
-                var ancestor = MinderNode.getCommonAncestor(sources);
-                // 只有一个元素选中，公共祖先是其父
-                if (ancestor == sources[0]) ancestor = sources[0].parent;
-                if (sources.length === 0 || ancestor != sources[0].parent) {
-                    this._orderHints = [];
-                    return;
-                }
-                var siblings = ancestor.children;
-                this._orderHints = siblings.reduce(function(hint, sibling) {
-                    if (sources.indexOf(sibling) == -1) {
-                        hint = hint.concat(sibling.getOrderHint());
-                    }
-                    return hint;
-                }, []);
-            },
             _leaveDragMode: function _leaveDragMode() {
                 this._dragMode = false;
                 this._dropSucceedTarget = null;
                 this._orderSucceedHint = null;
                 this._renderDropHint(null);
-                this._renderOrderHint(null);
+                this._renderSourceHint(0);
                 this._minder.rollbackStatus();
             },
             _drawForDragMode: function _drawForDragMode() {
@@ -5180,26 +5237,36 @@ _p[46] = {
                     return intersectBox && !intersectBox.isEmpty();
                 };
                 var returnTarget = null, maxArea = 0;
+                var box = this._sourceHinter.box;
+                var minGap = Number.MAX_VALUE, minHeight = Number.MAX_VALUE;
                 for (i = 0; i < targets.length; i++) {
+                    var _target$data;
                     target = targets[i];
-                    targetBox = targetBoxMapper.call(this, target, i);
-                    var right = target.children && target.children.length > 0 ? target.getStyle && target.getStyle("margin-right") || 0 : targetBox.width * 2;
-                    targetBox = _objectSpread(_objectSpread({}, targetBox), {}, {
-                        top: targetBox.top - targetBox.height * .5,
-                        bottom: targetBox.bottom + targetBox.height * .5,
-                        right: targetBox.right + right
-                    });
-                    for (j = 0; j < sourceBoxes.length; j++) {
-                        sourceBox = sourceBoxes[j];
-                        var intersectBox = sourceBox.intersect(targetBox);
-                        var intersectBoxArea = intersectBox.width * intersectBox.height;
-                        if (judge(intersectBox, sourceBox, targetBox) && intersectBoxArea > maxArea && target != this.dragNodeCopy) {
-                            maxArea = intersectBoxArea;
-                            returnTarget = target;
-                        }
+                    targetBox = target.area;
+                    // 可以作为父节点,并且比较近
+                    var intersectBox = this.intersect(targetBox, box);
+                    var nodeBox = target.getLayoutBox();
+                    var gapWidth = targetBox.center.x - box.center.x, gapHeight = targetBox.center.y - box.center.y;
+                    var gap = Math.sqrt(Math.pow(gapWidth, 2) + Math.pow(gapHeight, 2));
+                    if (intersectBox && !((_target$data = target.data) !== null && _target$data !== void 0 && _target$data.notAppend) && nodeBox.right < box.left && (gap < minGap || gap === minGap || gapHeight < minHeight)) {
+                        returnTarget = target;
+                        minGap = gap;
+                        minHeight = gapHeight;
                     }
                 }
                 return returnTarget;
+            },
+            intersect: function intersect(box1, box2) {
+                var left = Math.max(box1.left, box2.left), right = Math.min(box1.right, box2.right), top = Math.max(box1.top, box2.top), bottom = Math.min(box1.bottom, box2.bottom);
+                if (left > right || top > bottom) return null;
+                return {
+                    left: left,
+                    top: top,
+                    right: right,
+                    bottom: bottom,
+                    width: right - left,
+                    height: bottom - top
+                };
             },
             _dropTest: function _dropTest() {
                 this._dropSucceedTarget = this._boxTest(this._dropTargets, function(target, i) {
@@ -5223,21 +5290,15 @@ _p[46] = {
                     if (intersectBox.width && intersectBox.height) return true;
                     return false;
                 });
-                this._renderDropHint(this._dropSucceedTarget);
+                this._renderDropHint(this._dropSucceedTarget, this._sourceHinter);
                 return !!this._dropSucceedTarget;
             },
-            _orderTest: function _orderTest() {
-                this._orderSucceedHint = this._boxTest(this._orderHints, function(hint) {
-                    return hint.area;
-                });
-                this._renderOrderHint(this._orderSucceedHint);
-                return !!this._orderSucceedHint;
+            _renderDropHint: function _renderDropHint(target, node) {
+                // 画根线
+                this._dropHinter.render(target, node);
             },
-            _renderDropHint: function _renderDropHint(target) {
-                this._dropHinter.render(target);
-            },
-            _renderOrderHint: function _renderOrderHint(hint) {
-                this._orderHinter.render(hint);
+            _renderSourceHint: function _renderSourceHint(number, x, y, rootBox) {
+                this._sourceHinter.render(number, x, y, rootBox);
             },
             preventDragMove: function preventDragMove() {
                 this._startPosition = null;
@@ -5409,13 +5470,10 @@ _p[47] = {
                     this.box = new kity.Rect(30, 20, -8, -10, 10).fill(this.commonColor).setTranslate(-4, 0);
                     var childrenNum = node.getComplex() - 1;
                     this.text = new kity.Text(childrenNum).setVerticalAlign("middle").fill("white").setStyle({
-                        "font-size": 12
-                    });
-                    if (childrenNum > 9) {
-                        this.text.setPosition(this.getWidth() / 2 - 5, 0);
-                    } else {
-                        this.text.setPosition(this.getWidth(), 0);
-                    }
+                        "font-size": 12,
+                        "font-weight": 600,
+                        "text-anchor": "middle"
+                    }).setPosition(3, 0);
                     // 收起的时候展示
                     this.hideSign = [ this.box, this.text ];
                     this.outline = new kity.Circle(this.radius).stroke("transparent").fill("transparent");
